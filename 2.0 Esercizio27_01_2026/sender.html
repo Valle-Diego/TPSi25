@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Sender</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Pagina Sender</h2>
+
+        <label>Parametro 1</label>
+        <input type="text" id="param1">
+
+        <label>Parametro 2</label>
+        <input type="text" id="param2">
+
+        <button onclick="salvaParametri()"> Invia </button>
+
+        <button onclick="vaiReceiver()"> Vai al Receiver </button>
+    </div>
+
+    <script>
+        function salvaParametri() {
+            let p1 = document.getElementById("param1").value;
+            let p2 = document.getElementById("param2").value;
+
+            localStorage.setItem("parametro1", p1);
+            localStorage.setItem("parametro2", p2);
+        }
+
+        function vaiReceiver() {
+            window.location.href = "receiver.html" ;
+        }
+    </script>
+
+</body>
+</html>

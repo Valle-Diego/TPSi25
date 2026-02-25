@@ -1,0 +1,18 @@
+/* Stile generale della pagina */
+body {
+    background-color: #f0f0f0;  /* colore di sfondo chiaro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;              /* altezza schermo completa */
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Stile per il canvas */
+#myCanvas {
+    border: 2px solid #333;      /* bordo del canvas */
+    background-color: #ffffff;   /* sfondo bianco */
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.3); /* ombra */
+    border-radius: 10px;         /* angoli arrotondati */
+}

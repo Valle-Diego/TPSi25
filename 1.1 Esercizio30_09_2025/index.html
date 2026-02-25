@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrazione dati</title>
+  <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+
+  <div class="card">
+    <div class="form-area">
+      <h2>Inserisci i tuoi dati</h2>
+
+      <div class="input-grid">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome">
+
+        <label for="cognome">Cognome:</label>
+        <input type="text" id="cognome">
+
+        <label for="indirizzo">Indirizzo:</label>
+        <input type="text" id="indirizzo">
+
+        <div class="actions">
+          <button onclick="stampaDati()">Invia</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="output"></div>
+  </div>
+
+  <script>
+    function stampaDati() {
+      const nome = document.getElementById("nome").value.trim();
+      const cognome = document.getElementById("cognome").value.trim();
+      const indirizzo = document.getElementById("indirizzo").value.trim();
+
+      if (nome !== "") {
+        const outputDiv = document.getElementById("output");
+        outputDiv.style.display = "block";
+        outputDiv.innerHTML = `
+          <div><strong>Nome:</strong> ${nome}</div>
+          <div><strong>Cognome:</strong> ${cognome}</div>
+          <div><strong>Indirizzo:</strong> ${indirizzo}</div>
+        `;
+      } else {
+        alert("Compila almeno il campo Nome per continuare!");
+      }
+    }
+  </script>
+
+</body>
+</html>

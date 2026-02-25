@@ -1,0 +1,134 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #f0f2f5;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  color: #222;
+  padding: 40px 10px;
+}
+
+.card {
+  background: #ffffff;
+  padding: 36px 44px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+}
+
+.form-area {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+h2 {
+  margin: 0 0 10px 0;
+  font-size: 28px;
+  text-align: left;
+}
+
+/* Ogni riga di input su una sola linea */
+.input-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.input-row label {
+  flex: 0 0 180px;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: right;
+}
+
+.input-row input[type="text"],
+.input-row input[type="number"],
+.input-row select {
+  flex: 1;
+  min-width: 220px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 2px solid #bfbfbf;
+  font-size: 18px;
+  box-sizing: border-box;
+}
+
+/* Gruppi di radio e checkbox */
+.input-row div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  width: 60%;
+  padding: 12px 16px;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 10px;
+  border: none;
+  background: #0078d7;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #005fa3;
+}
+
+/* Area risultati */
+#output {
+  padding: 22px;
+  border-radius: 14px;
+  background: #987ae6;
+  border: 4px solid #000;
+  font-size: 20px;
+  line-height: 1.5;
+  display: none;
+  text-align: left;
+}
+
+#output div {
+  margin: 8px 0;
+}
+
+/* Responsività */
+@media (max-width: 680px) {
+  .input-row label {
+    flex: 0 0 100%;
+    text-align: left;
+  }
+  .input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  button {
+    width: 100%;
+  }
+}

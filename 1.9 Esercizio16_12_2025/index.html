@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Grafico Femminicidi 2024</title>
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+
+<canvas id="grafico" width="800" height="400"></canvas>
+
+<script>
+const femminicidi = [
+    { mese: "Gen", valore: 11 },
+    { mese: "Feb", valore: 9 },
+    { mese: "Mar", valore: 10 },
+    { mese: "Apr", valore: 10 },
+    { mese: "Mag", valore: 11 },
+    { mese: "Giu", valore: 13 },
+    { mese: "Lug", valore: 14 },
+    { mese: "Ago", valore: 13 },
+    { mese: "Set", valore: 9 },
+    { mese: "Ott", valore: 10 },
+    { mese: "Nov", valore: 13 },
+    { mese: "Dic", valore: 13 }
+];
+
+const canvas = document.getElementById("grafico");
+const ctx = canvas.getContext("2d");
+
+const margineX = 60;
+const margineY = 40;
+
+let maxVal = femminicidi[0].valore;
+for (let i = 1; i < femminicidi.length; i++) {
+    if (femminicidi[i].valore > maxVal) {
+        maxVal = femminicidi[i].valore;
+    }
+}
+
+const coordinate = [];
+
+for (let i = 0; i < femminicidi.length; i++) {
+    const x = margineX + i * ((canvas.width - 2 * margineX) / (femminicidi.length - 1));
+    const y = canvas.height - margineY -
+        (femminicidi[i].valore / maxVal) * (canvas.height - 2 * margineY);
+
+    coordinate.push({ x, y });
+}
+
+ctx.beginPath();
+ctx.moveTo(margineX, margineY);
+ctx.lineTo(margineX, canvas.height - margineY); // asse Y
+ctx.lineTo(canvas.width - margineX, canvas.height - margineY); // asse X
+ctx.strokeStyle = "black";
+ctx.lineWidth = 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(coordinate[0].x, coordinate[0].y);
+
+for (let i = 1; i < coordinate.length; i++) {
+    ctx.lineTo(coordinate[i].x, coordinate[i].y);
+}
+
+ctx.strokeStyle = "red";
+ctx.lineWidth = 2;
+ctx.stroke();
+
+ctx.font = "14px Arial";
+ctx.fillStyle = "black";
+ctx.textAlign = "center";
+
+for (let i = 0; i < femminicidi.length; i++) {
+    ctx.fillText(
+        femminicidi[i].mese,
+        coordinate[i].x,
+        canvas.height - margineY + 18
+    );
+}
+
+ctx.textAlign = "right";
+
+for (let v = 0; v <= maxVal; v++) {
+    const y = canvas.height - margineY -
+        (v / maxVal) * (canvas.height - 2 * margineY);
+
+    ctx.fillText(v.toString(), margineX - 10, y + 4);
+
+    ctx.beginPath();
+    ctx.moveTo(margineX - 3, y);
+    ctx.lineTo(margineX, y);
+    ctx.stroke();
+}
+
+</script>
+
+</body>
+</html>

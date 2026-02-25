@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrazione dati</title>
+  <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+  <div class="card">
+    <div class="form-area">
+      <h2>Inserisci i tuoi dati</h2>
+      <div class="input-grid">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome">
+
+        <label for="cognome">Cognome:</label>
+        <input type="text" id="cognome">
+
+        <label for="indirizzo">Indirizzo:</label>
+        <input type="text" id="indirizzo">
+
+        <label for="citta">Città:</label>
+        <input type="text" id="citta">
+
+        <label for="cap">CAP:</label>
+        <input type="text" id="cap">
+
+        <label for="anno">Anno di nascita:</label>
+        <input type="number" id="anno" min="1900" max="2025">
+
+        <div class="actions">
+          <button onclick="stampaDati()">Invia</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="output"></div>
+  </div>
+
+  <script>
+    function stampaDati() {
+      // Vettore vuoto per i dati
+      const dati = [];
+
+      // Inserimento dei dati (solo stringhe)
+      dati.push(document.getElementById("nome").value.trim());
+      dati.push(document.getElementById("cognome").value.trim());
+      dati.push(document.getElementById("indirizzo").value.trim());
+      dati.push(document.getElementById("citta").value.trim());
+      dati.push(document.getElementById("cap").value.trim());
+      dati.push(document.getElementById("anno").value.trim());
+
+      // Controllo campi obbligatori
+      if (!dati[0] || !dati[1] || dati[5] === "") {
+        alert("Compila almeno Nome, Cognome e Anno di nascita!");
+        return;
+      }
+
+      // Calcolo generazione
+      const anno = parseInt(dati[5]);
+      let gen = "";
+      if (anno >= 1901 && anno <= 1927) gen = "Greatest Generation";
+      else if (anno >= 1928 && anno <= 1945) gen = "Generazione Silenziosa";
+      else if (anno >= 1946 && anno <= 1964) gen = "Baby Boomers";
+      else if (anno >= 1965 && anno <= 1980) gen = "Generazione X";
+      else if (anno >= 1981 && anno <= 1996) gen = "Millennials";
+      else if (anno >= 1997 && anno <= 2012) gen = "Generazione Z";
+      else if (anno >= 2013) gen = "Generazione Alpha";
+      else gen = "Anno non valido o troppo lontano nel tempo";
+
+      // Calcolo età
+      const eta = new Date().getFullYear() - anno;
+
+      // Stampa risultati
+      const outputDiv = document.getElementById("output");
+      outputDiv.style.display = "block";
+      outputDiv.innerHTML = `
+        <div><strong>Nome:</strong> ${dati[0]}</div>
+        <div><strong>Cognome:</strong> ${dati[1]}</div>
+        <div><strong>Indirizzo:</strong> ${dati[2]}</div>
+        <div><strong>Città:</strong> ${dati[3]}</div>
+        <div><strong>CAP:</strong> ${dati[4]}</div>
+        <div><strong>Anno di nascita:</strong> ${dati[5]}</div>
+        <div><strong>Età:</strong> ${eta} anni</div>
+        <div><strong>Generazione:</strong> ${gen}</div>
+      `;
+    }
+  </script>
+</body>
+</html>

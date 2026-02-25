@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array e Statistiche</title>
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+
+<h2>Array Generato</h2>
+<div id="arrayGrid" class="grid"></div>
+
+<h3>Statistiche</h3>
+<p id="stats"></p>
+
+<h2>Numeri Pari Maggiori di 50</h2>
+<div id="evenGrid" class="grid"></div>
+
+<script>
+    // Genera array di 100 numeri casuali tra -100 e 100
+    const array = [];
+    for(let i = 0; i < 100; i++) {
+        const num = Math.floor(Math.random() * 201) - 100;
+        array.push(num);
+    }
+
+    // Calcola media
+    let sum = 0;
+    for(let i = 0; i < array.length; i++) {
+        sum += array[i];
+    }
+    const media = sum / array.length;
+
+    // Trova massimo e minimo
+    let massimo = array[0];
+    let minimo = array[0];
+    for(let i = 1; i < array.length; i++) {
+        if(array[i] > massimo) massimo = array[i];
+        if(array[i] < minimo) minimo = array[i];
+    }
+
+    // Numeri pari maggiori di 50
+    const evenNumbers = [];
+    for(let i = 0; i < array.length; i++) {
+        if(array[i] > 50 && array[i] % 2 === 0) {
+            evenNumbers.push(array[i]);
+        }
+    }
+
+    // Costruisci HTML della griglia principale come stringa
+    let gridHTML = "";
+    for(let i = 0; i < array.length; i++) {
+        const highlightClass = (array[i] === massimo || array[i] === minimo) ? "highlight" : "";
+        gridHTML += `<div class="${highlightClass}">${array[i]}</div>`;
+    }
+    document.getElementById('arrayGrid').innerHTML = gridHTML;
+
+    // Mostra statistiche
+    document.getElementById('stats').innerHTML = `
+        Media: ${media.toFixed(2)}<br>
+        Massimo: ${massimo}<br>
+        Minimo: ${minimo}
+    `;
+
+    // Costruisci HTML della griglia dei numeri pari >50
+    let evenHTML = "";
+    for(let i = 0; i < evenNumbers.length; i++) {
+        evenHTML += `<div>${evenNumbers[i]}</div>`;
+    }
+    document.getElementById('evenGrid').innerHTML = evenHTML;
+
+</script>
+
+</body>
+</html>

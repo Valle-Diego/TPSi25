@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Receiver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Pagina Receiver</h2>
+
+        <p id="risultato"></p>
+
+        <button onclick="tornaSender()">Torna al Sender</button>
+    </div>
+
+    <script>
+        function leggiParametri() {
+            const params = new URLSearchParams(window.location.search);
+
+            let p1 = params.get("param1") || "Non inserito";
+            let p2 = params.get("param2") || "Non inserito";
+
+            document.getElementById("risultato").innerHTML =
+                "Parametro 1: <strong>" + p1 + "</strong><br>" +
+                "Parametro 2: <strong>" + p2 + "</strong>";
+        }
+
+        function tornaSender() {
+            window.location.href = "sender.html";
+        }
+
+        leggiParametri();
+    </script>
+
+</body>
+</html>

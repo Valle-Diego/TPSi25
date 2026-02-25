@@ -1,0 +1,38 @@
+<html>
+<head>
+    <link rel="stylesheet" href="stile.css">
+</head>
+
+<body>
+
+<canvas id="myCanvas" width="300" height="150"></canvas>
+
+<script>
+var c = document.getElementById("myCanvas");
+var ctx1 = c.getContext("2d");
+
+ctx1.beginPath();
+
+
+ctx1.moveTo(150, 5);     
+ctx1.lineTo(168, 51);    
+ctx1.lineTo(217, 53);    
+ctx1.lineTo(179, 84);    
+ctx1.lineTo(191, 132);   
+ctx1.lineTo(150, 105);   
+ctx1.lineTo(109, 132);   
+ctx1.lineTo(121, 84);    
+ctx1.lineTo(83, 53);     
+ctx1.lineTo(132, 51);    
+ctx1.lineTo(150, 5);     
+
+ctx1.stroke();
+
+// cerchio grande
+ctx1.beginPath();
+ctx1.arc(150, 75, 70, 0, 2 * Math.PI);
+ctx1.stroke();
+</script>
+
+</body>
+</html>
