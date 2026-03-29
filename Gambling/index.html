@@ -10,25 +10,25 @@
 
 <div class="cabinet" id="cabinet">
 
-  <!-- Scrolling marquee -->
+  <!-- Marquee -->
   <div class="marquee-wrap" aria-hidden="true">
     <div class="marquee-track">
-      <span>🎰 LET'S GO GAMBLING 🎰 — JACKPOT PAYS 10× BET — 5 OF A KIND WINS — GOOD LUCK PLAYER — </span>
-      <span>🎰 LET'S GO GAMBLING 🎰 — JACKPOT PAYS 10× BET — 5 OF A KIND WINS — GOOD LUCK PLAYER — </span>
+      <span>🎰 LET'S GO GAMBLING 🎰 — JACKPOT PAYS ×10 — 11 PAYLINES — GOOD LUCK PLAYER — </span>
+      <span>🎰 LET'S GO GAMBLING 🎰 — JACKPOT PAYS ×10 — 11 PAYLINES — GOOD LUCK PLAYER — </span>
     </div>
   </div>
 
   <!-- Title -->
   <div class="title-row">
     <h1>LET'S GO GAMBLING</h1>
-    <p class="sub">Arcade Edition · 5 Reels</p>
+    <p class="sub">Arcade Edition · 5×3 Reels · 11 Patterns</p>
   </div>
 
   <!-- Stats -->
   <div class="stats">
     <div class="stat-card">
       <div class="label">Credits</div>
-      <div class="value" id="credits">100</div>
+      <div class="value" id="credits">200</div>
     </div>
     <div class="stat-card">
       <div class="label">Bet</div>
@@ -36,55 +36,75 @@
     </div>
     <div class="stat-card">
       <div class="label">Record</div>
-      <div class="value" id="record">100</div>
+      <div class="value" id="record">200</div>
     </div>
   </div>
 
-  <!-- Reels -->
-  <div class="reels-frame">
-    <div class="reels" id="reels">
-      <div class="reel" id="reel-0"><div class="reel-inner">🍒</div></div>
-      <div class="reel" id="reel-1"><div class="reel-inner">🍋</div></div>
-      <div class="reel" id="reel-2"><div class="reel-inner">🍊</div></div>
-      <div class="reel" id="reel-3"><div class="reel-inner">🍉</div></div>
-      <div class="reel" id="reel-4"><div class="reel-inner">⭐</div></div>
+  <!-- 3x5 Grid -->
+  <div class="grid-frame" id="grid-frame">
+    <div class="grid" id="grid">
+      <!-- row 0 (top) -->
+      <div class="cell" id="c00"><div class="cell-inner">🍒</div></div>
+      <div class="cell" id="c01"><div class="cell-inner">🍋</div></div>
+      <div class="cell" id="c02"><div class="cell-inner">🍊</div></div>
+      <div class="cell" id="c03"><div class="cell-inner">🍉</div></div>
+      <div class="cell" id="c04"><div class="cell-inner">⭐</div></div>
+      <!-- row 1 (middle) -->
+      <div class="cell" id="c10"><div class="cell-inner">🍇</div></div>
+      <div class="cell" id="c11"><div class="cell-inner">💎</div></div>
+      <div class="cell" id="c12"><div class="cell-inner">🍒</div></div>
+      <div class="cell" id="c13"><div class="cell-inner">🍋</div></div>
+      <div class="cell" id="c14"><div class="cell-inner">🍍</div></div>
+      <!-- row 2 (bottom) -->
+      <div class="cell" id="c20"><div class="cell-inner">🍉</div></div>
+      <div class="cell" id="c21"><div class="cell-inner">⭐</div></div>
+      <div class="cell" id="c22"><div class="cell-inner">🍇</div></div>
+      <div class="cell" id="c23"><div class="cell-inner">💎</div></div>
+      <div class="cell" id="c24"><div class="cell-inner">🍒</div></div>
     </div>
   </div>
 
-  <!-- Payline message -->
-  <div class="payline">
-    <div class="payline-text" id="payline">INSERT COIN — PRESS SPIN</div>
+  <!-- Result message -->
+  <div class="payline-msg">
+    <div class="payline-text" id="payline-text">INSERT COIN — PRESS SPIN</div>
   </div>
 
-  <!-- Bet selector -->
+  <!-- Bet row -->
   <div class="bet-row">
-    <span class="bet-label">Bet</span>
-    <div class="bet-options" id="bet-options">
-      <button class="bet-btn active" data-bet="10">10</button>
-      <button class="bet-btn" data-bet="20">20</button>
-      <button class="bet-btn" data-bet="50">50</button>
+    <span class="bet-label">Bet / line</span>
+    <div class="bet-options">
+      <button class="bet-btn active" data-bet="1">1</button>
+      <button class="bet-btn" data-bet="5">5</button>
+      <button class="bet-btn" data-bet="10">10</button>
     </div>
   </div>
 
-  <!-- Spin button -->
+  <!-- Spin -->
   <button class="btn-spin" id="btn-spin">SPIN</button>
 
-  <!-- Pay table -->
+  <!-- Pay table toggle -->
   <div class="paytable-toggle">
     <button id="pt-toggle">▾ Pay Table</button>
   </div>
   <div class="paytable" id="paytable">
-    <div class="paytable-row"><span class="pt-symbols">💎 💎 💎 💎 💎</span><span class="pt-payout">×20</span></div>
-    <div class="paytable-row"><span class="pt-symbols">⭐ ⭐ ⭐ ⭐ ⭐</span><span class="pt-payout">×15</span></div>
-    <div class="paytable-row"><span class="pt-symbols">🍉 🍉 🍉 🍉 🍉</span><span class="pt-payout">×12</span></div>
-    <div class="paytable-row"><span class="pt-symbols">Any 5 of a kind</span><span class="pt-payout">×10</span></div>
-    <div class="paytable-row"><span class="pt-symbols">Any 4 of a kind</span><span class="pt-payout">×3</span></div>
-    <div class="paytable-row"><span class="pt-symbols">Any 3 of a kind</span><span class="pt-payout">×1</span></div>
+    <div class="pt-header">
+      <span>PATTERN</span><span></span><span>MULT</span>
+    </div>
+    <div class="paytable-row"><span class="pt-name">HOR</span>   <span class="pt-desc">middle row</span>      <span class="pt-mult">×1</span></div>
+    <div class="paytable-row"><span class="pt-name">VERT</span>  <span class="pt-desc">any full column</span> <span class="pt-mult">×1</span></div>
+    <div class="paytable-row"><span class="pt-name">DIAG</span>  <span class="pt-desc">diagonal ↘ or ↗</span><span class="pt-mult">×1</span></div>
+    <div class="paytable-row"><span class="pt-name">HOR-L</span> <span class="pt-desc">top or bottom row</span><span class="pt-mult">×2</span></div>
+    <div class="paytable-row"><span class="pt-name">HOR-XL</span><span class="pt-desc">all 3 rows match</span> <span class="pt-mult">×3</span></div>
+    <div class="paytable-row"><span class="pt-name">ZIG</span>   <span class="pt-desc">M-shape</span>          <span class="pt-mult">×4</span></div>
+    <div class="paytable-row"><span class="pt-name">ZAG</span>   <span class="pt-desc">W-shape</span>          <span class="pt-mult">×4</span></div>
+    <div class="paytable-row"><span class="pt-name">ABOVE</span> <span class="pt-desc">rows 0+1 match</span>  <span class="pt-mult">×7</span></div>
+    <div class="paytable-row"><span class="pt-name">BELOW</span> <span class="pt-desc">rows 1+2 match</span>  <span class="pt-mult">×7</span></div>
+    <div class="paytable-row"><span class="pt-name">EYE</span>   <span class="pt-desc">diamond shape</span>   <span class="pt-mult">×8</span></div>
+    <div class="paytable-row"><span class="pt-name">JACKPOT</span><span class="pt-desc">all 15 cells</span>  <span class="pt-mult">×10</span></div>
   </div>
 
 </div>
 
-<!-- Audio -->
 <audio id="snd-spin"  src="spin.mp3"  loop></audio>
 <audio id="snd-win"   src="win.mp3"></audio>
 <audio id="snd-lose"  src="lose.mp3"></audio>
