@@ -1,273 +1,95 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LET'S GO GAMBLING - Arcade PRO</title>
-<style>
-* { box-sizing: border-box; }
-
-body {
-    font-family: 'Trebuchet MS', sans-serif;
-    background: radial-gradient(circle, #ffd700, #b8860b, #2a2a2a);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-.slot-container {
-    background: linear-gradient(145deg, #ffffff, #f1f1f1);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-    text-align: center;
-    width: 520px;
-    border: 5px solid gold;
-    position: relative;
-    overflow: hidden;
-    transition: box-shadow 0.3s ease;
-}
-
-.slot-container.jackpot-glow {
-    box-shadow: 0 0 40px 10px gold;
-}
-
-h2 {
-    margin-bottom: 10px;
-    color: #b8860b;
-    text-shadow: 2px 2px 4px black;
-}
-
-.credits, .record {
-    font-size: 18px;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.record {
-    color: #ffeb3b;
-}
-
-.slots {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    height: 80px;
-    position: relative;
-}
-
-.slot {
-    width: 80px;
-    height: 80px;
-    border: 4px solid #b8860b;
-    border-radius: 12px;
-    font-size: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(circle, #fff, #ddd);
-    position: relative;
-    top: -100px; /* per caduta */
-    transition: transform 0.3s ease, top 0.5s ease, box-shadow 0.2s ease;
-}
-
-.slot.jackpot {
-    animation: jump 0.5s ease infinite;
-    box-shadow: 0 0 20px gold;
-}
-
-@keyframes jump {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-button {
-    width: 100%;
-    padding: 14px;
-    font-size: 18px;
-    background: linear-gradient(to bottom, #ff0000, #b00000);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-button:hover:enabled {
-    background: linear-gradient(to bottom, #ff4444, #cc0000);
-}
-
-#result {
-    margin-top: 15px;
-    font-size: 18px;
-    font-weight: bold;
-    min-height: 24px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LET'S GO GAMBLING — Arcade PRO</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<div class="slot-container" id="slotContainer">
-    <h2>🎰 LET'S GO GAMBLING 🎰</h2>
+<div class="cabinet" id="cabinet">
 
-    <div class="credits">Crediti: <span id="credits">100</span></div>
-    <div class="record">Record: <span id="record">100</span></div>
-
-    <div class="slots">
-        <div class="slot" id="slot1">🍒</div>
-        <div class="slot" id="slot2">🍋</div>
-        <div class="slot" id="slot3">🍊</div>
-        <div class="slot" id="slot4">🍉</div>
-        <div class="slot" id="slot5">⭐</div>
+  <!-- Scrolling marquee -->
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee-track">
+      <span>🎰 LET'S GO GAMBLING 🎰 — JACKPOT PAYS 10× BET — 5 OF A KIND WINS — GOOD LUCK PLAYER — </span>
+      <span>🎰 LET'S GO GAMBLING 🎰 — JACKPOT PAYS 10× BET — 5 OF A KIND WINS — GOOD LUCK PLAYER — </span>
     </div>
+  </div>
 
-    <button onclick="spin()">SPIN</button>
-    <div id="result"></div>
+  <!-- Title -->
+  <div class="title-row">
+    <h1>LET'S GO GAMBLING</h1>
+    <p class="sub">Arcade Edition · 5 Reels</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="label">Credits</div>
+      <div class="value" id="credits">100</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Bet</div>
+      <div class="value" id="bet-display">10</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Record</div>
+      <div class="value" id="record">100</div>
+    </div>
+  </div>
+
+  <!-- Reels -->
+  <div class="reels-frame">
+    <div class="reels" id="reels">
+      <div class="reel" id="reel-0"><div class="reel-inner">🍒</div></div>
+      <div class="reel" id="reel-1"><div class="reel-inner">🍋</div></div>
+      <div class="reel" id="reel-2"><div class="reel-inner">🍊</div></div>
+      <div class="reel" id="reel-3"><div class="reel-inner">🍉</div></div>
+      <div class="reel" id="reel-4"><div class="reel-inner">⭐</div></div>
+    </div>
+  </div>
+
+  <!-- Payline message -->
+  <div class="payline">
+    <div class="payline-text" id="payline">INSERT COIN — PRESS SPIN</div>
+  </div>
+
+  <!-- Bet selector -->
+  <div class="bet-row">
+    <span class="bet-label">Bet</span>
+    <div class="bet-options" id="bet-options">
+      <button class="bet-btn active" data-bet="10">10</button>
+      <button class="bet-btn" data-bet="20">20</button>
+      <button class="bet-btn" data-bet="50">50</button>
+    </div>
+  </div>
+
+  <!-- Spin button -->
+  <button class="btn-spin" id="btn-spin">SPIN</button>
+
+  <!-- Pay table -->
+  <div class="paytable-toggle">
+    <button id="pt-toggle">▾ Pay Table</button>
+  </div>
+  <div class="paytable" id="paytable">
+    <div class="paytable-row"><span class="pt-symbols">💎 💎 💎 💎 💎</span><span class="pt-payout">×20</span></div>
+    <div class="paytable-row"><span class="pt-symbols">⭐ ⭐ ⭐ ⭐ ⭐</span><span class="pt-payout">×15</span></div>
+    <div class="paytable-row"><span class="pt-symbols">🍉 🍉 🍉 🍉 🍉</span><span class="pt-payout">×12</span></div>
+    <div class="paytable-row"><span class="pt-symbols">Any 5 of a kind</span><span class="pt-payout">×10</span></div>
+    <div class="paytable-row"><span class="pt-symbols">Any 4 of a kind</span><span class="pt-payout">×3</span></div>
+    <div class="paytable-row"><span class="pt-symbols">Any 3 of a kind</span><span class="pt-payout">×1</span></div>
+  </div>
+
 </div>
 
-<!-- AUDIO -->
-<audio id="clickSound" src="click.mp3"></audio>
-<audio id="spinSound" src="spin.mp3" loop></audio>
-<audio id="winSound" src="win.mp3"></audio>
-<audio id="loseSound" src="lose.mp3"></audio>
+<!-- Audio -->
+<audio id="snd-spin"  src="spin.mp3"  loop></audio>
+<audio id="snd-win"   src="win.mp3"></audio>
+<audio id="snd-lose"  src="lose.mp3"></audio>
+<audio id="snd-click" src="click.mp3"></audio>
 
-<script>
-const symbols = ["🍒","🍋","🍊","🍉","⭐","💎","🍇","🍍"];
-let credits = 100;
-let record = 100;
-let multiplier = 1;
-let spinning = false;
-let firstClick = true;
-
-function spin() {
-    if (spinning) return;
-
-    if (credits <= 0) {
-        showResult("💸 Hai finito i crediti!", "orange");
-        return;
-    }
-
-    spinning = true;
-    credits -= 10;
-    updateCredits();
-    showResult("", "");
-
-    if (firstClick) {
-        document.getElementById("clickSound").play();
-        firstClick = false;
-    }
-
-    const spinSound = document.getElementById("spinSound");
-    spinSound.currentTime = 0;
-    spinSound.play();
-
-    disableButton(true);
-
-    const slotIds = ["slot1","slot2","slot3","slot4","slot5"];
-    let delay = 0;
-    slotIds.forEach(id => {
-        setTimeout(() => spinSlot(id), delay);
-        delay += 300; // caduta sequenziale
-    });
-}
-
-function spinSlot(id) {
-    const slot = document.getElementById(id);
-    const duration = 1500 + Math.random()*500; // durata casuale
-    slot.style.top = "-100px";
-    slot.textContent = randomSymbol();
-    
-    let start = Date.now();
-    const interval = setInterval(() => {
-        slot.style.top = `${Math.min(0, -100 + (Date.now()-start)/duration*100)}px`;
-        slot.textContent = randomSymbol();
-        slot.style.transform = `rotate(${Math.random()*20-10}deg)`;
-    }, 50);
-
-    setTimeout(() => {
-        clearInterval(interval);
-        slot.style.top = "0px";
-        slot.style.transform = "rotate(0deg)";
-        checkEnd();
-    }, duration);
-}
-
-function randomSymbol() {
-    return symbols[Math.floor(Math.random() * symbols.length)];
-}
-
-let stopped = 0;
-function checkEnd() {
-    stopped++;
-    if (stopped === 5) {
-        stopped = 0;
-        document.getElementById("spinSound").pause();
-        checkWin();
-        spinning = false;
-        disableButton(false);
-    }
-}
-
-function checkWin() {
-    const slotEls = ["slot1","slot2","slot3","slot4","slot5"].map(id => document.getElementById(id).textContent);
-    const allSame = slotEls.every(val => val === slotEls[0]);
-    const container = document.getElementById("slotContainer");
-
-    if (allSame) {
-        multiplier++;
-        const winAmount = 100 * multiplier;
-        credits += winAmount;
-        if(credits > record) record = credits;
-        updateCredits();
-        showResult(`🎉 JACKPOT! +${winAmount} crediti (x${multiplier})`, "green");
-        document.getElementById("winSound").play();
-
-        // Animazione simboli vincenti
-        animateJackpot(slotEls[0]);
-
-        // Glow slot container
-        container.classList.add("jackpot-glow");
-        setTimeout(() => container.classList.remove("jackpot-glow"), 3000);
-    } else {
-        multiplier = 1;
-        showResult("😢 OH DANG IT!", "red");
-        document.getElementById("loseSound").play();
-    }
-}
-
-function animateJackpot(symbol) {
-    ["slot1","slot2","slot3","slot4","slot5"].forEach(id => {
-        const slot = document.getElementById(id);
-        if(slot.textContent === symbol){
-            slot.classList.add("jackpot");
-            setTimeout(() => slot.classList.remove("jackpot"), 2000);
-        }
-    });
-}
-
-function updateCredits() {
-    document.getElementById("credits").textContent = credits;
-    document.getElementById("record").textContent = record;
-}
-
-function showResult(text, color) {
-    const result = document.getElementById("result");
-    result.textContent = text;
-    result.style.color = color;
-}
-
-function disableButton(state) {
-    document.querySelector("button").disabled = state;
-}
-</script>
-
+<script src="game.js"></script>
 </body>
 </html>
