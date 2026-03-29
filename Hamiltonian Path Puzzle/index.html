@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hamiltonian Path Puzzle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">◈</div>
+      <h1>Hamiltonian Path Puzzle</h1>
+    </div>
+    <p class="subtitle">Build the grid — find the path</p>
+  </header>
+
+  <!-- ── Panel 01: Grid size ────────────────────────────────── -->
+  <section class="panel" aria-label="Grid size controls">
+    <p class="panel-title">01 — Grid Size</p>
+
+    <div class="sliders-row">
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Rows</span>
+          <span class="slider-val" id="lbl-rows">8</span>
+        </div>
+        <input type="range" id="sl-rows" min="2" max="14" value="8"
+               aria-label="Number of rows"
+               oninput="onSizeChange()">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Columns</span>
+          <span class="slider-val" id="lbl-cols">6</span>
+        </div>
+        <input type="range" id="sl-cols" min="2" max="14" value="6"
+               aria-label="Number of columns"
+               oninput="onSizeChange()">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Cell size</span>
+          <span class="slider-val" id="lbl-csize">52px</span>
+        </div>
+        <input type="range" id="sl-csize" min="24" max="72" value="52"
+               aria-label="Cell size in pixels"
+               oninput="onCellSizeChange()">
+      </div>
+
+    </div>
+
+    <!-- Quick-load presets -->
+    <div class="presets">
+      <span class="presets-label">Presets:</span>
+      <button class="preset-btn" onclick="loadPreset('classic')">Classic 8×6</button>
+      <button class="preset-btn" onclick="loadPreset('small')">Simple 4×4</button>
+      <button class="preset-btn" onclick="loadPreset('medium')">Medium 6×6</button>
+      <button class="preset-btn" onclick="loadPreset('large')">Large 10×8</button>
+    </div>
+  </section>
+
+  <!-- ── Panel 02: Grid editor + solver ─────────────────────── -->
+  <section class="panel" aria-label="Grid editor and solver">
+    <p class="panel-title">02 — Draw &amp; Solve</p>
+
+    <!-- Drawing tools -->
+    <div class="toolbar" role="toolbar" aria-label="Drawing tools">
+      <button class="tool-btn active" id="tool-empty"
+              onclick="setTool('empty')"
+              aria-pressed="true">⬜ Empty</button>
+
+      <button class="tool-btn" id="tool-obstacle"
+              onclick="setTool('obstacle')"
+              aria-pressed="false">⬛ Obstacle</button>
+
+      <button class="tool-btn" id="tool-start"
+              onclick="setTool('start')"
+              aria-pressed="false">◉ Start</button>
+
+      <div class="sep" role="separator"></div>
+
+      <button class="tool-btn danger"
+              onclick="clearGrid()">✕ Reset</button>
+    </div>
+
+    <!-- Cell type legend -->
+    <div class="legend" aria-label="Cell type legend">
+      <div class="legend-item">
+        <div class="legend-swatch"
+             style="background:var(--bg3); border:1px solid var(--border2)">
+        </div>
+        Empty cell
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch"
+             style="background:#1a1c22; border:1px solid var(--border)">
+          <span style="color:var(--border2)">■</span>
+        </div>
+        Obstacle
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch"
+             style="background:#192e24; border:1px solid var(--green2);
+                    color:var(--green); font-weight:700; font-size:8px">S</div>
+        Start
+      </div>
+    </div>
+
+    <!-- The puzzle grid -->
+    <div class="grid-outer" role="grid" aria-label="Puzzle grid">
+      <div id="puzzle-grid"></div>
+    </div>
+
+    <!-- Playback controls -->
+    <div class="actions">
+      <button class="btn-solve" id="btn-solve" onclick="solve()">
+        ▶ Solve
+      </button>
+
+      <button class="tool-btn" id="btn-step"
+              onclick="stepSolve()" disabled>Step</button>
+
+      <button class="tool-btn" id="btn-pause"
+              onclick="togglePause()" disabled>⏸ Pause</button>
+
+      <button class="tool-btn" id="btn-reset-anim"
+              onclick="resetAnimation()" disabled>↺ Restart</button>
+
+      <div class="speed-wrap">
+        <label for="speed">speed</label>
+        <input type="range" id="speed" class="speed-range"
+               min="1" max="10" value="6"
+               aria-label="Animation speed">
+      </div>
+    </div>
+
+    <!-- Status indicator -->
+    <div class="status-bar" role="status" aria-live="polite">
+      <div class="status-dot" id="status-dot"></div>
+      <span class="status-text" id="status-text">
+        Draw the grid, then press Solve.
+      </span>
+      <span class="status-count" id="status-count"></span>
+    </div>
+
+  </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

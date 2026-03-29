@@ -1,0 +1,519 @@
+/* ============================================================
+   Hamiltonian Path Puzzle — Stylesheet
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap');
+
+/* ── Reset & tokens ─────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Backgrounds */
+  --bg:      #0e0f11;
+  --bg2:     #16181c;
+  --bg3:     #1e2026;
+
+  /* Borders */
+  --border:  #2a2d35;
+  --border2: #383c47;
+
+  /* Brand */
+  --accent:  #5b8af0;
+  --accent2: #3d6be0;
+
+  /* Semantic */
+  --green:   #3ecf8e;
+  --green2:  #2ba86e;
+  --amber:   #f0a040;
+  --red:     #e05555;
+
+  /* Text */
+  --text:    #e8eaf0;
+  --text2:   #9095a8;
+  --text3:   #5c6070;
+
+  /* Typography */
+  --font-ui:   'Syne', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  /* Spacing */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 5rem;
+}
+
+/* Subtle dot-grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.28;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Layout ─────────────────────────────────────────────────── */
+
+.app {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 880px;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+
+header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.4rem;
+}
+
+.logo-icon {
+  width: 34px;
+  height: 34px;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text3);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── Panel card ─────────────────────────────────────────────── */
+
+.panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.5rem;
+  margin-bottom: 1.1rem;
+}
+
+.panel-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  margin-bottom: 1.1rem;
+}
+
+/* ── Slider controls ────────────────────────────────────────── */
+
+.sliders-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 560px) {
+  .sliders-row { grid-template-columns: 1fr; }
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text2);
+}
+
+.slider-val {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Range inputs — base style applies to all sliders */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border2);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+}
+
+/* Speed slider uses amber thumb to distinguish from grid sliders */
+input[type="range"].speed-range::-webkit-slider-thumb {
+  background: var(--amber);
+}
+
+/* ── Presets ─────────────────────────────────────────────────── */
+
+.presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0.9rem;
+}
+
+.presets-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text3);
+}
+
+.preset-btn {
+  padding: 4px 11px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.preset-btn:hover {
+  border-color: var(--accent);
+  color: var(--text2);
+}
+
+/* ── Toolbar ────────────────────────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 0.9rem;
+}
+
+.sep {
+  width: 1px;
+  height: 26px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Buttons — shared base ───────────────────────────────────── */
+
+.tool-btn {
+  padding: 6px 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  color: var(--text2);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tool-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.tool-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.tool-btn.danger {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.tool-btn.danger:hover {
+  background: rgba(224, 85, 85, 0.12);
+}
+
+.tool-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Primary solve button */
+.btn-solve {
+  padding: 9px 22px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.btn-solve:hover {
+  background: var(--accent2);
+  transform: translateY(-1px);
+}
+
+.btn-solve:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+}
+
+/* ── Legend ─────────────────────────────────────────────────── */
+
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 0.7rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text2);
+}
+
+.legend-swatch {
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+/* ── Grid ───────────────────────────────────────────────────── */
+
+.grid-outer {
+  overflow: auto;
+  padding: 4px 2px 6px;
+  margin-top: 1rem;
+}
+
+#puzzle-grid {
+  display: inline-grid;
+  gap: 4px;
+}
+
+/* Base cell */
+.cell {
+  border-radius: 7px;
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--text3);
+  transition: background 0.1s, border-color 0.1s, color 0.1s, transform 0.08s;
+  user-select: none;
+}
+
+.cell:hover {
+  border-color: var(--accent);
+  background: #1e2230;
+  transform: scale(1.05);
+}
+
+/* Obstacle: dark with a small inset square */
+.cell.obstacle {
+  background: #1a1c22;
+  border-color: var(--border);
+  cursor: pointer;
+}
+
+.cell.obstacle::after {
+  content: '';
+  display: block;
+  width: 36%;
+  height: 36%;
+  background: var(--border2);
+  border-radius: 3px;
+}
+
+/* Start cell */
+.cell.start {
+  background: #192e24;
+  border-color: var(--green2);
+  color: var(--green);
+  font-weight: 700;
+}
+
+/* Visited cells during animation */
+.cell.visited {
+  background: #0f1a30;
+  border-color: var(--accent2);
+  color: var(--accent);
+}
+
+/* Current head of the path */
+.cell.current {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
+  transform: scale(1.09);
+}
+
+/* Final cell when path is complete */
+.cell.finish {
+  background: var(--green);
+  border-color: var(--green2);
+  color: #0a2018;
+  font-weight: 700;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--green) 35%, transparent);
+}
+
+/* ── Action bar ─────────────────────────────────────────────── */
+
+.actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.speed-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text3);
+}
+
+.speed-wrap input[type="range"] {
+  width: 86px;
+}
+
+/* ── Status bar ─────────────────────────────────────────────── */
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 13px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-top: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--text3);
+  transition: background 0.3s;
+}
+
+.status-dot.solving {
+  background: var(--amber);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--amber) 55%, transparent);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.status-dot.done {
+  background: var(--green);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--green) 55%, transparent);
+}
+
+.status-dot.error {
+  background: var(--red);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--red) 55%, transparent);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+.status-text { color: var(--text2); }
+
+.status-count {
+  margin-left: auto;
+  color: var(--text3);
+}
