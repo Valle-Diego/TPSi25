@@ -3,164 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="stile.css">
-  <title>Hub dei Lavori - Valle</title>
+  <title>Hub dei Lavori — Valle</title>
 </head>
 <body>
 
   <header>
-    <h1>Hub dei Lavori di Diego Valle</h1>
-    <p>Raccolta di tutti i progetti e compiti da consegnare</p>
+    <div class="header-label">itis cannizzaro · anno 2025–26</div>
+    <h1>Hub dei Lavori<br><span>Diego Valle</span></h1>
+    <p class="header-sub">// raccolta progetti e consegne · javascript · html · css</p>
+    <div class="header-divider"></div>
   </header>
 
   <main>
-    <table>
-      <thead>
-        <tr>
-          <th>Nome del lavoro</th>
-          <th>Data</th>
-          <th>Commento</th>
-          <th>Link</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td data-label="Nome del lavoro">Anagrafica 1.0</td>
-          <td data-label="Data">30/09/2025</td>
-          <td data-label="Commento">
-            Realizzare un file HTML contenente un elenco di input di tipo testo che permettano di inserire nome, cognome e indirizzo.
-            Tramite un tasto (onclick) stampare i dati registrati in un div separato che compare dopo la compilazione.
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/1.1.Esercizio30_09_2025/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Anagrafica 1.1</td>
-          <td data-label="Data">14/10/2025</td>
-          <td data-label="Commento">
-            Creare uno script JavaScript per inserire un’anagrafica utente con Nome, Cognome, Indirizzo, Città, CAP e Anno di nascita.
-            Il sistema restituisce l’appartenenza alla generazione corrispondente (Baby Boomers, Gen X, Millennials, Gen Z, Alpha, ecc.).
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/1.2.Esercizio14_10_2025/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Anagrafica 2.0</td>
-          <td data-label="Data">21/10/2025</td>
-          <td data-label="Commento">
-            Ripetere l’esercizio precedente inserendo i valori prelevati dagli input in un vettore di stringhe.
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/1.3.Esercizio21_10_2025/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Anagrafica 3.0</td>
-          <td data-label="Data">11/11/2025</td>
-          <td data-label="Commento">
-            Ripetere l’esercizio precedente utilizzando le collection per inserire i dati.
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/1.5.Esercizio11_11_2025/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Anagrafica 4.0</td>
-          <td data-label="Data">17/02/2026</td>
-          <td data-label="Commento">
-            Riprendere l'anagrafica precedente (l'ultima) e controllare la validità del nome, cognome e aggiungere la email, il CAP e il Codice Fiscale
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/2.2.Esercizio17_02_2026/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Esercizio vettori</td>
-          <td data-label="Data">28/10/2025</td>
-          <td data-label="Commento">
-            Crea un array di numeri (indice 100) con Math.random() compresi tra -100 e 100.<br>
-            - Calcola la media dei numeri.<br>
-            - Trova il massimo e il minimo.<br>
-            - Crea un vettore contenente solo i numeri pari maggiori di 50.<br>
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/1.4.Esercizio28_10_2025/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Esercizio canvas</td>
-          <td data-label="Data">25/11/2025</td>
-          <td data-label="Commento">
-            Realizzare un canvas HTML che permetta ad uno script di disegnare una stella a 5 punte contenuta in un cerchio
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/1.6.Esercizio25_11_2025/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Grafico con canvas</td>
-          <td data-label="Data">02/12/2025</td>
-          <td data-label="Commento">
-            Si realizzi un grafico con canvas
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/1.7.Esercizio02_12_2025/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Grafico con chart.jp</td>
-          <td data-label="Data">09/12/2025</td>
-          <td data-label="Commento">
-            Si realizzi un grafico con chart.js
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/1.8.Esercizio09_12_2025/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Grafico con collection</td>
-          <td data-label="Data">16/12/2025</td>
-          <td data-label="Commento">
-            Si realizzi un grafico con collection
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/1.9.Esercizio16_12_2025/index.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">LocalStorage Sender</td>
-          <td data-label="Data">27/01/2026</td>
-          <td data-label="Commento">
-            Realizzazione di una pagina HTML sender che comunica tramite
-            l’oggetto localStorage con una pagina receiver.
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/2.0.Esercizio27_01_2026/sender.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">LocalStorage Receiver</td>
-          <td data-label="Data">27/01/2026</td>
-          <td data-label="Commento">
-            Realizzazione di una pagina HTML receiver che comunica tramite
-            l’oggetto localStorage con una pagina sender.
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/2.0.Esercizio27_01_2026/receiver.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">URL Sender</td>
-          <td data-label="Data">03/02/2026</td>
-          <td data-label="Commento">
-            Realizzazione di una pagina HTML sender che comunica tramite
-            l’URL con una pagina receiver.
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/2.1.Esercizio03_02_2026/sender.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">URL Receiver</td>
-          <td data-label="Data">03/02/2026</td>
-          <td data-label="Commento">
-            Realizzazione di una pagina HTML receiver che comunica tramite
-            l’URL con una pagina sender.
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/2.1.Esercizio03_02_2026/receiver.html">Apri</a></td>
-        </tr>
-        <tr>
-          <td data-label="Nome del lavoro">Anagrafica in csv</td>
-          <td data-label="Data">24/03/2026</td>
-          <td data-label="Commento">
-            Si realizzi un programma javascript che permetta di importare un file .csv che contenga un'anagrafica.
-In modo ricorsivo si crei un ciclo che costruisca una pagina html dinamica contenente l'anagrafica in "blocchi" responsive.
-          </td>
-          <td data-label="Link"><a href="https://valle-diego.github.io/TPSi25/2.3.Esercizio24_03_2026/index.html">Apri</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Progetto</th>
+            <th>Data</th>
+            <th>Descrizione</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Progetto">Anagrafica 1.0</td>
+            <td data-label="Data">30/09/2025</td>
+            <td data-label="Descrizione">Realizzare un file HTML contenente un elenco di input di tipo testo che permettano di inserire nome, cognome e indirizzo. Tramite un tasto (onclick) stampare i dati registrati in un div separato che compare dopo la compilazione.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/1.1.Esercizio30_09_2025/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Anagrafica 1.1</td>
+            <td data-label="Data">14/10/2025</td>
+            <td data-label="Descrizione">Creare uno script JavaScript per inserire un'anagrafica utente con Nome, Cognome, Indirizzo, Città, CAP e Anno di nascita. Il sistema restituisce l'appartenenza alla generazione corrispondente.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/1.2.Esercizio14_10_2025/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Anagrafica 2.0</td>
+            <td data-label="Data">21/10/2025</td>
+            <td data-label="Descrizione">Ripetere l'esercizio precedente inserendo i valori prelevati dagli input in un vettore di stringhe.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/1.3.Esercizio21_10_2025/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Anagrafica 3.0</td>
+            <td data-label="Data">11/11/2025</td>
+            <td data-label="Descrizione">Ripetere l'esercizio precedente utilizzando le collection per inserire i dati.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/1.5.Esercizio11_11_2025/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Anagrafica 4.0</td>
+            <td data-label="Data">17/02/2026</td>
+            <td data-label="Descrizione">Riprendere l'anagrafica precedente e controllare la validità del nome, cognome e aggiungere la email, il CAP e il Codice Fiscale.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/2.2.Esercizio17_02_2026/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Esercizio vettori</td>
+            <td data-label="Data">28/10/2025</td>
+            <td data-label="Descrizione">Crea un array di 100 numeri casuali tra -100 e 100. Calcola la media, trova massimo e minimo, e crea un vettore con i soli numeri pari maggiori di 50.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/1.4.Esercizio28_10_2025/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Esercizio canvas</td>
+            <td data-label="Data">25/11/2025</td>
+            <td data-label="Descrizione">Realizzare un canvas HTML che permetta ad uno script di disegnare una stella a 5 punte contenuta in un cerchio.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/1.6.Esercizio25_11_2025/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Grafico con canvas</td>
+            <td data-label="Data">02/12/2025</td>
+            <td data-label="Descrizione">Si realizzi un grafico con canvas.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/1.7.Esercizio02_12_2025/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Grafico con chart.js</td>
+            <td data-label="Data">09/12/2025</td>
+            <td data-label="Descrizione">Si realizzi un grafico con chart.js.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/1.8.Esercizio09_12_2025/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Grafico con collection</td>
+            <td data-label="Data">16/12/2025</td>
+            <td data-label="Descrizione">Si realizzi un grafico con collection.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/1.9.Esercizio16_12_2025/index.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">LocalStorage Sender</td>
+            <td data-label="Data">27/01/2026</td>
+            <td data-label="Descrizione">Pagina HTML sender che comunica tramite localStorage con una pagina receiver.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/2.0.Esercizio27_01_2026/sender.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">LocalStorage Receiver</td>
+            <td data-label="Data">27/01/2026</td>
+            <td data-label="Descrizione">Pagina HTML receiver che comunica tramite localStorage con una pagina sender.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/2.0.Esercizio27_01_2026/receiver.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">URL Sender</td>
+            <td data-label="Data">03/02/2026</td>
+            <td data-label="Descrizione">Pagina HTML sender che comunica tramite URL con una pagina receiver.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/2.1.Esercizio03_02_2026/sender.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">URL Receiver</td>
+            <td data-label="Data">03/02/2026</td>
+            <td data-label="Descrizione">Pagina HTML receiver che comunica tramite URL con una pagina sender.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/2.1.Esercizio03_02_2026/receiver.html">Apri</a></td>
+          </tr>
+          <tr>
+            <td data-label="Progetto">Anagrafica in CSV</td>
+            <td data-label="Data">24/03/2026</td>
+            <td data-label="Descrizione">Programma JavaScript che importa un file .csv con un'anagrafica e costruisce dinamicamente una pagina HTML con i dati in blocchi responsive.</td>
+            <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/2.3.Esercizio24_03_2026/index.html">Apri</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="secret-section">
+      <button class="secret-btn" onclick="openModal()">
+        <span class="lock-icon">🔒</span>
+        Area riservata
+      </button>
+    </div>
   </main>
 
+  <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <div class="modal-title">Accesso riservato</div>
+      <div class="modal-sub">// inserisci la password per continuare</div>
+      <input type="password" id="pwd" placeholder="••••••••" onkeydown="handleKey(event)" />
+      <div class="modal-error" id="modal-error"></div>
+      <div class="modal-actions">
+        <button class="btn-confirm" onclick="checkPassword()">Entra</button>
+        <button class="btn-cancel" onclick="closeModal()">Annulla</button>
+      </div>
+    </div>
+  </div>
+
   <footer>
-    <p>Creato da Diego Valle – ITIS STANISLAO CANNIZZARO 2025</p>
+    <p>// diego valle · itis stanislao cannizzaro · 2025–26</p>
   </footer>
+
+  <script src="script.js"></script>
 
 </body>
 </html>
