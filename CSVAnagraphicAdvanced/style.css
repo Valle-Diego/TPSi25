@@ -180,6 +180,10 @@ main {
   background: var(--surface2);
 }
 
+#file-input-hidden {
+  display: none;
+}
+
 #drop-zone .drop-sub code {
   font-family: var(--mono);
   background: var(--surface2);
