@@ -11,7 +11,6 @@ document.getElementById("fileInput").addEventListener("change", function(event) 
     const intestazioni = righe[0].split(",");
     const dati = righe.slice(1);
 
-    // pulisco il contenitore
     document.getElementById("container").innerHTML = "";
 
     creaBlocchiRicorsivo(dati, intestazioni, 0);
@@ -37,6 +36,5 @@ function creaBlocchiRicorsivo(dati, intestazioni, indice) {
 
   container.appendChild(card);
 
-  // ricorsione
   creaBlocchiRicorsivo(dati, intestazioni, indice + 1);
 }
