@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nonogram Solver</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nonogram_solver.css">
+</head>
+<body>
+
+  <header>
+    <h1>Nonogram Solver</h1>
+    <p>Constraint propagation + backtracking engine</p>
+  </header>
+
+  <div class="main-layout">
+
+    <!-- Setup Panel -->
+    <div class="panel setup-panel">
+      <h2>Setup</h2>
+      <div class="field-row">
+        <label for="num-rows">Rows</label>
+        <input type="number" id="num-rows" value="10" min="1" max="40">
+      </div>
+      <div class="field-row">
+        <label for="num-cols">Columns</label>
+        <input type="number" id="num-cols" value="10" min="1" max="40">
+      </div>
+      <button class="btn-primary" id="init-btn" style="margin-top: 4px;">Initialize Grid</button>
+
+      <div style="margin-top: 20px;">
+        <h2>Presets</h2>
+        <div class="presets">
+          <div class="preset-btn" onclick="loadPreset('heart')">❤ Heart</div>
+          <div class="preset-btn" onclick="loadPreset('cross')">✕ Cross</div>
+          <div class="preset-btn" onclick="loadPreset('diamond')">◆ Diamond</div>
+          <div class="preset-btn" onclick="loadPreset('smile')">☺ Smile</div>
+          <div class="preset-btn" onclick="loadPreset('arrow')">➤ Arrow</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <h2>Actions</h2>
+        <button class="btn-solve" id="solve-btn" disabled>▶ Solve</button>
+        <div class="btn-row" style="margin-top: 8px;">
+          <button class="btn-secondary" id="clear-btn">Clear Grid</button>
+          <button class="btn-secondary" id="reset-btn">Reset Clues</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clues Panel -->
+    <div class="panel clue-panel">
+      <h2>Clues</h2>
+      <p style="font-size: 0.7rem; color: var(--muted); margin-bottom: 14px;">
+        Enter space-separated numbers for each row/column clue.
+      </p>
+      <div class="clues-section">
+        <div class="clue-group">
+          <h3>Row Clues</h3>
+          <div class="clue-list" id="row-clues"></div>
+        </div>
+        <div class="clue-group">
+          <h3>Col Clues</h3>
+          <div class="clue-list" id="col-clues"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid / Solution Panel -->
+    <div class="grid-wrapper">
+      <div class="panel" style="width: 100%; padding: 16px;">
+        <h2>Solution</h2>
+        <div id="grid-container">
+          <div style="color: var(--muted); font-size: 0.75rem; padding: 20px 0;">
+            Initialize a grid to begin.
+          </div>
+        </div>
+        <div class="progress-bar-wrap" style="margin-top: 12px;">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="status-dot" id="status-dot"></div>
+          <span id="status-text">Ready</span>
+        </div>
+        <span class="stats" id="stats-text"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="nonogram_solver.js"></script>
+</body>
+</html>
