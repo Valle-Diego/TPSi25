@@ -427,6 +427,17 @@ button {
   display: block;
 }
 
+.back-btn {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.back-btn:hover { color: var(--green); }
+
 /* ─── Animations ── */
 @keyframes pulse {
   0%, 100% { opacity: 1; }

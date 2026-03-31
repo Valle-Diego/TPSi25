@@ -126,26 +126,26 @@
     <div class="secret-section">
       <button class="secret-btn" onclick="openModal()">
         <span class="lock-icon">🔒</span>
-        Area riservata
+        Private Area 
       </button>
     </div>
   </main>
 
   <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
     <div class="modal">
-      <div class="modal-title">Accesso riservato</div>
-      <div class="modal-sub">// inserisci la password per continuare</div>
+      <div class="modal-title">Loging</div>
+      <div class="modal-sub">// insert password to continue</div>
       <input type="password" id="pwd" placeholder="••••••••" onkeydown="handleKey(event)" />
       <div class="modal-error" id="modal-error"></div>
       <div class="modal-actions">
-        <button class="btn-confirm" onclick="checkPassword()">Entra</button>
-        <button class="btn-cancel" onclick="closeModal()">Annulla</button>
+        <button class="btn-confirm" onclick="checkPassword()">Enter</button>
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
       </div>
     </div>
   </div>
 
   <footer>
-    <p>// diego valle · itis stanislao cannizzaro · 2025–26</p>
+    <p>// Diego Valle · ITIS Stanislao Cannizzaro · 2025-26</p>
   </footer>
 
   <script src="script.js"></script>

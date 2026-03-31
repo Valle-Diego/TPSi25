@@ -603,6 +603,17 @@ main {
   color: var(--text-muted);
 }
 
+.back-btn {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.back-btn:hover { color: var(--green); }
+
 /* ── Toast notification ── */
 #toast {
   position: fixed;

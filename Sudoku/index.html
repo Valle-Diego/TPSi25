@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sudoku Solver</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <main class="container">
+
+    <header class="header">
+      <div class="header-label">Puzzle Engine</div>
+      <h1 class="title">Sudoku<br/><em>Solver</em></h1>
+      <p class="subtitle">Fill in your puzzle — zeros or blanks for unknowns</p>
+    </header>
+
+    <section class="board-section">
+      <div class="board-wrapper">
+        <div id="board" class="board" role="grid" aria-label="Sudoku grid"></div>
+        <div class="board-corner tl"></div>
+        <div class="board-corner tr"></div>
+        <div class="board-corner bl"></div>
+        <div class="board-corner br"></div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <button id="btn-solve" class="btn btn-primary" title="Solve the puzzle">
+        <span class="btn-icon">◈</span>
+        <span>Solve</span>
+      </button>
+      <button id="btn-clear" class="btn btn-ghost" title="Clear the board">
+        <span class="btn-icon">⊘</span>
+        <span>Clear</span>
+      </button>
+      <button id="btn-example" class="btn btn-ghost" title="Load a sample puzzle">
+        <span class="btn-icon">⊞</span>
+        <span>Example</span>
+      </button>
+    </section>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+  </main>
+
+  <script src="solver.js"></script>
+  <script src="app.js"></script>
+
+  <footer>
+    <a class="back-btn" href="index.html">← back to the hub</a>
+    <span>// Diego Valle · private area</span>
+  </footer>
+
+</body>
+</html>

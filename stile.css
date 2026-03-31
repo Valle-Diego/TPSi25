@@ -209,8 +209,6 @@ a.open-link:hover {
   transform: translateY(-1px);
 }
 
-a.open-link::after { content: '↗'; }
-
 /* ── SECRET BUTTON ── */
 .secret-section {
   margin-top: 48px;

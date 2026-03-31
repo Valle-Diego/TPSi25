@@ -25,7 +25,7 @@ function checkPassword() {
   const err = document.getElementById('modal-error');
 
   if (input.value === CORRECT_PASSWORD) {
-    window.location.href = 'secret.html';
+    window.location.href = 'Secret/secret.html';
   } else {
     err.textContent = 'password errata — riprova.';
     input.classList.remove('shake');

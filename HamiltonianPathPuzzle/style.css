@@ -517,3 +517,14 @@ input[type="range"].speed-range::-webkit-slider-thumb {
   margin-left: auto;
   color: var(--text3);
 }
+
+.back-btn {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.back-btn:hover { color: var(--green); }
