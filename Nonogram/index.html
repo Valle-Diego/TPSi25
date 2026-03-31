@@ -11,86 +11,97 @@
 
   <header>
     <h1>Nonogram Solver</h1>
-    <p>Constraint propagation + backtracking engine</p>
+    <p>Constraint propagation + backtracking · up to 50×50</p>
   </header>
 
-  <div class="main-layout">
+  <!-- ── App shell: sidebar + main ── -->
+  <div class="app-shell">
 
-    <!-- Setup Panel -->
-    <div class="panel setup-panel">
-      <h2>Setup</h2>
-      <div class="field-row">
-        <label for="num-rows">Rows</label>
-        <input type="number" id="num-rows" value="10" min="1" max="40">
-      </div>
-      <div class="field-row">
-        <label for="num-cols">Columns</label>
-        <input type="number" id="num-cols" value="10" min="1" max="40">
-      </div>
-      <button class="btn-primary" id="init-btn" style="margin-top: 4px;">Initialize Grid</button>
+    <!-- ── Sidebar ─────────────────────────────────────────────────────────── -->
+    <aside class="sidebar">
 
-      <div style="margin-top: 20px;">
-        <h2>Presets</h2>
-        <div class="presets">
-          <div class="preset-btn" onclick="loadPreset('heart')">❤ Heart</div>
-          <div class="preset-btn" onclick="loadPreset('cross')">✕ Cross</div>
-          <div class="preset-btn" onclick="loadPreset('diamond')">◆ Diamond</div>
-          <div class="preset-btn" onclick="loadPreset('smile')">☺ Smile</div>
-          <div class="preset-btn" onclick="loadPreset('arrow')">➤ Arrow</div>
+      <!-- Setup -->
+      <div class="panel">
+        <div class="panel-title">New Puzzle</div>
+
+        <input type="text" class="title-input" id="puzzle-title" placeholder="Puzzle name (optional)">
+
+        <div class="field-row">
+          <label for="num-rows">Rows</label>
+          <input type="number" id="num-rows" value="10" min="1" max="50">
         </div>
-      </div>
-
-      <div style="margin-top: 20px;">
-        <h2>Actions</h2>
-        <button class="btn-solve" id="solve-btn" disabled>▶ Solve</button>
-        <div class="btn-row" style="margin-top: 8px;">
-          <button class="btn-secondary" id="clear-btn">Clear Grid</button>
-          <button class="btn-secondary" id="reset-btn">Reset Clues</button>
+        <div class="field-row">
+          <label for="num-cols">Cols</label>
+          <input type="number" id="num-cols" value="10" min="1" max="50">
         </div>
-      </div>
-    </div>
 
-    <!-- Clues Panel -->
-    <div class="panel clue-panel">
-      <h2>Clues</h2>
-      <p style="font-size: 0.7rem; color: var(--muted); margin-bottom: 14px;">
-        Enter space-separated numbers for each row/column clue.
-      </p>
-      <div class="clues-section">
-        <div class="clue-group">
-          <h3>Row Clues</h3>
-          <div class="clue-list" id="row-clues"></div>
-        </div>
-        <div class="clue-group">
-          <h3>Col Clues</h3>
-          <div class="clue-list" id="col-clues"></div>
-        </div>
-      </div>
-    </div>
+        <button class="btn-primary" id="init-btn">Initialize Grid</button>
 
-    <!-- Grid / Solution Panel -->
-    <div class="grid-wrapper">
-      <div class="panel" style="width: 100%; padding: 16px;">
-        <h2>Solution</h2>
-        <div id="grid-container">
-          <div style="color: var(--muted); font-size: 0.75rem; padding: 20px 0;">
-            Initialize a grid to begin.
+        <div style="margin-top:14px;">
+          <div class="panel-title">Presets</div>
+          <div class="presets">
+            <div class="preset-btn" onclick="loadPreset('heart')">❤ Heart</div>
+            <div class="preset-btn" onclick="loadPreset('cross')">✕ Cross</div>
+            <div class="preset-btn" onclick="loadPreset('diamond')">◆ Diamond</div>
+            <div class="preset-btn" onclick="loadPreset('smile')">☺ Smile</div>
+            <div class="preset-btn" onclick="loadPreset('arrow')">➤ Arrow</div>
           </div>
         </div>
-        <div class="progress-bar-wrap" style="margin-top: 12px;">
-          <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="panel">
+        <div class="panel-title">Actions</div>
+        <button class="btn-solve" id="solve-btn" disabled>▶ Solve</button>
+        <div class="btn-row">
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+          <button class="btn-secondary" id="reset-btn">Reset</button>
         </div>
       </div>
 
+      <!-- How to -->
+      <div class="panel" style="font-size:0.65rem;color:var(--muted);line-height:1.7;">
+        <div class="panel-title">How to use</div>
+        <p>1. Set size &amp; click <em>Initialize</em>.</p>
+        <p>2. Type clues <strong>directly</strong> above each column and left of each row (space-separated).</p>
+        <p>3. Click <em>Solve</em> — the solution appears instantly.</p>
+        <p>4. Each solved puzzle is auto-saved to the library below.</p>
+        <p>Click any cell to toggle it manually.</p>
+      </div>
+
+    </aside>
+
+    <!-- ── Main area ───────────────────────────────────────────────────────── -->
+    <div class="main-area">
+
+      <!-- Status bar -->
       <div class="status-bar">
-        <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="status-left">
           <div class="status-dot" id="status-dot"></div>
-          <span id="status-text">Ready</span>
+          <span id="status-text">Ready — load a preset or initialize a grid</span>
         </div>
         <span class="stats" id="stats-text"></span>
       </div>
-    </div>
 
+      <!-- Progress bar -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <!-- Nonogram grid (clues are inline) -->
+      <div class="panel" style="padding:12px; overflow:hidden;">
+        <div id="grid-scroll" style="overflow:auto; width:100%;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Library ──────────────────────────────────────────────────────────── -->
+  <div class="panel library-panel">
+    <div class="panel-title">Solved Library</div>
+    <div class="library-grid" id="library-grid">
+      <div class="library-empty">No puzzles saved yet — solve one to add it here.</div>
+    </div>
   </div>
 
   <script src="nonogram_solver.js"></script>

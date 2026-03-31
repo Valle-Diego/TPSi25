@@ -1,29 +1,27 @@
-/* ─── Variables ─────────────────────────────────────────────────────────────── */
+/* ─── Variables ──────────────────────────────────────────────────────────────── */
 :root {
-  --bg: #0d0d0f;
-  --surface: #16161a;
-  --panel: #1c1c22;
-  --border: #2a2a35;
-  --accent: #c8f060;
-  --accent2: #60c8f0;
-  --filled: #c8f060;
-  --empty: #0d0d0f;
-  --unknown: #1c1c22;
-  --text: #e8e8f0;
-  --muted: #6a6a80;
-  --error: #f06060;
-  --font-mono: 'Space Mono', monospace;
+  --bg:        #0d0d0f;
+  --surface:   #16161a;
+  --panel:     #1c1c22;
+  --border:    #2a2a35;
+  --accent:    #c8f060;
+  --accent2:   #60c8f0;
+  --filled:    #c8f060;
+  --empty:     #0d0d0f;
+  --unknown:   #1c1c22;
+  --text:      #e8e8f0;
+  --muted:     #6a6a80;
+  --error:     #f06060;
+  --warn:      #f0c060;
+  --font-mono:    'Space Mono', monospace;
   --font-display: 'Syne', sans-serif;
+  --cell: 18px;  /* cell size – scaled down for large grids via JS */
 }
 
-/* ─── Reset ──────────────────────────────────────────────────────────────────── */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* ─── Reset ───────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ─── Body ───────────────────────────────────────────────────────────────────── */
+/* ─── Body ────────────────────────────────────────────────────────────────────── */
 body {
   background: var(--bg);
   color: var(--text);
@@ -32,18 +30,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32px 16px;
-  gap: 32px;
+  padding: 28px 16px 48px;
+  gap: 28px;
 }
 
-/* ─── Header ─────────────────────────────────────────────────────────────────── */
-header {
-  text-align: center;
-}
+/* ─── Header ──────────────────────────────────────────────────────────────────── */
+header { text-align: center; }
 
 header h1 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.8rem, 4vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1;
@@ -54,62 +50,61 @@ header h1 {
 }
 
 header p {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--muted);
-  margin-top: 6px;
-  letter-spacing: 0.1em;
+  margin-top: 5px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-/* ─── Layout ─────────────────────────────────────────────────────────────────── */
-.main-layout {
+/* ─── App Shell ───────────────────────────────────────────────────────────────── */
+.app-shell {
   display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 20px;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1400px;
+  align-items: flex-start;
 }
 
-/* ─── Panels ─────────────────────────────────────────────────────────────────── */
+/* ─── Sidebar ─────────────────────────────────────────────────────────────────── */
+.sidebar {
+  flex: 0 0 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── Panel ───────────────────────────────────────────────────────────────────── */
 .panel {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
+  border-radius: 10px;
+  padding: 18px;
 }
 
-.panel h2 {
+.panel-title {
   font-family: var(--font-display);
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
-.setup-panel {
-  flex: 0 0 260px;
-}
-
-.clue-panel {
-  flex: 1 1 300px;
-}
-
-/* ─── Form Fields ────────────────────────────────────────────────────────────── */
+/* ─── Form Fields ─────────────────────────────────────────────────────────────── */
 .field-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .field-row label {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--muted);
-  letter-spacing: 0.08em;
-  width: 70px;
+  letter-spacing: 0.06em;
+  width: 64px;
   flex-shrink: 0;
 }
 
@@ -118,156 +113,96 @@ input[type="number"] {
   border: 1px solid var(--border);
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 0.85rem;
-  padding: 7px 10px;
-  border-radius: 6px;
-  width: 70px;
+  font-size: 0.82rem;
+  padding: 6px 9px;
+  border-radius: 5px;
+  width: 64px;
   outline: none;
   transition: border-color 0.2s;
 }
+input[type="number"]:focus { border-color: var(--accent); }
 
-input[type="number"]:focus {
-  border-color: var(--accent);
-}
-
-/* ─── Buttons ────────────────────────────────────────────────────────────────── */
-button {
+input[type="text"].title-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
   font-family: var(--font-mono);
   font-size: 0.75rem;
+  padding: 6px 9px;
+  border-radius: 5px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 10px;
+}
+input[type="text"].title-input:focus { border-color: var(--accent); }
+
+/* ─── Buttons ─────────────────────────────────────────────────────────────────── */
+button {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   border: none;
-  border-radius: 6px;
-  padding: 9px 18px;
+  border-radius: 5px;
+  padding: 8px 14px;
   cursor: pointer;
   transition: all 0.15s;
+  white-space: nowrap;
 }
 
 .btn-primary {
   background: var(--accent);
   color: #0d0d0f;
   width: 100%;
-  padding: 11px;
-  font-size: 0.8rem;
+  padding: 10px;
 }
-
-.btn-primary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-.btn-primary:active {
-  transform: translateY(0);
-}
+.btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
 
 .btn-secondary {
   background: var(--surface);
   color: var(--muted);
   border: 1px solid var(--border);
+  flex: 1;
 }
-
-.btn-secondary:hover {
-  color: var(--text);
-  border-color: var(--muted);
-}
+.btn-secondary:hover { color: var(--text); border-color: var(--muted); }
 
 .btn-solve {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   color: #0d0d0f;
   width: 100%;
-  padding: 13px;
-  font-size: 0.85rem;
+  padding: 12px;
+  font-size: 0.8rem;
   font-weight: 700;
-  margin-top: 8px;
-  border-radius: 8px;
-}
-
-.btn-solve:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-.btn-solve:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.btn-row {
-  display: flex;
-  gap: 8px;
+  border-radius: 7px;
   margin-top: 4px;
 }
+.btn-solve:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.btn-solve:disabled { opacity: 0.35; cursor: not-allowed; transform: none; filter: none; }
 
-/* ─── Clues Section ──────────────────────────────────────────────────────────── */
-.clues-section {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
+.btn-danger {
+  background: transparent;
+  color: var(--error);
+  border: 1px solid var(--error);
+  opacity: 0.7;
 }
+.btn-danger:hover { opacity: 1; }
 
-.clue-group {
-  flex: 1 1 140px;
-}
+.btn-row { display: flex; gap: 6px; margin-top: 6px; }
 
-.clue-group h3 {
-  font-size: 0.7rem;
-  color: var(--accent2);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.clue-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.clue-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.clue-label {
-  font-size: 0.65rem;
-  color: var(--muted);
-  width: 22px;
-  text-align: right;
-  flex-shrink: 0;
-}
-
-.clue-input {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  padding: 5px 8px;
-  border-radius: 5px;
-  outline: none;
-  flex: 1;
-  min-width: 0;
-  transition: border-color 0.2s;
-}
-
-.clue-input:focus {
-  border-color: var(--accent);
-}
-
-/* ─── Presets ────────────────────────────────────────────────────────────────── */
+/* ─── Presets ─────────────────────────────────────────────────────────────────── */
 .presets {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .preset-btn {
-  font-size: 0.65rem;
-  padding: 5px 10px;
+  font-size: 0.62rem;
+  padding: 4px 9px;
   background: var(--surface);
   color: var(--muted);
   border: 1px solid var(--border);
@@ -275,149 +210,51 @@ button {
   cursor: pointer;
   transition: all 0.15s;
 }
+.preset-btn:hover { color: var(--accent); border-color: var(--accent); }
 
-.preset-btn:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
-/* ─── Grid Wrapper ───────────────────────────────────────────────────────────── */
-.grid-wrapper {
+/* ─── Main content area ───────────────────────────────────────────────────────── */
+.main-area {
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 16px;
-  flex: 2 1 400px;
-  min-width: 0;
 }
 
-#grid-container {
-  overflow: auto;
-  max-width: 100%;
-}
-
-/* ─── Nonogram Grid ──────────────────────────────────────────────────────────── */
-.nonogram-grid {
-  display: inline-block;
-  border: 2px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.grid-table {
-  border-collapse: collapse;
-}
-
-.grid-table td {
-  border: 1px solid var(--border);
-}
-
-.clue-cell {
-  background: var(--surface);
-  color: var(--text);
-  font-size: 0.62rem;
-  text-align: center;
-  padding: 2px 3px;
-  min-width: 18px;
-  min-height: 18px;
-  white-space: nowrap;
-  vertical-align: bottom;
-}
-
-.clue-cell.col-clue {
-  vertical-align: bottom;
-  writing-mode: horizontal-tb;
-  line-height: 1.4;
-}
-
-.clue-corner {
-  background: #111115;
-}
-
-/* ─── Grid Cells ─────────────────────────────────────────────────────────────── */
-.cell {
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  transition: background 0.08s;
-}
-
-.cell.filled {
-  background: var(--filled);
-}
-
-.cell.empty {
-  background: var(--empty);
-}
-
-.cell.unknown {
-  background: var(--unknown);
-}
-
-.cell.partial {
-  background: linear-gradient(135deg, var(--accent) 50%, var(--unknown) 50%);
-  opacity: 0.5;
-}
-
-/* Thick borders every 5 cells */
-.cell.border-right {
-  border-right: 2px solid var(--border) !important;
-}
-
-.cell.border-bottom {
-  border-bottom: 2px solid var(--border) !important;
-}
-
-/* ─── Status Bar ─────────────────────────────────────────────────────────────── */
+/* ─── Status / progress bar ───────────────────────────────────────────────────── */
 .status-bar {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 0.72rem;
+  gap: 10px;
+  font-size: 0.68rem;
   color: var(--muted);
-  padding: 10px 16px;
+  padding: 9px 14px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  width: 100%;
+  border-radius: 7px;
   justify-content: space-between;
 }
 
+.status-left { display: flex; align-items: center; gap: 8px; }
+
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px; height: 7px;
   border-radius: 50%;
   background: var(--muted);
   flex-shrink: 0;
 }
+.status-dot.solving { background: var(--accent2); animation: pulse 0.8s ease-in-out infinite; }
+.status-dot.solved  { background: var(--accent); }
+.status-dot.error   { background: var(--error); }
 
-.status-dot.solving {
-  background: var(--accent2);
-  animation: pulse 0.8s ease-in-out infinite;
-}
+.stats { font-size: 0.62rem; color: var(--muted); }
 
-.status-dot.solved {
-  background: var(--accent);
-}
-
-.status-dot.error {
-  background: var(--error);
-}
-
-.stats {
-  font-size: 0.65rem;
-  color: var(--muted);
-}
-
-/* ─── Progress Bar ───────────────────────────────────────────────────────────── */
 .progress-bar-wrap {
-  width: 100%;
   height: 3px;
   background: var(--surface);
   border-radius: 2px;
   overflow: hidden;
 }
-
 .progress-bar {
   height: 100%;
   background: linear-gradient(90deg, var(--accent), var(--accent2));
@@ -425,8 +262,189 @@ button {
   width: 0%;
 }
 
-/* ─── Animations ─────────────────────────────────────────────────────────────── */
+/* ─── Nonogram grid wrapper ───────────────────────────────────────────────────── */
+.grid-scroll {
+  overflow: auto;
+  width: 100%;
+  padding-bottom: 4px;
+}
+
+/* ─── Nonogram TABLE ──────────────────────────────────────────────────────────── */
+.nonogram-table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* corner */
+.nonogram-table .corner-cell {
+  background: var(--bg);
+}
+
+/* column clue cells (top header) */
+.col-clue-cell {
+  background: var(--surface);
+  vertical-align: bottom;
+  text-align: center;
+  padding: 2px 1px;
+  width: var(--cell);
+  min-width: var(--cell);
+  position: relative;
+}
+
+/* editable clue input inside col-header cell */
+.col-clue-cell .col-clue-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-align: center;
+  cursor: text;
+  padding: 0;
+  line-height: 1.4;
+  /* display each number on its own line */
+  white-space: pre-wrap;
+  word-break: break-all;
+  resize: none;
+  overflow: hidden;
+  min-height: 14px;
+}
+.col-clue-cell .col-clue-input:focus { background: rgba(200,240,96,0.06); }
+.col-clue-cell .col-clue-input::placeholder { color: var(--border); }
+
+/* row clue cell (left header) */
+.row-clue-cell {
+  background: var(--surface);
+  text-align: right;
+  vertical-align: middle;
+  padding: 1px 4px 1px 2px;
+  height: var(--cell);
+  min-height: var(--cell);
+  white-space: nowrap;
+}
+
+.row-clue-cell input.row-clue-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-align: right;
+  cursor: text;
+  padding: 0;
+  width: 100%;
+  min-width: 40px;
+}
+.row-clue-cell input.row-clue-input:focus { background: rgba(200,240,96,0.06); }
+.row-clue-cell input.row-clue-input::placeholder { color: var(--border); }
+
+/* data cells */
+.data-cell {
+  width: var(--cell);
+  min-width: var(--cell);
+  height: var(--cell);
+  min-height: var(--cell);
+  cursor: pointer;
+  transition: background 0.07s;
+  border: 1px solid var(--border);
+}
+
+.data-cell.filled  { background: var(--filled); }
+.data-cell.empty   { background: var(--empty);  }
+.data-cell.unknown { background: var(--unknown); }
+
+/* group separators every 5 */
+.data-cell.sep-right  { border-right:  2px solid #444455 !important; }
+.data-cell.sep-bottom { border-bottom: 2px solid #444455 !important; }
+
+/* ─── Library panel ───────────────────────────────────────────────────────────── */
+.library-panel {
+  width: 100%;
+  max-width: 1400px;
+}
+
+.library-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.library-empty {
+  font-size: 0.72rem;
+  color: var(--muted);
+  padding: 12px 0;
+}
+
+.lib-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 120px;
+}
+.lib-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+.lib-card-title {
+  font-size: 0.65rem;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.lib-card-meta {
+  font-size: 0.58rem;
+  color: var(--muted);
+}
+
+.lib-delete {
+  font-size: 0.6rem;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  transition: color 0.12s;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.lib-delete:hover { color: var(--error); }
+
+/* mini canvas preview in library */
+.lib-preview {
+  image-rendering: pixelated;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+/* ─── Animations ──────────────────────────────────────────────────────────────── */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  50%       { opacity: 0.25; }
+}
+
+/* ─── Scrollbar styling ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ─── Responsive ──────────────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .app-shell { flex-direction: column; }
+  .sidebar { flex: none; width: 100%; }
 }
