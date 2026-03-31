@@ -12,19 +12,61 @@ let solving  = false;
 
 // ─── Presets ──────────────────────────────────────────────────────────────────
 const PRESETS = {
-  heart:   { rows: 14,  cols: 15,  rowClues: [[4,4],[2,2,6],[2,12],[2,12],[2,12],[2,12],[15],[13],[11],[9],[7],[5],[3],[1]], colClues: [[5],[7],[2,3],[1,8],[1,9],[12],[12],[12],[12],[12],[11],[10],[9],[7],[5]] },
-  diamond: { rows: 9,  cols: 9,  rowClues: [[1],[3],[5],[7],[9],[7],[5],[3],[1]], colClues: [[1],[3],[5],[7],[9],[7],[5],[3],[1]] },
-  smile:   { rows: 10, cols: 10, rowClues: [[10],[3,3],[2,1,1,2],[1,1,1,1],[1,1],[1,1,1,1],[1,4,1],[2,2,2],[3,3],[10]], colClues: [[10],[3,3],[2,1,2],[1,2,1,1],[1,2,1],[1,2,1],[1,2,1,1],[2,1,2],[3,3],[10]] },
+  heart: {
+    rows: 9, cols: 9,
+    rowClues: [[3,3],[5,5],[9],[9],[7],[5],[3],[1],[]],
+    colClues:  [[1],[3,1],[5,1],[7],[5,1],[7],[5,1],[3,1],[1]]
+  },
+  cross: {
+    rows: 9, cols: 9,
+    rowClues: [[1],[1],[9],[1],[1],[9],[1],[1],[1]],
+    colClues:  [[1],[1],[9],[1],[9],[1],[9],[1],[1]]
+  },
+  diamond: {
+    rows: 9, cols: 9,
+    rowClues: [[1],[3],[5],[7],[9],[7],[5],[3],[1]],
+    colClues:  [[1],[3],[5],[7],[9],[7],[5],[3],[1]]
+  },
+  smile: {
+    rows: 10, cols: 10,
+    rowClues: [[2,2],[4,4],[1,4,1],[1,1],[2],[1,1],[2,2],[4,4],[1,4,1],[]],
+    colClues:  [[],[2],[1,3],[1,4],[6],[6],[1,4],[1,3],[2],[]]
+  },
+  arrow: {
+    rows: 9, cols: 9,
+    rowClues: [[1],[2],[3],[4],[9],[4],[3],[2],[1]],
+    colClues:  [[5],[6],[7],[8],[9],[4],[3],[2],[1]]
+  }
+};
+
+// Validate that a preset's clues are self-consistent before loading
+function validatePreset(p) {
+  const rowSum = p.rowClues.reduce((a, c) => a + c.reduce((x, y) => x + y, 0), 0);
+  const colSum = p.colClues.reduce((a, c) => a + c.reduce((x, y) => x + y, 0), 0);
+  if (rowSum !== colSum) {
+    console.error(`Preset invalid: rowSum=${rowSum} colSum=${colSum}`);
+    return false;
+  }
+  if (p.rowClues.length !== p.rows || p.colClues.length !== p.cols) {
+    console.error(`Preset invalid: clue count mismatch`);
+    return false;
+  }
+  return true;
 }
+
 function loadPreset(name) {
   const p = PRESETS[name];
   if (!p) return;
+  if (!validatePreset(p)) {
+    setStatus('error', `Preset "${name}" has invalid clues`);
+    return;
+  }
   numRows  = p.rows;
   numCols  = p.cols;
   rowClues = p.rowClues.map(c => [...c]);
   colClues = p.colClues.map(c => [...c]);
-  document.getElementById('num-rows').value    = numRows;
-  document.getElementById('num-cols').value    = numCols;
+  document.getElementById('num-rows').value     = numRows;
+  document.getElementById('num-cols').value     = numCols;
   document.getElementById('puzzle-title').value = capitalize(name);
   grid = blankGrid();
   buildTable();
@@ -49,15 +91,18 @@ function clueStr(arr) {
   return arr.length ? arr.join(' ') : '';
 }
 
+// Cell size in px — always square
 function cellSize() {
   const big = Math.max(numRows, numCols);
-  if (big <= 15) return 22;
-  if (big <= 25) return 18;
-  if (big <= 35) return 14;
-  return 11;
+  if (big <= 15) return 24;
+  if (big <= 25) return 20;
+  if (big <= 35) return 15;
+  return 12;
 }
 
-// ─── Init button ──────────────────────────────────────────────────────────────
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+// ─── Button listeners ─────────────────────────────────────────────────────────
 document.getElementById('init-btn').addEventListener('click', () => {
   const r = clamp(parseInt(document.getElementById('num-rows').value) || 10, 1, MAX_DIM);
   const c = clamp(parseInt(document.getElementById('num-cols').value) || 10, 1, MAX_DIM);
@@ -87,40 +132,56 @@ document.getElementById('reset-btn').addEventListener('click', () => {
   setStatus('idle', 'Clues & grid reset');
 });
 
-function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-
-// ─── Build the full table (called on init / preset / reset) ───────────────────
+// ─── Build the full table ─────────────────────────────────────────────────────
 function buildTable() {
-  const cs   = cellSize();
-  const rqw  = Math.max(48, Math.max(...rowClues.map(c => clueStr(c).length), 3) * 7 + 10);
+  const cs  = cellSize();   // cell size in px — used for BOTH width and height
+  const rcw = rowClueWidth(); // width of the left row-clue column
 
   const scroll = document.getElementById('grid-scroll');
 
-  // ── thead: corner + one <th> per column ──────────────────────────────────
+  // We build a single <table>. The critical rule: every <td> and <th> that
+  // represents a puzzle cell gets explicit style="width:Xpx;height:Xpx" so
+  // the browser never compresses them. The corner cell sets the left-column width.
+
   let html = `<table class="nonogram-table" id="nono-table">`;
+
+  // ── thead row: corner + column clue cells ─────────────────────────────────
+  // Header height = enough for the tallest column clue (up to ~6 numbers stacked)
+  const maxColClueNums = Math.max(...colClues.map(c => c.length), 1);
+  // each number line is ~(cs * 0.8) tall in the textarea, plus padding
+  const headerH = Math.max(maxColClueNums * 14 + 6, 22);
+
   html += `<thead><tr>`;
-  html += `<th class="corner-cell" style="width:${rqw}px;min-width:${rqw}px;"></th>`;
+  // corner — its width anchors the row-clue column; height anchors the header row
+  html += `<th class="corner-cell" style="width:${rcw}px;min-width:${rcw}px;height:${headerH}px;"></th>`;
 
   for (let j = 0; j < numCols; j++) {
     const sepR = (j + 1) % 5 === 0 ? ' sep-right' : '';
-    html += `<th class="col-clue-th${sepR}" style="width:${cs}px;min-width:${cs}px;">
-      <textarea class="col-clue-ta" id="ci-${j}" placeholder="…" rows="1">${clueStr(colClues[j])}</textarea>
-    </th>`;
+    // width AND min-width both set — forces fixed layout to respect cell size
+    html += `<th class="col-clue-th${sepR}" style="width:${cs}px;min-width:${cs}px;height:${headerH}px;">`;
+    html += `<textarea class="col-clue-ta" id="ci-${j}" placeholder="…">${clueStr(colClues[j])}</textarea>`;
+    html += `</th>`;
   }
   html += `</tr></thead>`;
 
-  // ── tbody: one row per puzzle row ─────────────────────────────────────────
+  // ── tbody: one tr per puzzle row ──────────────────────────────────────────
   html += `<tbody>`;
   for (let i = 0; i < numRows; i++) {
     const sepB = (i + 1) % 5 === 0 ? ' sep-bottom' : '';
     html += `<tr>`;
-    html += `<td class="row-clue-td" style="width:${rqw}px;height:${cs}px;">
-      <input class="row-clue-input" id="ri-${i}" type="text" placeholder="…" value="${clueStr(rowClues[i])}">
-    </td>`;
+    // row-clue cell — same height as a data cell
+    html += `<td class="row-clue-td" style="width:${rcw}px;min-width:${rcw}px;height:${cs}px;">`;
+    html += `<input class="row-clue-input" id="ri-${i}" type="text" placeholder="…" value="${clueStr(rowClues[i])}">`;
+    html += `</td>`;
+    // data cells
     for (let j = 0; j < numCols; j++) {
       const sepR = (j + 1) % 5 === 0 ? ' sep-right' : '';
       const cls  = cellClass(grid[i][j]);
-      html += `<td class="data-cell ${cls}${sepR}${sepB}" style="width:${cs}px;height:${cs}px;" data-i="${i}" data-j="${j}"></td>`;
+      // Both width AND height explicitly set on every data cell — this is what
+      // guarantees square cells regardless of table-layout behaviour.
+      html += `<td class="data-cell ${cls}${sepR}${sepB}"`;
+      html += ` style="width:${cs}px;min-width:${cs}px;height:${cs}px;min-height:${cs}px;"`;
+      html += ` data-i="${i}" data-j="${j}"></td>`;
     }
     html += `</tr>`;
   }
@@ -128,25 +189,25 @@ function buildTable() {
 
   scroll.innerHTML = html;
 
-  // ── attach events ─────────────────────────────────────────────────────────
+  // ── wire up events ────────────────────────────────────────────────────────
 
-  // column clue textareas
+  // Column clue textareas
   for (let j = 0; j < numCols; j++) {
     const ta = document.getElementById(`ci-${j}`);
     if (!ta) continue;
-    autoResize(ta);
-    ta.addEventListener('input',  () => { autoResize(ta); colClues[j] = parseClue(ta.value); });
+    ta.addEventListener('input',  () => { colClues[j] = parseClue(ta.value); });
     ta.addEventListener('change', () => { colClues[j] = parseClue(ta.value); });
   }
 
-  // row clue inputs
+  // Row clue inputs
   for (let i = 0; i < numRows; i++) {
     const inp = document.getElementById(`ri-${i}`);
     if (!inp) continue;
+    inp.addEventListener('input',  () => { rowClues[i] = parseClue(inp.value); });
     inp.addEventListener('change', () => { rowClues[i] = parseClue(inp.value); });
   }
 
-  // data cells via event delegation on tbody
+  // Data cell clicks via delegation
   const tbody = scroll.querySelector('tbody');
   tbody.addEventListener('click', e => {
     const td = e.target.closest('.data-cell');
@@ -154,35 +215,36 @@ function buildTable() {
     const i = parseInt(td.dataset.i);
     const j = parseInt(td.dataset.j);
     grid[i][j] = grid[i][j] === 0 ? 1 : grid[i][j] === 1 ? -1 : 0;
-    td.className = td.className.replace(/\b(filled|empty|unknown)\b/g, cellClass(grid[i][j]));
+    updateCellClass(td, grid[i][j]);
   });
+}
 
-  // auto-resize all textareas now that they're in the DOM
-  requestAnimationFrame(() => {
-    document.querySelectorAll('.col-clue-ta').forEach(autoResize);
-  });
+// ── compute a sensible width for the row-clue column ─────────────────────────
+function rowClueWidth() {
+  const maxLen = Math.max(...rowClues.map(c => clueStr(c).length), 3);
+  // ~7px per character, minimum 48px
+  return Math.max(48, maxLen * 7 + 12);
 }
 
 function cellClass(v) {
   return v === 1 ? 'filled' : v === -1 ? 'empty' : 'unknown';
 }
 
-function autoResize(ta) {
-  ta.style.height = 'auto';
-  ta.style.height = ta.scrollHeight + 'px';
+function updateCellClass(td, v) {
+  td.classList.remove('filled', 'empty', 'unknown');
+  td.classList.add(cellClass(v));
 }
 
-// only refresh cell backgrounds without rebuilding the table
+// Refresh only cell colours (after solving) without rebuilding the table
 function refreshCells() {
-  const tds = document.querySelectorAll('#nono-table .data-cell');
-  tds.forEach(td => {
+  document.querySelectorAll('#nono-table .data-cell').forEach(td => {
     const i = parseInt(td.dataset.i);
     const j = parseInt(td.dataset.j);
-    td.className = td.className.replace(/\b(filled|empty|unknown)\b/g, cellClass(grid[i][j]));
+    updateCellClass(td, grid[i][j]);
   });
 }
 
-// ─── Read clues from live inputs ──────────────────────────────────────────────
+// ─── Read all clues from the live inputs ──────────────────────────────────────
 function readAllClues() {
   for (let i = 0; i < numRows; i++) {
     const el = document.getElementById(`ri-${i}`);
@@ -331,7 +393,7 @@ document.getElementById('solve-btn').addEventListener('click', async () => {
   setProgress(10);
 
   const t0 = performance.now();
-  await new Promise(r => setTimeout(r, 30));  // let the browser paint
+  await new Promise(r => setTimeout(r, 30));
   setProgress(35);
 
   let result;
@@ -362,8 +424,8 @@ document.getElementById('solve-btn').addEventListener('click', async () => {
 });
 
 // ─── Library ──────────────────────────────────────────────────────────────────
-function loadLib()    { try { return JSON.parse(localStorage.getItem(LIBRARY_KEY)) || []; } catch { return []; } }
-function persistLib(l){ localStorage.setItem(LIBRARY_KEY, JSON.stringify(l)); }
+function loadLib()     { try { return JSON.parse(localStorage.getItem(LIBRARY_KEY)) || []; } catch { return []; } }
+function persistLib(l) { localStorage.setItem(LIBRARY_KEY, JSON.stringify(l)); }
 
 function fingerprint(rC, cC) {
   return rC.map(c => c.join(',')).join('|') + '§' + cC.map(c => c.join(',')).join('|');
@@ -402,8 +464,8 @@ function loadFromLibrary(id) {
   rowClues = e.rowClues.map(c => [...c]);
   colClues = e.colClues.map(c => [...c]);
   grid     = e.grid.map(r => [...r]);
-  document.getElementById('num-rows').value    = numRows;
-  document.getElementById('num-cols').value    = numCols;
+  document.getElementById('num-rows').value     = numRows;
+  document.getElementById('num-cols').value     = numCols;
   document.getElementById('puzzle-title').value = e.title;
   buildTable();
   document.getElementById('solve-btn').disabled = false;
