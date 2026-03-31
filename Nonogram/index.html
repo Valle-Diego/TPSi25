@@ -14,18 +14,18 @@
     <p>Constraint propagation + backtracking · up to 50×50</p>
   </header>
 
-  <!-- ── App shell: sidebar + main ── -->
   <div class="app-shell">
 
-    <!-- ── Sidebar ─────────────────────────────────────────────────────────── -->
+    <!-- ── Sidebar ── -->
     <aside class="sidebar">
 
-      <!-- Setup -->
       <div class="panel">
         <div class="panel-title">New Puzzle</div>
 
-        <input type="text" class="title-input" id="puzzle-title" placeholder="Puzzle name (optional)">
-
+        <div class="field-row">
+          <label for="puzzle-title">Name</label>
+          <input type="text" id="puzzle-title" class="text-input" placeholder="optional…">
+        </div>
         <div class="field-row">
           <label for="num-rows">Rows</label>
           <input type="number" id="num-rows" value="10" min="1" max="50">
@@ -37,7 +37,7 @@
 
         <button class="btn-primary" id="init-btn">Initialize Grid</button>
 
-        <div style="margin-top:14px;">
+        <div style="margin-top:16px;">
           <div class="panel-title">Presets</div>
           <div class="presets">
             <div class="preset-btn" onclick="loadPreset('heart')">❤ Heart</div>
@@ -49,7 +49,6 @@
         </div>
       </div>
 
-      <!-- Actions -->
       <div class="panel">
         <div class="panel-title">Actions</div>
         <button class="btn-solve" id="solve-btn" disabled>▶ Solve</button>
@@ -59,47 +58,43 @@
         </div>
       </div>
 
-      <!-- How to -->
-      <div class="panel" style="font-size:0.65rem;color:var(--muted);line-height:1.7;">
+      <div class="panel hint-box">
         <div class="panel-title">How to use</div>
         <p>1. Set size &amp; click <em>Initialize</em>.</p>
-        <p>2. Type clues <strong>directly</strong> above each column and left of each row (space-separated).</p>
-        <p>3. Click <em>Solve</em> — the solution appears instantly.</p>
-        <p>4. Each solved puzzle is auto-saved to the library below.</p>
-        <p>Click any cell to toggle it manually.</p>
+        <p>2. Type clues directly on the grid — above each column, left of each row.</p>
+        <p>3. Click <em>Solve</em>.</p>
+        <p>4. Solved puzzles are auto-saved to the library below.</p>
+        <p style="margin-top:6px;color:var(--border)">Click a cell to toggle it manually.</p>
       </div>
 
     </aside>
 
-    <!-- ── Main area ───────────────────────────────────────────────────────── -->
+    <!-- ── Main area ── -->
     <div class="main-area">
 
-      <!-- Status bar -->
       <div class="status-bar">
         <div class="status-left">
           <div class="status-dot" id="status-dot"></div>
-          <span id="status-text">Ready — load a preset or initialize a grid</span>
+          <span id="status-text">Load a preset or initialize a grid</span>
         </div>
         <span class="stats" id="stats-text"></span>
       </div>
 
-      <!-- Progress bar -->
       <div class="progress-bar-wrap">
         <div class="progress-bar" id="progress-bar"></div>
       </div>
 
-      <!-- Nonogram grid (clues are inline) -->
-      <div class="panel" style="padding:12px; overflow:hidden;">
-        <div id="grid-scroll" style="overflow:auto; width:100%;"></div>
+      <div class="panel grid-panel">
+        <div id="grid-scroll"></div>
       </div>
 
     </div>
   </div>
 
-  <!-- ── Library ──────────────────────────────────────────────────────────── -->
+  <!-- ── Library ── -->
   <div class="panel library-panel">
     <div class="panel-title">Solved Library</div>
-    <div class="library-grid" id="library-grid">
+    <div id="library-grid" class="library-grid">
       <div class="library-empty">No puzzles saved yet — solve one to add it here.</div>
     </div>
   </div>

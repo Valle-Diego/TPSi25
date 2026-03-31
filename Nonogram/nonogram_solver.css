@@ -1,27 +1,26 @@
-/* ─── Variables ──────────────────────────────────────────────────────────────── */
+/* ─── Variables ── */
 :root {
-  --bg:        #0d0d0f;
-  --surface:   #16161a;
-  --panel:     #1c1c22;
-  --border:    #2a2a35;
-  --accent:    #c8f060;
-  --accent2:   #60c8f0;
-  --filled:    #c8f060;
-  --empty:     #0d0d0f;
-  --unknown:   #1c1c22;
-  --text:      #e8e8f0;
-  --muted:     #6a6a80;
-  --error:     #f06060;
-  --warn:      #f0c060;
+  --bg:           #0d0d0f;
+  --surface:      #16161a;
+  --panel:        #1c1c22;
+  --border:       #2a2a35;
+  --sep:          #3a3a50;
+  --accent:       #c8f060;
+  --accent2:      #60c8f0;
+  --filled:       #c8f060;
+  --empty:        #0d0d0f;
+  --unknown:      #1c1c22;
+  --text:         #e8e8f0;
+  --muted:        #6a6a80;
+  --error:        #f06060;
   --font-mono:    'Space Mono', monospace;
-  --font-display: 'Syne', sans-serif;
-  --cell: 18px;  /* cell size – scaled down for large grids via JS */
+  --font-ui:      'Syne', sans-serif;
 }
 
-/* ─── Reset ───────────────────────────────────────────────────────────────────── */
+/* ─── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ─── Body ────────────────────────────────────────────────────────────────────── */
+/* ─── Body ── */
 body {
   background: var(--bg);
   color: var(--text);
@@ -30,15 +29,15 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 16px 48px;
-  gap: 28px;
+  padding: 28px 16px 56px;
+  gap: 24px;
 }
 
-/* ─── Header ──────────────────────────────────────────────────────────────────── */
+/* ─── Header ── */
 header { text-align: center; }
 
 header h1 {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: clamp(1.8rem, 4vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -50,97 +49,102 @@ header h1 {
 }
 
 header p {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--muted);
   margin-top: 5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-/* ─── App Shell ───────────────────────────────────────────────────────────────── */
+/* ─── Shell ── */
 .app-shell {
   display: flex;
-  gap: 20px;
+  gap: 18px;
   width: 100%;
   max-width: 1400px;
   align-items: flex-start;
 }
 
-/* ─── Sidebar ─────────────────────────────────────────────────────────────────── */
+/* ─── Sidebar ── */
 .sidebar {
-  flex: 0 0 230px;
+  flex: 0 0 210px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
-/* ─── Panel ───────────────────────────────────────────────────────────────────── */
+/* ─── Panel ── */
 .panel {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 18px;
+  padding: 16px;
 }
 
 .panel-title {
-  font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
-/* ─── Form Fields ─────────────────────────────────────────────────────────────── */
+/* ─── Field rows ── */
 .field-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 9px;
 }
 
 .field-row label {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   color: var(--muted);
   letter-spacing: 0.06em;
-  width: 64px;
+  width: 48px;
   flex-shrink: 0;
 }
 
+/* number input */
 input[type="number"] {
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 0.82rem;
-  padding: 6px 9px;
+  font-size: 0.8rem;
+  padding: 6px 8px;
   border-radius: 5px;
   width: 64px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.18s;
+  -moz-appearance: textfield;
 }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
 input[type="number"]:focus { border-color: var(--accent); }
 
-input[type="text"].title-input {
+/* text input (name field) */
+input.text-input {
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  padding: 6px 9px;
+  font-size: 0.72rem;
+  padding: 6px 8px;
   border-radius: 5px;
-  width: 100%;
+  flex: 1;
   outline: none;
-  transition: border-color 0.2s;
-  margin-bottom: 10px;
+  transition: border-color 0.18s;
 }
-input[type="text"].title-input:focus { border-color: var(--accent); }
+input.text-input:focus { border-color: var(--accent); }
+input.text-input::placeholder { color: var(--muted); opacity: 0.5; }
 
-/* ─── Buttons ─────────────────────────────────────────────────────────────────── */
+/* ─── Buttons ── */
 button {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -148,8 +152,7 @@ button {
   border-radius: 5px;
   padding: 8px 14px;
   cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
+  transition: all 0.14s;
 }
 
 .btn-primary {
@@ -157,8 +160,9 @@ button {
   color: #0d0d0f;
   width: 100%;
   padding: 10px;
+  margin-top: 2px;
 }
-.btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn-primary:hover  { filter: brightness(1.1); transform: translateY(-1px); }
 .btn-primary:active { transform: translateY(0); }
 
 .btn-secondary {
@@ -173,66 +177,60 @@ button {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   color: #0d0d0f;
   width: 100%;
-  padding: 12px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  padding: 11px;
+  font-size: 0.78rem;
   border-radius: 7px;
-  margin-top: 4px;
 }
-.btn-solve:hover { filter: brightness(1.08); transform: translateY(-1px); }
-.btn-solve:disabled { opacity: 0.35; cursor: not-allowed; transform: none; filter: none; }
+.btn-solve:hover    { filter: brightness(1.08); transform: translateY(-1px); }
+.btn-solve:disabled { opacity: 0.32; cursor: not-allowed; transform: none; filter: none; }
 
-.btn-danger {
-  background: transparent;
-  color: var(--error);
-  border: 1px solid var(--error);
-  opacity: 0.7;
-}
-.btn-danger:hover { opacity: 1; }
+.btn-row { display: flex; gap: 6px; margin-top: 7px; }
 
-.btn-row { display: flex; gap: 6px; margin-top: 6px; }
-
-/* ─── Presets ─────────────────────────────────────────────────────────────────── */
-.presets {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
+/* ─── Presets ── */
+.presets { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
 
 .preset-btn {
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   padding: 4px 9px;
   background: var(--surface);
   color: var(--muted);
   border: 1px solid var(--border);
   border-radius: 20px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.14s;
+  user-select: none;
 }
 .preset-btn:hover { color: var(--accent); border-color: var(--accent); }
 
-/* ─── Main content area ───────────────────────────────────────────────────────── */
+/* ─── Hint box ── */
+.hint-box p {
+  font-size: 0.62rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.hint-box em { color: var(--accent2); font-style: normal; }
+
+/* ─── Main area ── */
 .main-area {
   flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
-/* ─── Status / progress bar ───────────────────────────────────────────────────── */
+/* ─── Status bar ── */
 .status-bar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   color: var(--muted);
-  padding: 9px 14px;
+  padding: 8px 13px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 7px;
-  justify-content: space-between;
 }
 
 .status-left { display: flex; align-items: center; gap: 8px; }
@@ -247,8 +245,9 @@ button {
 .status-dot.solved  { background: var(--accent); }
 .status-dot.error   { background: var(--error); }
 
-.stats { font-size: 0.62rem; color: var(--muted); }
+.stats { font-size: 0.6rem; color: var(--muted); }
 
+/* ─── Progress bar ── */
 .progress-bar-wrap {
   height: 3px;
   background: var(--surface);
@@ -262,37 +261,39 @@ button {
   width: 0%;
 }
 
-/* ─── Nonogram grid wrapper ───────────────────────────────────────────────────── */
-.grid-scroll {
+/* ─── Grid panel ── */
+.grid-panel { padding: 10px; }
+
+#grid-scroll {
   overflow: auto;
   width: 100%;
-  padding-bottom: 4px;
+  max-height: 75vh;
 }
 
-/* ─── Nonogram TABLE ──────────────────────────────────────────────────────────── */
+/* ─── Nonogram table ── */
 .nonogram-table {
   border-collapse: collapse;
   table-layout: fixed;
 }
 
 /* corner */
-.nonogram-table .corner-cell {
+.corner-cell {
   background: var(--bg);
+  border: none;
 }
 
-/* column clue cells (top header) */
-.col-clue-cell {
+/* column clue header cells */
+.col-clue-th {
   background: var(--surface);
+  border: 1px solid var(--border);
   vertical-align: bottom;
   text-align: center;
-  padding: 2px 1px;
-  width: var(--cell);
-  min-width: var(--cell);
-  position: relative;
+  padding: 2px 1px 3px;
 }
 
-/* editable clue input inside col-header cell */
-.col-clue-cell .col-clue-input {
+/* textarea inside each column-clue header */
+.col-clue-ta {
+  display: block;
   width: 100%;
   background: transparent;
   border: none;
@@ -300,32 +301,28 @@ button {
   color: var(--text);
   font-family: var(--font-mono);
   font-size: 0.58rem;
+  line-height: 1.5;
   text-align: center;
-  cursor: text;
-  padding: 0;
-  line-height: 1.4;
-  /* display each number on its own line */
-  white-space: pre-wrap;
-  word-break: break-all;
   resize: none;
   overflow: hidden;
+  padding: 0;
+  cursor: text;
   min-height: 14px;
 }
-.col-clue-cell .col-clue-input:focus { background: rgba(200,240,96,0.06); }
-.col-clue-cell .col-clue-input::placeholder { color: var(--border); }
+.col-clue-ta::placeholder { color: var(--border); }
+.col-clue-ta:focus { background: rgba(200,240,96,0.05); border-radius: 2px; }
 
-/* row clue cell (left header) */
-.row-clue-cell {
+/* row clue cells */
+.row-clue-td {
   background: var(--surface);
+  border: 1px solid var(--border);
   text-align: right;
   vertical-align: middle;
-  padding: 1px 4px 1px 2px;
-  height: var(--cell);
-  min-height: var(--cell);
+  padding: 1px 5px 1px 3px;
   white-space: nowrap;
 }
 
-.row-clue-cell input.row-clue-input {
+.row-clue-input {
   background: transparent;
   border: none;
   outline: none;
@@ -333,34 +330,29 @@ button {
   font-family: var(--font-mono);
   font-size: 0.6rem;
   text-align: right;
+  width: 100%;
   cursor: text;
   padding: 0;
-  width: 100%;
-  min-width: 40px;
 }
-.row-clue-cell input.row-clue-input:focus { background: rgba(200,240,96,0.06); }
-.row-clue-cell input.row-clue-input::placeholder { color: var(--border); }
+.row-clue-input::placeholder { color: var(--border); }
+.row-clue-input:focus { background: rgba(200,240,96,0.05); border-radius: 2px; }
 
 /* data cells */
 .data-cell {
-  width: var(--cell);
-  min-width: var(--cell);
-  height: var(--cell);
-  min-height: var(--cell);
+  border: 1px solid var(--border);
   cursor: pointer;
   transition: background 0.07s;
-  border: 1px solid var(--border);
 }
-
+.data-cell:hover { filter: brightness(1.3); }
 .data-cell.filled  { background: var(--filled); }
-.data-cell.empty   { background: var(--empty);  }
+.data-cell.empty   { background: var(--empty); }
 .data-cell.unknown { background: var(--unknown); }
 
 /* group separators every 5 */
-.data-cell.sep-right  { border-right:  2px solid #444455 !important; }
-.data-cell.sep-bottom { border-bottom: 2px solid #444455 !important; }
+.sep-right  { border-right:  2px solid var(--sep) !important; }
+.sep-bottom { border-bottom: 2px solid var(--sep) !important; }
 
-/* ─── Library panel ───────────────────────────────────────────────────────────── */
+/* ─── Library ── */
 .library-panel {
   width: 100%;
   max-width: 1400px;
@@ -369,14 +361,14 @@ button {
 .library-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
   margin-top: 4px;
 }
 
 .library-empty {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--muted);
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
 .lib-card {
@@ -385,29 +377,24 @@ button {
   border-radius: 8px;
   padding: 10px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.14s;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-width: 120px;
+  gap: 7px;
 }
 .lib-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 
 .lib-card-title {
-  font-size: 0.65rem;
+  font-size: 0.63rem;
   color: var(--text);
   font-weight: 700;
-  letter-spacing: 0.05em;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
 }
 
-.lib-card-meta {
-  font-size: 0.58rem;
-  color: var(--muted);
-}
+.lib-card-meta { font-size: 0.56rem; color: var(--muted); }
 
 .lib-delete {
   font-size: 0.6rem;
@@ -424,27 +411,28 @@ button {
 }
 .lib-delete:hover { color: var(--error); }
 
-/* mini canvas preview in library */
 .lib-preview {
   image-rendering: pixelated;
   border-radius: 3px;
   border: 1px solid var(--border);
+  display: block;
 }
 
-/* ─── Animations ──────────────────────────────────────────────────────────────── */
+/* ─── Animations ── */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.25; }
 }
 
-/* ─── Scrollbar styling ───────────────────────────────────────────────────────── */
+/* ─── Scrollbars ── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-/* ─── Responsive ──────────────────────────────────────────────────────────────── */
-@media (max-width: 700px) {
+/* ─── Responsive ── */
+@media (max-width: 680px) {
   .app-shell { flex-direction: column; }
-  .sidebar { flex: none; width: 100%; }
+  .sidebar   { flex: none; width: 100%; flex-direction: row; flex-wrap: wrap; }
+  .sidebar .panel { flex: 1 1 200px; }
 }
