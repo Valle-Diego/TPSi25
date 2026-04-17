@@ -1,0 +1,144 @@
+/* ============================================================
+   JOY FLUTE ENSEMBLE — Footer
+   ============================================================ */
+
+.footer {
+  background: var(--bg-darker);
+  color: rgba(255,255,255,0.65);
+  padding: 72px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* decorative wave */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--violet), var(--lavender), var(--lilac), var(--violet));
+}
+
+/* background musical pattern */
+.footer-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.03;
+}
+.footer-bg::before {
+  content: "♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬";
+  position: absolute;
+  top: 40px; left: 0; right: 0;
+  font-size: 60px;
+  color: var(--lilac);
+  text-align: center;
+  line-height: 1.6;
+  word-break: break-all;
+}
+
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 28px 56px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Logo col */
+.footer-brand .logo { margin-bottom: 16px; }
+.footer-brand .logo-name  { color: var(--white); }
+.footer-brand .logo-tagline { color: rgba(255,255,255,0.4); }
+.footer-brand .logo-img { border: 2px solid rgba(255,255,255,0.15); }
+
+.footer-desc {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 20px;
+  max-width: 300px;
+}
+
+.footer-social { display: flex; gap: 10px; }
+.footer-social .social-icon {
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.footer-social .social-icon:hover { background: var(--lavender); border-color: var(--lavender); }
+
+/* Columns */
+.footer-col h5 {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--lilac);
+  margin-bottom: 18px;
+}
+
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.5);
+  transition: color var(--t), padding-left var(--t);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.footer-links a::before {
+  content: '';
+  width: 0;
+  height: 1px;
+  background: var(--lavender);
+  transition: width var(--t);
+  flex-shrink: 0;
+}
+.footer-links a:hover {
+  color: var(--white);
+}
+.footer-links a:hover::before { width: 10px; }
+
+/* Contact info */
+.footer-contact { display: flex; flex-direction: column; gap: 12px; }
+.footer-contact-item { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.footer-contact-item strong { display: block; color: rgba(255,255,255,0.7); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+.footer-contact-item a { color: rgba(255,255,255,0.5); }
+.footer-contact-item a:hover { color: var(--lilac); }
+
+/* Bottom bar */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 20px 28px;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.footer-bottom a { color: rgba(255,255,255,0.35); transition: color var(--t); }
+.footer-bottom a:hover { color: var(--lilac); }
+
+.footer-legal { display: flex; gap: 20px; }
+
+@media (max-width: 900px) {
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .footer-legal { flex-wrap: wrap; justify-content: center; }
+}

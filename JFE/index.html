@@ -3,357 +3,432 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Joy Flute Ensemble - Orchestra di Flauto traverso. APS con sede a Garbagnate Milanese.">
+  <meta name="description" content="Joy Flute Ensemble APS – Orchestra di Flauto Traverso con sede a Garbagnate Milanese. Concerti, masterclass ed eventi musicali.">
   <title>Joy Flute Ensemble - APS</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 
-  <!-- ===== TOPBAR ===== -->
-  <div class="topbar">
-    <div class="topbar-inner">
-      <a class="topbar-email" href="mailto:joy.flute.ensemble@gmail.com">joy.flute.ensemble@gmail.com</a>
-      <div class="topbar-social">
-        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook" class="social-icon">
-          <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-            <path d="M512,0C229.2,0,0,229.2,0,512c0,255.6,187.2,467.4,432,505.8V660H302V512h130V399.2C432,270.9,508.4,200,625.4,200c56,0,114.6,10,114.6,10v126h-64.6c-63.6,0-83.4,39.5-83.4,80v96h142l-22.7,148H592v357.8c244.8-38.4,432-250.2,432-505.8C1024,229.2,794.8,0,512,0z"/>
-          </svg>
-        </a>
-        <a href="https://www.youtube.com" target="_blank" aria-label="YouTube" class="social-icon">
-          <svg viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
-            <path d="M180.3,53.4c-2-7.6-8-13.6-15.6-15.7C151,34,96,34,96,34s-55,0-68.8,3.7c-7.6,2-13.5,8-15.6,15.7C8,67.2,8,96,8,96s0,28.8,3.7,42.6c2,7.6,8,13.6,15.6,15.7C41,158,96,158,96,158s55,0,68.8-3.7c7.6-2,13.5-8,15.6-15.7C184,124.8,184,96,184,96S184,67.2,180.3,53.4z M78,122.2V69.8L124,96L78,122.2z"/>
-          </svg>
-        </a>
-      </div>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <a href="mailto:joy.flute.ensemble@gmail.com">joy.flute.ensemble@gmail.com</a>
+      <span class="topbar-sep">·</span>
+      <span>Garbagnate Milanese (Mi)</span>
     </div>
-  </div>
-
-  <!-- ===== HEADER ===== -->
-  <header class="header">
-    <div class="header-inner">
-      <a href="index.html" class="logo">
-        <span class="logo-text">Joy Flute Ensemble</span>
-        <span class="logo-sub">APS</span>
+    <div class="topbar-social">
+      <a href="https://www.facebook.com" target="_blank" class="social-icon" aria-label="Facebook">
+        <svg viewBox="0 0 1024 1024"><path d="M512,0C229.2,0,0,229.2,0,512c0,255.6,187.2,467.4,432,505.8V660H302V512h130V399.2C432,270.9,508.4,200,625.4,200c56,0,114.6,10,114.6,10v126h-64.6c-63.6,0-83.4,39.5-83.4,80v96h142l-22.7,148H592v357.8c244.8-38.4,432-250.2,432-505.8C1024,229.2,794.8,0,512,0z"/></svg>
       </a>
-
-      <!-- HAMBURGER (mobile) -->
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-
-      <!-- NAV -->
-      <nav class="nav" id="nav">
-        <ul class="nav-list">
-          <li><a href="index.html" class="nav-link active">HOME PAGE</a></li>
-          <li><a href="#chi-siamo" class="nav-link">CHI SIAMO</a></li>
-          <li class="has-dropdown">
-            <a href="#ensemble" class="nav-link">ENSEMBLE <span class="arrow">▾</span></a>
-            <ul class="dropdown">
-              <li><a href="#flautisti">I NOSTRI FLAUTISTI</a></li>
-              <li><a href="#foto">FOTO RICORDO</a></li>
-              <li><a href="#video">VIDEO</a></li>
-            </ul>
-          </li>
-          <li class="has-dropdown">
-            <a href="#eventi" class="nav-link">EVENTI <span class="arrow">▾</span></a>
-            <ul class="dropdown">
-              <li><a href="#masterclass">MASTERCLASS Aprile 2024</a></li>
-              <li><a href="#eventi-passati">EVENTI PASSATI</a></li>
-              <li><a href="#prossimo-concerto">PROSSIMO CONCERTO</a></li>
-            </ul>
-          </li>
-          <li class="has-dropdown">
-            <a href="#risorse" class="nav-link">RISORSE e PUBBLICAZIONI <span class="arrow">▾</span></a>
-            <ul class="dropdown">
-              <li><a href="#edizioni">EDIZIONI MUSICALI</a></li>
-              <li><a href="#flauti-acquisto">FLAUTI ACQUISTO</a></li>
-              <li><a href="#repertorio">REPERTORIO</a></li>
-              <li><a href="#partiture">NOSTRE PARTITURE</a></li>
-              <li><a href="#usati">FLAUTI e ACCESSORI USATI</a></li>
-              <li><a href="#biblioteca">BIBLIOTECA JFE-APS</a></li>
-            </ul>
-          </li>
-          <li class="has-dropdown">
-            <a href="#info" class="nav-link">INFORMAZIONI VARIE <span class="arrow">▾</span></a>
-            <ul class="dropdown">
-              <li><a href="#bilanci">BILANCI - REGOLAMENTI</a></li>
-              <li><a href="#contatti">CONTATTI</a></li>
-              <li><a href="#socio">DIVENTA SOCIO JFE-APS</a></li>
-              <li><a href="#statuto">STATUTO</a></li>
-            </ul>
-          </li>
-          <li class="has-dropdown">
-            <a href="#donazioni" class="nav-link">DONAZIONI <span class="arrow">▾</span></a>
-            <ul class="dropdown">
-              <li><a href="#dona">DONAZIONI</a></li>
-              <li><a href="#sostenitori">SOSTENITORI</a></li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
+      <a href="https://www.youtube.com" target="_blank" class="social-icon" aria-label="YouTube">
+        <svg viewBox="0 0 192 192"><path d="M180.3,53.4c-2-7.6-8-13.6-15.6-15.7C151,34,96,34,96,34s-55,0-68.8,3.7c-7.6,2-13.5,8-15.6,15.7C8,67.2,8,96,8,96s0,28.8,3.7,42.6c2,7.6,8,13.6,15.6,15.7C41,158,96,158,96,158s55,0,68.8-3.7c7.6-2,13.5-8,15.6-15.7C184,124.8,184,96,184,96S184,67.2,180.3,53.4z M78,122.2V69.8L124,96L78,122.2z"/></svg>
+      </a>
     </div>
-  </header>
+  </div>
+</div>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="hero-overlay"></div>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Logo Joy Flute Ensemble" class="logo-img">
+      <div class="logo-text-wrap">
+        <span class="logo-name">Joy Flute Ensemble</span>
+        <span class="logo-tagline">Orchestra di Flauto Traverso · APS</span>
+      </div>
+    </a>
+    <nav class="nav" aria-label="Navigazione principale">
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
+        <li class="nav-item"><a href="pages/chi-siamo.html" class="nav-link">Chi Siamo</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Ensemble <svg class="chevron" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="dropdown">
+            <a href="pages/ensemble/flautisti.html"><span class="d-icon">🎵</span>I Nostri Flautisti</a>
+            <a href="pages/ensemble/foto.html"><span class="d-icon">📷</span>Foto Ricordo</a>
+            <a href="pages/ensemble/video.html"><span class="d-icon">▶️</span>Video</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Eventi <svg class="chevron" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="dropdown">
+            <a href="pages/eventi/masterclass.html"><span class="d-icon">🎓</span>Masterclass Aprile 2024</a>
+            <a href="pages/eventi/passati.html"><span class="d-icon">📅</span>Eventi Passati</a>
+            <a href="pages/eventi/prossimo.html"><span class="d-icon">🔔</span>Prossimo Concerto</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Risorse <svg class="chevron" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="dropdown">
+            <a href="pages/risorse/edizioni.html"><span class="d-icon">🎼</span>Edizioni Musicali</a>
+            <a href="pages/risorse/flauti-acquisto.html"><span class="d-icon">🛒</span>Flauti Acquisto</a>
+            <a href="pages/risorse/repertorio.html"><span class="d-icon">📖</span>Repertorio</a>
+            <a href="pages/risorse/partiture.html"><span class="d-icon">📄</span>Nostre Partiture</a>
+            <a href="pages/risorse/usati.html"><span class="d-icon">♻️</span>Flauti &amp; Accessori Usati</a>
+            <a href="pages/risorse/biblioteca.html"><span class="d-icon">📚</span>Biblioteca JFE-APS</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Informazioni <svg class="chevron" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="dropdown">
+            <a href="pages/info/bilanci.html"><span class="d-icon">📋</span>Bilanci &amp; Regolamenti</a>
+            <a href="pages/info/contatti.html"><span class="d-icon">📬</span>Contatti</a>
+            <a href="pages/info/socio.html"><span class="d-icon">🎓</span>Diventa Socio JFE-APS</a>
+            <a href="pages/info/statuto.html"><span class="d-icon">📜</span>Statuto</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Donazioni <svg class="chevron" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="dropdown">
+            <a href="pages/donazioni/dona.html"><span class="d-icon">💜</span>Fai una Donazione</a>
+            <a href="pages/donazioni/sostenitori.html"><span class="d-icon">⭐</span>I Nostri Sostenitori</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <a href="pages/info/contatti.html" class="btn btn-primary btn-sm header-cta">Contattaci</a>
+    <button class="hamburger" id="hamburger" aria-label="Apri menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE DRAWER -->
+<div class="nav-drawer" id="navDrawer">
+  <div class="nav-panel" id="navPanel">
+    <div class="nav-panel-header">
+      <a href="index.html" class="logo">
+        <img src="logo.png" class="logo-img" style="width:40px;height:40px" alt="">
+        <div class="logo-text-wrap">
+          <span class="logo-name" style="font-size:14px">Joy Flute Ensemble</span>
+          <span class="logo-tagline">APS</span>
+        </div>
+      </a>
+      <button class="nav-close" id="navClose">✕</button>
+    </div>
+    <ul class="nav-mobile-list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="pages/chi-siamo.html">Chi Siamo</a></li>
+      <li>
+        <button class="mob-accordion-trigger">Ensemble <span class="mob-chevron">▾</span></button>
+        <div class="mob-accordion-body">
+          <a href="pages/ensemble/flautisti.html">🎵 I Nostri Flautisti</a>
+          <a href="pages/ensemble/foto.html">📷 Foto Ricordo</a>
+          <a href="pages/ensemble/video.html">▶️ Video</a>
+        </div>
+      </li>
+      <li>
+        <button class="mob-accordion-trigger">Eventi <span class="mob-chevron">▾</span></button>
+        <div class="mob-accordion-body">
+          <a href="pages/eventi/masterclass.html">🎓 Masterclass Aprile 2024</a>
+          <a href="pages/eventi/passati.html">📅 Eventi Passati</a>
+          <a href="pages/eventi/prossimo.html">🔔 Prossimo Concerto</a>
+        </div>
+      </li>
+      <li>
+        <button class="mob-accordion-trigger">Risorse <span class="mob-chevron">▾</span></button>
+        <div class="mob-accordion-body">
+          <a href="pages/risorse/edizioni.html">🎼 Edizioni Musicali</a>
+          <a href="pages/risorse/flauti-acquisto.html">🛒 Flauti Acquisto</a>
+          <a href="pages/risorse/repertorio.html">📖 Repertorio</a>
+          <a href="pages/risorse/partiture.html">📄 Nostre Partiture</a>
+          <a href="pages/risorse/usati.html">♻️ Usati</a>
+          <a href="pages/risorse/biblioteca.html">📚 Biblioteca</a>
+        </div>
+      </li>
+      <li>
+        <button class="mob-accordion-trigger">Informazioni <span class="mob-chevron">▾</span></button>
+        <div class="mob-accordion-body">
+          <a href="pages/info/bilanci.html">📋 Bilanci</a>
+          <a href="pages/info/contatti.html">📬 Contatti</a>
+          <a href="pages/info/socio.html">🎓 Diventa Socio</a>
+          <a href="pages/info/statuto.html">📜 Statuto</a>
+        </div>
+      </li>
+      <li>
+        <button class="mob-accordion-trigger">Donazioni <span class="mob-chevron">▾</span></button>
+        <div class="mob-accordion-body">
+          <a href="pages/donazioni/dona.html">💜 Fai una Donazione</a>
+          <a href="pages/donazioni/sostenitori.html">⭐ Sostenitori</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- HERO -->
+<!-- ════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-notes"></div>
+  <div class="hero-inner">
     <div class="hero-content">
-      <h1 class="hero-title">Joy Flute Ensemble</h1>
-      <p class="hero-subtitle">Orchestra di Flauto Traverso</p>
-      <a href="#chi-siamo" class="btn-primary">Scopri di più</a>
-    </div>
-  </section>
-
-  <!-- ===== CHI SIAMO ===== -->
-  <section class="section section-teal" id="chi-siamo">
-    <div class="container">
-      <div class="section-tag">Chi Siamo</div>
-      <h2>Joy Flute Ensemble – APS</h2>
-      <p class="section-intro">
-        Il Joy Flute Ensemble è un'associazione di promozione sociale dedicata alla musica per flauto traverso.
-        Fondata con passione e dedizione, l'ensemble riunisce flautisti di vari livelli in un percorso comune di crescita musicale e condivisione.
+      <p class="hero-pretitle">Associazione di Promozione Sociale</p>
+      <h1 class="hero-title">
+        La musica del flauto,
+        <em>condivisa insieme</em>
+      </h1>
+      <p class="hero-desc">
+        Joy Flute Ensemble è un'orchestra di flauto traverso nata per portare la musica nella comunità,
+        formare nuovi musicisti e celebrare la bellezza del flauto in ogni sua espressione.
       </p>
+      <div class="hero-actions">
+        <a href="pages/ensemble/flautisti.html" class="btn btn-primary btn-lg">Scopri l'Ensemble</a>
+        <a href="pages/eventi/prossimo.html" class="btn btn-ghost btn-lg">Prossimo Concerto</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Flautisti</div></div>
+        <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Anni di attività</div></div>
+        <div class="stat"><div class="stat-num">100+</div><div class="stat-label">Concerti</div></div>
+      </div>
     </div>
-  </section>
+    <div class="hero-visual">
+      <div class="hero-logo-wrap">
+        <div class="hero-logo-ring"></div>
+        <div class="hero-logo-ring-2"></div>
+        <img src="logo.png" alt="Joy Flute Ensemble" class="hero-logo-img">
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- ===== ABOUT DETAIL ===== -->
-  <section class="section section-white" id="ensemble">
-    <div class="container two-col">
-      <div class="col-text">
-        <div class="section-tag">L'Ensemble</div>
-        <h2>I Nostri Flautisti</h2>
+<!-- ════════════════════════════════════════ -->
+<!-- CHI SIAMO (breve) -->
+<!-- ════════════════════════════════════════ -->
+<section class="section bg-cream" id="chi-siamo">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image-wrap reveal">
+        <div class="about-image">🎶</div>
+        <div class="about-image-badge">
+          <strong>APS</strong>
+          <span>Dal 2008</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="section-tag">Chi Siamo</p>
+        <h2 class="section-title">Un'associazione nata dalla passione per il flauto</h2>
+        <div class="divider"></div>
         <p>
-          L'ensemble è composto da musicisti appassionati che condividono l'amore per il flauto traverso.
-          Dai principianti agli esperti, ogni membro contribuisce con il proprio talento alla creazione di armonie uniche.
+          Joy Flute Ensemble - APS è un'associazione di promozione sociale con sede a Garbagnate Milanese.
+          Riunisce flautisti di ogni livello in un percorso condiviso di crescita musicale, studio e performance.
         </p>
-        <p>
-          Eseguiamo repertori che spaziano dal barocco al contemporaneo, portando la musica per flauto
-          in concerti, masterclass ed eventi culturali sul territorio italiano.
+        <p style="margin-top:14px">
+          Dal repertorio barocco al contemporaneo, dalla musica da camera alle grandi orchestre di flauti,
+          l'ensemble porta la musica nelle scuole, nelle chiese e nei teatri del territorio lombardo.
         </p>
-        <a href="#flautisti" class="btn-secondary">Conosci i flautisti</a>
-      </div>
-      <div class="col-image">
-        <div class="image-placeholder">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <rect width="200" height="200" fill="#e8f4f3"/>
-            <text x="100" y="90" text-anchor="middle" fill="#1daaa5" font-size="40">♩</text>
-            <text x="100" y="130" text-anchor="middle" fill="#1daaa5" font-size="14" font-family="sans-serif">Foto ensemble</text>
-          </svg>
+        <div style="display:flex;gap:14px;margin-top:32px;flex-wrap:wrap">
+          <a href="pages/chi-siamo.html" class="btn btn-primary">La nostra storia</a>
+          <a href="pages/ensemble/flautisti.html" class="btn btn-outline">Conosci i flautisti</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== STRIP TEAL ===== -->
-  <div class="strip strip-teal" id="eventi">
-    <div class="container">
-      <h3>Prossimo Concerto</h3>
-      <p>Segui i nostri eventi e non perdere il prossimo appuntamento musicale!</p>
-      <a href="#prossimo-concerto" class="btn-white">Scopri l'evento</a>
     </div>
   </div>
+</section>
 
-  <!-- ===== EVENTI ===== -->
-  <section class="section section-white" id="prossimo-concerto">
-    <div class="container">
-      <div class="section-tag">Eventi</div>
-      <h2>I Nostri Appuntamenti</h2>
-      <div class="cards-grid" id="eventi-grid">
-        <div class="card">
-          <div class="card-icon">🎵</div>
-          <h3>MASTERCLASS Aprile 2024</h3>
-          <p>Un'intensa giornata di studio e musica con maestri del flauto traverso. Un'opportunità imperdibile per tutti gli appassionati.</p>
-          <a href="#masterclass" class="card-link">Leggi di più →</a>
-        </div>
-        <div class="card">
-          <div class="card-icon">🎶</div>
-          <h3>Prossimo Concerto</h3>
-          <p>Resta aggiornato sul prossimo appuntamento del Joy Flute Ensemble. La musica per flauto traverso ti aspetta.</p>
-          <a href="#prossimo-concerto" class="card-link">Leggi di più →</a>
-        </div>
-        <div class="card">
-          <div class="card-icon">📅</div>
-          <h3>Eventi Passati</h3>
-          <p>Rivivi i momenti più belli dei concerti e degli eventi del Joy Flute Ensemble negli anni.</p>
-          <a href="#eventi-passati" class="card-link">Guarda la galleria →</a>
-        </div>
-      </div>
+<!-- ════════════════════════════════════════ -->
+<!-- PILASTRI -->
+<!-- ════════════════════════════════════════ -->
+<section class="section" style="background:var(--bg-section)">
+  <div class="container">
+    <div class="text-center reveal" style="max-width:540px;margin:0 auto 56px">
+      <p class="section-tag">La nostra missione</p>
+      <h2>Cosa ci rende unici</h2>
     </div>
-  </section>
-
-  <!-- ===== STRIP ROSSO ===== -->
-  <div class="strip strip-red" id="risorse">
-    <div class="container">
-      <h3>Risorse & Pubblicazioni</h3>
-      <p>Edizioni musicali, partiture, flauti e molto altro per i nostri soci e appassionati.</p>
-      <a href="#edizioni" class="btn-white">Esplora le risorse</a>
+    <div class="features-grid">
+      <div class="feature-item reveal">
+        <div class="feature-icon">🎵</div>
+        <h3>Musica di qualità</h3>
+        <p>Repertorio curato e studiato con cura, dal barocco al contemporaneo, per ogni livello e formazione.</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-icon">🌱</div>
+        <h3>Crescita musicale</h3>
+        <p>Masterclass, workshop e sessioni di studio per accompagnare ogni flautista nel proprio percorso.</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-icon">🤝</div>
+        <h3>Comunità e condivisione</h3>
+        <p>Un'associazione aperta, inclusiva, dove la musica è mezzo di incontro e connessione umana.</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-icon">🎓</div>
+        <h3>Formazione continua</h3>
+        <p>Risorse didattiche, biblioteca musicale e partiture per i nostri soci e i musicisti del territorio.</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-icon">🎭</div>
+        <h3>Concerti ed eventi</h3>
+        <p>Performance pubbliche di alto livello in chiese, teatri, scuole e luoghi culturali.</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-icon">💜</div>
+        <h3>No-profit &amp; territorio</h3>
+        <p>Associazione di Promozione Sociale iscritta al RUNTS, radicata nel territorio milanese.</p>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- ===== RISORSE ===== -->
-  <section class="section section-white" id="edizioni">
-    <div class="container">
-      <div class="section-tag">Risorse</div>
-      <h2>Materiali & Pubblicazioni</h2>
-      <div class="resources-grid">
-        <div class="resource-item" id="flauti-acquisto">
-          <div class="resource-icon">🎼</div>
-          <h4>Edizioni Musicali</h4>
-          <p>Partiture e pubblicazioni musicali selezionate per ensemble di flauti.</p>
+<!-- ════════════════════════════════════════ -->
+<!-- EVENTI IN EVIDENZA -->
+<!-- ════════════════════════════════════════ -->
+<section class="section bg-cream" id="eventi">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px">
+      <div class="reveal">
+        <p class="section-tag">Agenda</p>
+        <h2>Prossimi appuntamenti</h2>
+      </div>
+      <a href="pages/eventi/passati.html" class="btn btn-outline reveal">Tutti gli eventi →</a>
+    </div>
+    <div class="events-grid">
+      <div class="event-card card reveal">
+        <div class="event-card-header">
+          🎓
+          <span class="event-card-date">Aprile 2024</span>
         </div>
-        <div class="resource-item" id="repertorio">
-          <div class="resource-icon">🛒</div>
-          <h4>Flauti Acquisto</h4>
-          <p>Consigli e risorse per l'acquisto di flauti traverso nuovi.</p>
-        </div>
-        <div class="resource-item" id="partiture">
-          <div class="resource-icon">📖</div>
-          <h4>Repertorio</h4>
-          <p>Il repertorio completo dell'ensemble, dal barocco al contemporaneo.</p>
-        </div>
-        <div class="resource-item" id="usati">
-          <div class="resource-icon">📄</div>
-          <h4>Nostre Partiture</h4>
-          <p>Le partiture originali e gli arrangiamenti del Joy Flute Ensemble.</p>
-        </div>
-        <div class="resource-item">
-          <div class="resource-icon">🎺</div>
-          <h4>Flauti & Accessori Usati</h4>
-          <p>Bacheca per la compravendita di strumenti usati tra i soci.</p>
-        </div>
-        <div class="resource-item" id="biblioteca">
-          <div class="resource-icon">📚</div>
-          <h4>Biblioteca JFE-APS</h4>
-          <p>La biblioteca dell'associazione: un patrimonio di spartiti e testi musicali.</p>
+        <div class="card-body">
+          <div class="event-tags">
+            <span class="badge badge-violet">Masterclass</span>
+          </div>
+          <h3>Masterclass di Flauto Traverso</h3>
+          <p>Una giornata intensiva di studio con maestri di fama nazionale. Per tutti i livelli.</p>
+          <a href="pages/eventi/masterclass.html" class="btn btn-outline btn-sm" style="margin-top:20px">Scopri di più</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== GALLERY ===== -->
-  <section class="section section-light" id="foto">
-    <div class="container">
-      <div class="section-tag">Galleria</div>
-      <h2>Foto Ricordo</h2>
-      <div class="gallery-grid" id="gallery">
-        <div class="gallery-item"><div class="gallery-placeholder">📷</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">📷</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">📷</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">📷</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">📷</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">📷</div></div>
+      <div class="event-card card reveal">
+        <div class="event-card-header" style="background:linear-gradient(135deg,#5549a8,#a89fd4)">
+          🎵
+          <span class="event-card-date">Prossimamente</span>
+        </div>
+        <div class="card-body">
+          <div class="event-tags">
+            <span class="badge badge-lavender">Concerto</span>
+          </div>
+          <h3>Prossimo Concerto JFE</h3>
+          <p>Segui i nostri canali per restare aggiornato sul prossimo appuntamento dell'ensemble.</p>
+          <a href="pages/eventi/prossimo.html" class="btn btn-outline btn-sm" style="margin-top:20px">Info e biglietti</a>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== VIDEO ===== -->
-  <section class="section section-white" id="video">
-    <div class="container">
-      <div class="section-tag">Video</div>
-      <h2>Guardaci in Concerto</h2>
-      <div class="video-placeholder">
-        <div class="video-play-btn" id="playBtn">▶</div>
-        <p>Guarda i nostri video su YouTube</p>
-        <a href="https://www.youtube.com" target="_blank" class="btn-secondary">Vai al canale YouTube</a>
+      <div class="event-card card reveal">
+        <div class="event-card-header" style="background:linear-gradient(135deg,#c9a84c,#e8ca7a)">
+          📅
+          <span class="event-card-date">Archivio</span>
+        </div>
+        <div class="card-body">
+          <div class="event-tags">
+            <span class="badge badge-gold">Archivio</span>
+          </div>
+          <h3>Gli eventi passati</h3>
+          <p>Rivivi i concerti, le masterclass e gli eventi dell'ensemble negli ultimi anni.</p>
+          <a href="pages/eventi/passati.html" class="btn btn-outline btn-sm" style="margin-top:20px">Guarda l'archivio</a>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== STRIP TEAL 2 ===== -->
-  <div class="strip strip-teal" id="info">
-    <div class="container">
-      <h3>Diventa Socio JFE-APS</h3>
-      <p>Entra a far parte della nostra comunità di flautisti. Iscriviti all'associazione!</p>
-      <a href="#socio" class="btn-white">Scopri come aderire</a>
     </div>
   </div>
+</section>
 
-  <!-- ===== INFORMAZIONI VARIE ===== -->
-  <section class="section section-white" id="bilanci">
-    <div class="container two-col">
-      <div class="col-text">
-        <div class="section-tag">L'Associazione</div>
-        <h2>Informazioni Varie</h2>
-        <ul class="info-list">
-          <li><a href="#bilanci">📋 Bilanci &amp; Regolamenti</a></li>
-          <li><a href="#contatti">📬 Contatti</a></li>
-          <li><a href="#socio">🎓 Diventa Socio JFE-APS</a></li>
-          <li><a href="#statuto">📜 Statuto</a></li>
-        </ul>
+<!-- ════════════════════════════════════════ -->
+<!-- CTA BANNER -->
+<!-- ════════════════════════════════════════ -->
+<section class="section-sm" style="background:var(--bg-section)">
+  <div class="container">
+    <div class="cta-banner reveal">
+      <div class="cta-banner-text">
+        <h2>Vuoi entrare a far parte del JFE?</h2>
+        <p>Diventa socio di Joy Flute Ensemble APS e partecipa a concerti, masterclass, e a tutta la vita associativa.</p>
       </div>
-      <div class="col-text" id="socio">
-        <div class="section-tag">Donazioni</div>
-        <h2>Sostienici</h2>
-        <p>
-          Il Joy Flute Ensemble è un'associazione no-profit. Il tuo contributo ci permette di continuare a
-          promuovere la musica per flauto traverso sul territorio.
-        </p>
-        <a href="#dona" class="btn-primary">Fai una donazione</a>
-        <a href="#sostenitori" class="btn-secondary" style="margin-left:12px;">I nostri sostenitori</a>
+      <div class="cta-banner-actions">
+        <a href="pages/info/socio.html" class="btn btn-gold btn-lg">Diventa Socio</a>
+        <a href="pages/donazioni/dona.html" class="btn btn-ghost btn-lg">Sostienici</a>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== STRIP ROSSO CTA ===== -->
-  <div class="strip strip-red">
-    <div class="container">
-      <h3>Hai una domanda?</h3>
-      <p>Contattaci via email o seguici sui social per restare aggiornato.</p>
-      <a href="mailto:joy.flute.ensemble@gmail.com" class="btn-white">Scrivici</a>
     </div>
   </div>
+</section>
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer" id="contatti">
-    <div class="footer-inner">
-      <div class="footer-col">
-        <h4>Joy Flute Ensemble – APS</h4>
-        <p>Via Monviso 144<br>Garbagnate Milanese (Mi) – ITALIA</p>
-        <p>
+<!-- ════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-bg"></div>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="margin-bottom:16px;display:inline-flex">
+        <img src="logo.png" alt="Logo" class="logo-img">
+        <div class="logo-text-wrap">
+          <span class="logo-name">Joy Flute Ensemble</span>
+          <span class="logo-tagline">APS</span>
+        </div>
+      </a>
+      <p class="footer-desc">
+        Associazione di Promozione Sociale dedicata alla musica per flauto traverso. Concerti, formazione e comunità musicale nel territorio milanese.
+      </p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com" target="_blank" class="social-icon" aria-label="Facebook">
+          <svg viewBox="0 0 1024 1024"><path d="M512,0C229.2,0,0,229.2,0,512c0,255.6,187.2,467.4,432,505.8V660H302V512h130V399.2C432,270.9,508.4,200,625.4,200c56,0,114.6,10,114.6,10v126h-64.6c-63.6,0-83.4,39.5-83.4,80v96h142l-22.7,148H592v357.8c244.8-38.4,432-250.2,432-505.8C1024,229.2,794.8,0,512,0z"/></svg>
+        </a>
+        <a href="https://www.youtube.com" target="_blank" class="social-icon" aria-label="YouTube">
+          <svg viewBox="0 0 192 192"><path d="M180.3,53.4c-2-7.6-8-13.6-15.6-15.7C151,34,96,34,96,34s-55,0-68.8,3.7c-7.6,2-13.5,8-15.6,15.7C8,67.2,8,96,8,96s0,28.8,3.7,42.6c2,7.6,8,13.6,15.6,15.7C41,158,96,158,96,158s55,0,68.8-3.7c7.6-2,13.5-8,15.6-15.7C184,124.8,184,96,184,96S184,67.2,180.3,53.4z M78,122.2V69.8L124,96L78,122.2z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Navigazione</h5>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="pages/chi-siamo.html">Chi Siamo</a></li>
+        <li><a href="pages/ensemble/flautisti.html">I Nostri Flautisti</a></li>
+        <li><a href="pages/eventi/prossimo.html">Prossimo Concerto</a></li>
+        <li><a href="pages/risorse/edizioni.html">Edizioni Musicali</a></li>
+        <li><a href="pages/info/contatti.html">Contatti</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Risorse</h5>
+      <ul class="footer-links">
+        <li><a href="pages/risorse/repertorio.html">Repertorio</a></li>
+        <li><a href="pages/risorse/partiture.html">Nostre Partiture</a></li>
+        <li><a href="pages/risorse/biblioteca.html">Biblioteca JFE-APS</a></li>
+        <li><a href="pages/risorse/usati.html">Flauti Usati</a></li>
+        <li><a href="pages/info/socio.html">Diventa Socio</a></li>
+        <li><a href="pages/donazioni/dona.html">Donazioni</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contatti</h5>
+      <div class="footer-contact">
+        <div class="footer-contact-item">
+          <strong>Sede</strong>
+          Via Monviso 144<br>Garbagnate Milanese (Mi)
+        </div>
+        <div class="footer-contact-item">
+          <strong>Email</strong>
           <a href="mailto:joy.flute.ensemble@gmail.com">joy.flute.ensemble@gmail.com</a>
-        </p>
-        <p>Codice Fiscale: 97763630155</p>
-        <p>Codice RUNTS: 464098 – Repertorio: 30737</p>
-      </div>
-      <div class="footer-col">
-        <h4>Navigazione</h4>
-        <ul class="footer-nav">
-          <li><a href="index.html">Home Page</a></li>
-          <li><a href="#chi-siamo">Chi Siamo</a></li>
-          <li><a href="#ensemble">Ensemble</a></li>
-          <li><a href="#eventi">Eventi</a></li>
-          <li><a href="#risorse">Risorse e Pubblicazioni</a></li>
-          <li><a href="#info">Informazioni Varie</a></li>
-          <li><a href="#donazioni">Donazioni</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Seguici</h4>
-        <div class="footer-social">
-          <a href="https://www.facebook.com" target="_blank" aria-label="Facebook" class="social-icon social-icon-lg">
-            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-              <path d="M512,0C229.2,0,0,229.2,0,512c0,255.6,187.2,467.4,432,505.8V660H302V512h130V399.2C432,270.9,508.4,200,625.4,200c56,0,114.6,10,114.6,10v126h-64.6c-63.6,0-83.4,39.5-83.4,80v96h142l-22.7,148H592v357.8c244.8-38.4,432-250.2,432-505.8C1024,229.2,794.8,0,512,0z"/>
-            </svg>
-          </a>
-          <a href="https://www.youtube.com" target="_blank" aria-label="YouTube" class="social-icon social-icon-lg">
-            <svg viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
-              <path d="M180.3,53.4c-2-7.6-8-13.6-15.6-15.7C151,34,96,34,96,34s-55,0-68.8,3.7c-7.6,2-13.5,8-15.6,15.7C8,67.2,8,96,8,96s0,28.8,3.7,42.6c2,7.6,8,13.6,15.6,15.7C41,158,96,158,96,158s55,0,68.8-3.7c7.6-2,13.5-8,15.6-15.7C184,124.8,184,96,184,96S184,67.2,180.3,53.4z M78,122.2V69.8L124,96L78,122.2z"/>
-            </svg>
-          </a>
         </div>
-        <p class="footer-small">
-          <a href="/cookie-policy">Cookie Policy</a> · <a href="/privacy-policy">Privacy Policy</a>
-        </p>
+        <div class="footer-contact-item">
+          <strong>CF / RUNTS</strong>
+          97763630155 / 464098
+        </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2024 Joy Flute Ensemble – APS · Tutti i diritti riservati</p>
+  </div>
+  <div class="footer-bottom container">
+    <span>© <span data-year></span> Joy Flute Ensemble - APS · Tutti i diritti riservati</span>
+    <div class="footer-legal">
+      <a href="pages/info/statuto.html">Statuto</a>
+      <a href="#">Cookie Policy</a>
+      <a href="#">Privacy Policy</a>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <script src="script.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
