@@ -152,6 +152,11 @@ tbody tr:nth-child(12) { animation-delay: 0.60s; }
 tbody tr:nth-child(13) { animation-delay: 0.65s; }
 tbody tr:nth-child(14) { animation-delay: 0.70s; }
 tbody tr:nth-child(15) { animation-delay: 0.75s; }
+tbody tr:nth-child(16) { animation-delay: 0.80s; }
+tbody tr:nth-child(17) { animation-delay: 0.85s; }
+tbody tr:nth-child(18) { animation-delay: 0.90s; }
+tbody tr:nth-child(19) { animation-delay: 0.95s; }
+tbody tr:nth-child(20) { animation-delay: 1.00s; }
 
 tbody tr:last-child { border-bottom: none; }
 tbody tr:hover { background: var(--green-glow); }
