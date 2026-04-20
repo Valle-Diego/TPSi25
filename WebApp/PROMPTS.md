@@ -2,7 +2,19 @@
 ## Progetto: Fokus — Dashboard Personale
 ---
 
-## Prompt 1 — Struttura HTML iniziale
+## Prompt 1 — Struttura HTML iniziale (v1 → v3)
+
+### Versione 1 (debole)
+
+Crea una pagina HTML per una dashboard personale.
+
+### Versione 2 (migliorata)
+
+Crea la struttura HTML5 semantica per una SPA dashboard personale con 
+sezioni: Home, Attività, Obiettivi, Note, Statistiche.
+Usa tag semantici: header, main, section, nav, footer.
+
+### Versione 3 (usata nel progetto)
 
 Crea la struttura HTML5 semantica completa per una SPA (Single Page App) 
 con 5 sezioni (Home, Attività, Obiettivi, Note, Statistiche).
@@ -19,7 +31,18 @@ Usa pattern hidden/active per la navigazione SPA senza reload.
 
 ---
 
-## Prompt 2 — CSS Mobile-First con variabili
+## Prompt 2 — CSS Mobile-First con variabili (v1 → v3)
+
+### Versione 1 (debole)
+
+Scrivi il CSS per la dashboard, fallo bello.
+
+### Versione 2 (migliorata)
+
+Crea CSS mobile-first con variabili CSS per una dashboard dark/light.
+Breakpoint a 768px e 1024px. Usa Flexbox e Grid.
+
+### Versione 3 (usata nel progetto)
 
 Crea un sistema CSS completo mobile-first per una dashboard SPA con tema dark/light.
 Estetica: raffinata ed editoriale, palette viola scuro + viola brillante.
@@ -35,7 +58,13 @@ su tutti i bottoni. Niente aria-invalid nascosto.
 
 ---
 
-## Prompt 3 — Navigazione SPA senza framework
+## Prompt 3 — Navigazione SPA senza framework (v1 → v2)
+
+### Versione 1 (debole)
+
+Fai una navigazione che mostra/nasconde sezioni in JavaScript.
+
+### Versione 2 (usata nel progetto)
 
 Implementa navigazione SPA in JavaScript puro (no framework):
 - showSection(id): mostra section con id, nasconde le altre con .hidden e .active
@@ -48,7 +77,17 @@ Implementa navigazione SPA in JavaScript puro (no framework):
 
 ---
 
-## Prompt 4 — Sicurezza: escapeHTML e prevenzione XSS
+## Prompt 4 — Sicurezza: escapeHTML e prevenzione XSS (v1 → v3)
+
+### Versione 1 (pericoloso)
+
+Mostra il titolo del task nella lista usando innerHTML.
+
+### Versione 2 (parziale)
+
+Usa textContent invece di innerHTML per i dati utente.
+
+### Versione 3 (usata nel progetto)
 
 Implementa una funzione escapeHTML(str) che converta tutti i caratteri
 pericolosi (&, <, >, ", ') nelle rispettive entità HTML.
@@ -61,7 +100,13 @@ Documenta in commento ogni punto dove si riceve input utente.
 
 ---
 
-## Prompt 5 — Validazione form client-side robusta
+## Prompt 5 — Validazione form client-side robusta (v1 → v2)
+
+### Versione 1 (debole)
+
+Aggiungi required agli input del form.
+
+### Versione 2 (usata nel progetto)
 
 Implementa validazione form JavaScript completa per il form profilo e task:
 - Previeni submit con e.preventDefault()
@@ -78,7 +123,13 @@ Implementa validazione form JavaScript completa per il form profilo e task:
 
 ---
 
-## Prompt 6 — localStorage sicuro e gestione errori dati
+## Prompt 6 — localStorage sicuro e gestione errori dati (v1 → v2)
+
+### Versione 1 (fragile)
+
+Salva i task in localStorage.
+
+### Versione 2 (usata nel progetto)
 
 Crea un modulo Storage con wrapper sicuro per localStorage:
 - Storage.get(key, fallback): JSON.parse in try/catch, 
@@ -94,7 +145,13 @@ Crea un modulo Storage con wrapper sicuro per localStorage:
 
 ---
 
-## Prompt 7 — Hamburger menu accessibile
+## Prompt 7 — Hamburger menu accessibile (v1 → v2)
+
+### Versione 1 (incompleto)
+
+Fai un menu hamburger che si apre al click.
+
+### Versione 2 (usata nel progetto)
 
 Implementa hamburger menu accessibile:
 - Button con aria-expanded="false" e aria-controls="mobile-nav"
