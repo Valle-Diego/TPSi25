@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configurazione Piattaforma</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-ini">
+<div class="grid-bg"></div>
+
+<header>
+  <div class="badge">⚙ Pannello di Controllo</div>
+  <h1>Configura la tua<br><span>Piattaforma</span></h1>
+  <p class="subtitle">Personalizza il negozio e carica il catalogo prodotti</p>
+</header>
+
+<div class="container">
+
+  <!-- IDENTITÀ -->
+  <div class="card">
+    <div class="card-title">Identità del Negozio</div>
+    <div class="grid-2">
+      <div class="field-group">
+        <label>Nome del Negozio</label>
+        <input type="text" id="shopName" placeholder="es. TechStore Milano" value="">
+      </div>
+      <div class="field-group">
+        <label>Categoria Merceologica</label>
+        <select id="shopCategory">
+          <option value="Elettronica">Elettronica</option>
+          <option value="Abbigliamento">Abbigliamento</option>
+          <option value="Arredamento">Arredamento</option>
+          <option value="Sport">Sport & Outdoor</option>
+          <option value="Alimentari">Alimentari & Bevande</option>
+          <option value="Libri">Libri & Media</option>
+          <option value="Gioielleria">Gioielleria & Accessori</option>
+          <option value="Auto">Auto & Moto</option>
+          <option value="Custom">Personalizzata…</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-group" id="customCatField" style="display:none;">
+      <label>Nome Categoria Personalizzata</label>
+      <input type="text" id="customCategory" placeholder="Inserisci la tua categoria">
+    </div>
+    <div class="field-group">
+      <label>Slogan / Sottotitolo</label>
+      <input type="text" id="shopSlogan" placeholder="es. La tecnologia che fa la differenza">
+    </div>
+    <div class="field-group">
+      <label>Valuta</label>
+      <select id="shopCurrency">
+        <option value="€">€ Euro</option>
+        <option value="$">$ Dollaro USA</option>
+        <option value="£">£ Sterlina</option>
+        <option value="CHF">CHF Franco Svizzero</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- COLORI -->
+  <div class="card">
+    <div class="card-title">Tema Colori</div>
+    <div class="color-row">
+      <div class="field-group">
+        <label>Colore Principale</label>
+        <div class="color-field">
+          <input type="color" id="colorAccent" value="#7c6af7" oninput="syncHex(this,'hexAccent')">
+          <input class="color-hex" id="hexAccent" value="#7c6af7" oninput="syncColor(this,'colorAccent')">
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Colore Secondario</label>
+        <div class="color-field">
+          <input type="color" id="colorAccent2" value="#f7c66a" oninput="syncHex(this,'hexAccent2')">
+          <input class="color-hex" id="hexAccent2" value="#f7c66a" oninput="syncColor(this,'colorAccent2')">
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Sfondo</label>
+        <div class="color-field">
+          <input type="color" id="colorBg" value="#0a0a0f" oninput="syncHex(this,'hexBg')">
+          <input class="color-hex" id="hexBg" value="#0a0a0f" oninput="syncColor(this,'colorBg')">
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Testo</label>
+        <div class="color-field">
+          <input type="color" id="colorText" value="#e8e8f0" oninput="syncHex(this,'hexText')">
+          <input class="color-hex" id="hexText" value="#e8e8f0" oninput="syncColor(this,'colorText')">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSV -->
+  <div class="card">
+    <div class="card-title">Catalogo Prodotti (CSV)</div>
+    <p style="font-size:12px; color:var(--muted); margin-bottom:20px; line-height:1.7;">
+      Il file CSV deve contenere le colonne: <strong style="color:var(--accent)">marca, modello, descrizione, immagine, prezzo</strong><br>
+      La prima riga deve essere l'intestazione. Separatore: virgola. Encoding: UTF-8.
+    </p>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="csvFile" accept=".csv">
+      <span class="drop-icon">📂</span>
+      <div class="drop-text">
+        <strong>Clicca o trascina</strong> il file CSV qui<br>
+        <span style="font-size:11px;">Formati supportati: .csv — Max 10MB</span>
+      </div>
+    </div>
+    <div class="status-bar" id="csvStatus"></div>
+    <div style="overflow-x:auto;">
+      <table class="preview-table" id="previewTable">
+        <thead><tr id="previewHead"></tr></thead>
+        <tbody id="previewBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CONFIGURAZIONE CORRENTE -->
+  <div class="card">
+    <div class="card-title">Configurazione Corrente</div>
+    <div class="current-config" id="currentConfig">
+      Nessuna configurazione salvata. Compila il form e salva.
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="resetConfig()">↺ Reset</button>
+    <button class="btn btn-primary" onclick="saveConfig()">✓ Salva e vai al Negozio</button>
+  </div>
+
+  <div style="text-align:center; margin-top:20px; font-size:11px; color:var(--muted);">
+    Configurazione salvata in localStorage — disponibile per tutte le pagine della piattaforma
+  </div>
+
+</div>
+
+<script>
+  let csvData = null; // dati CSV caricati
+
+  // SYNCCOLOR (picker → hex)
+
+  function syncHex(picker, hexId) {
+    document.getElementById(hexId).value = picker.value; // aggiorna campo testo hex
+  }
+
+  // SYNCCOLOR (hex → picker)
+
+  function syncColor(hexInput, colorId) {
+    const val = hexInput.value;
+    if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+      document.getElementById(colorId).value = val; // aggiorna color picker se hex valido
+    }
+  }
+
+  // SHOWHIDECUSTOM
+
+  document.getElementById('shopCategory').addEventListener('change', function() {
+    document.getElementById('customCatField').style.display = this.value === 'Custom' ? 'block' : 'none';
+  });
+
+  // SETUP DROP ZONE CSV
+
+  const dropZone = document.getElementById('dropZone');
+  const csvFile  = document.getElementById('csvFile');
+
+  dropZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    dropZone.classList.add('dragover'); // feedback visivo
+  });
+
+  dropZone.addEventListener('dragleave', function() {
+    dropZone.classList.remove('dragover'); // rimuove feedback
+  });
+
+  dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files[0]) { handleCSV(e.dataTransfer.files[0]); }
+  });
+
+  csvFile.addEventListener('change', function(e) {
+    if (e.target.files[0]) { handleCSV(e.target.files[0]); }
+  });
+
+  // HANDLECSV
+
+  function handleCSV(file) {
+
+    var status = document.getElementById('csvStatus');
+
+    if (!file.name.endsWith('.csv')) {
+      status.className = 'status-bar error';
+      status.style.display = 'flex';
+      status.innerHTML = '✗ Formato non supportato. Usa un file .csv';
+      return;
+    }
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      var text   = e.target.result;
+      var result = parseCSV(text); // analizza contenuto CSV
+
+      if (result.error) {
+        status.className = 'status-bar error';
+        status.style.display = 'flex';
+        status.innerHTML = '✗ ' + result.error;
+        return;
+      }
+
+      csvData = result; // salva dati CSV
+
+      showPreview(result); // mostra anteprima tabella
+
+      status.className = 'status-bar success';
+      status.style.display = 'flex';
+      status.innerHTML = '✓ ' + result.rows.length + ' prodotti caricati correttamente da "' + file.name + '"';
+    };
+
+    reader.readAsText(file, 'UTF-8');
+  }
+
+  // PARSECSV
+
+  function parseCSV(text) {
+
+    var lines = text.trim().split('\n').map(function(l) { return l.trim(); }).filter(function(l) { return l; });
+
+    if (lines.length < 2) {
+      return { error: 'Il file CSV sembra vuoto o non valido.' };
+    }
+
+    var headers  = lines[0].split(',').map(function(h) { return h.trim().toLowerCase(); });
+    var required = ['marca', 'modello', 'descrizione', 'immagine', 'prezzo'];
+
+    for (var i = 0; i < required.length; i++) {
+      if (!headers.includes(required[i])) {
+        return { error: 'Colonna obbligatoria mancante: "' + required[i] + '"' };
+      }
+    }
+
+    var rows = [];
+
+    for (var j = 1; j < lines.length; j++) {
+      var vals = splitCSVLine(lines[j]);
+      var obj  = {};
+      headers.forEach(function(h, idx) { obj[h] = vals[idx] || ''; });
+      rows.push(obj);
+    }
+
+    return { headers: headers, rows: rows };
+  }
+
+  // SPLITCSVLINE
+
+  function splitCSVLine(line) {
+
+    var result   = [];
+    var current  = '';
+    var inQuotes = false;
+
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i];
+      if (ch === '"')             { inQuotes = !inQuotes; continue; }
+      if (ch === ',' && !inQuotes) { result.push(current.trim()); current = ''; continue; }
+      current += ch;
+    }
+
+    result.push(current.trim());
+    return result;
+  }
+
+  // SHOWPREVIEW
+
+  function showPreview(data) {
+
+    var table = document.getElementById('previewTable');
+    var head  = document.getElementById('previewHead');
+    var body  = document.getElementById('previewBody');
+
+    head.innerHTML = data.headers.map(function(h) { return '<th>' + h + '</th>'; }).join('');
+
+    body.innerHTML = data.rows.slice(0, 5).map(function(row) {
+      return '<tr>' + data.headers.map(function(h) {
+        return '<td title="' + row[h] + '">' + row[h] + '</td>';
+      }).join('') + '</tr>';
+    }).join('');
+
+    if (data.rows.length > 5) {
+      body.innerHTML += '<tr><td colspan="' + data.headers.length + '" style="color:var(--accent); font-style:italic; padding:10px 12px;">… e altri ' + (data.rows.length - 5) + ' prodotti</td></tr>';
+    }
+
+    table.style.display = 'table';
+  }
+
+  // SAVECONFIG
+
+  function saveConfig() {
+
+    var shopName = document.getElementById('shopName').value.trim() || 'Il Mio Negozio';
+    var catEl    = document.getElementById('shopCategory');
+    var shopCategory = catEl.value === 'Custom'
+      ? (document.getElementById('customCategory').value.trim() || 'Generico')
+      : catEl.value;
+    var shopSlogan  = document.getElementById('shopSlogan').value.trim();
+    var shopCurrency = document.getElementById('shopCurrency').value;
+
+    var config = {
+      shopName:     shopName,
+      shopCategory: shopCategory,
+      shopSlogan:   shopSlogan,
+      shopCurrency: shopCurrency,
+      colors: {
+        accent:  document.getElementById('colorAccent').value,
+        accent2: document.getElementById('colorAccent2').value,
+        bg:      document.getElementById('colorBg').value,
+        text:    document.getElementById('colorText').value
+      },
+      csv: csvData
+    };
+
+    localStorage.setItem('shopConfig', JSON.stringify(config)); // salva configurazione
+
+    updateCurrentConfig(config); // aggiorna riepilogo visivo
+
+    // Feedback visivo pulsante
+    var btn = event.currentTarget;
+    btn.innerHTML = '✓ Salvato!';
+    btn.style.background = '#4ade80';
+
+    setTimeout(function() {
+      btn.innerHTML = '✓ Salva e vai al Negozio';
+      btn.style.background = '';
+      window.location.href = 'index.html';
+    }, 1200);
+  }
+
+  // RESETCONFIG
+
+  function resetConfig() {
+    if (!confirm('Cancellare la configurazione corrente?')) {
+      return; // annulla se utente dice no
+    }
+    localStorage.removeItem('shopConfig'); // elimina da storage
+    location.reload();
+  }
+
+  // UPDATECURRENTCONFIG
+
+  function updateCurrentConfig(cfg) {
+    document.getElementById('currentConfig').innerHTML =
+      '<strong>Nome:</strong> '      + cfg.shopName + '<br>' +
+      '<strong>Categoria:</strong> ' + cfg.shopCategory + '<br>' +
+      '<strong>Slogan:</strong> '    + (cfg.shopSlogan || '—') + '<br>' +
+      '<strong>Valuta:</strong> '    + cfg.shopCurrency + '<br>' +
+      '<strong>Colore Principale:</strong> <span style="color:' + cfg.colors.accent + '">' + cfg.colors.accent + '</span><br>' +
+      '<strong>Prodotti nel CSV:</strong> ' + (cfg.csv ? cfg.csv.rows.length : 0);
+  }
+
+  // LOAD CONFIGURAZIONE ESISTENTE
+
+  window.addEventListener('DOMContentLoaded', function() {
+
+    var saved = localStorage.getItem('shopConfig');
+
+    if (!saved) { return; }
+
+    var cfg  = JSON.parse(saved);
+    var cats = ['Elettronica', 'Abbigliamento', 'Arredamento', 'Sport', 'Alimentari', 'Libri', 'Gioielleria', 'Auto'];
+
+    document.getElementById('shopName').value    = cfg.shopName   || '';
+    document.getElementById('shopSlogan').value  = cfg.shopSlogan || '';
+    document.getElementById('shopCurrency').value = cfg.shopCurrency || '€';
+
+    // Categoria: predefinita o custom
+    if (cats.includes(cfg.shopCategory)) {
+      document.getElementById('shopCategory').value = cfg.shopCategory;
+    } else {
+      document.getElementById('shopCategory').value = 'Custom';
+      document.getElementById('customCatField').style.display = 'block';
+      document.getElementById('customCategory').value = cfg.shopCategory;
+    }
+
+    // Colori
+    if (cfg.colors) {
+      document.getElementById('colorAccent').value  = cfg.colors.accent;
+      document.getElementById('hexAccent').value    = cfg.colors.accent;
+      document.getElementById('colorAccent2').value = cfg.colors.accent2;
+      document.getElementById('hexAccent2').value   = cfg.colors.accent2;
+      document.getElementById('colorBg').value      = cfg.colors.bg;
+      document.getElementById('hexBg').value        = cfg.colors.bg;
+      document.getElementById('colorText').value    = cfg.colors.text;
+      document.getElementById('hexText').value      = cfg.colors.text;
+    }
+
+    // CSV già caricato
+    if (cfg.csv) {
+      csvData = cfg.csv;
+      showPreview(cfg.csv);
+      var status = document.getElementById('csvStatus');
+      status.className = 'status-bar success';
+      status.style.display = 'flex';
+      status.innerHTML = '✓ ' + cfg.csv.rows.length + ' prodotti già caricati (dalla sessione precedente)';
+    }
+
+    updateCurrentConfig(cfg);
+  });
+
+</script>
+</body>
+</html>

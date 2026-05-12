@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrello</title>
+<link rel="stylesheet" href="styles.css">
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="page-cart">
+
+<nav>
+  <a href="index.html" class="nav-logo" id="navLogo"> Shop <span>.</span> </a>
+  <a href="index.html" class="nav-btn"> ← Continua lo Shopping </a>
+</nav>
+
+<div class="page-wrap">
+  <!-- CART ITEMS -->
+  <div>
+    <div class="cart-header">
+      <h1 class="cart-title"> Il tuo <span> Carrello </span> </h1>
+      <button class="clear-btn" onclick="clearCart()"> Svuota carrello </button>
+    </div>
+    <div id="cartItems"></div>
+  </div>
+
+  <!-- ORDER SUMMARY -->
+  <div class="summary-card" id="summaryCard">
+    <div class="summary-title"> Riepilogo Ordine </div>
+    <div id="summaryLines"></div>
+    <div class="summary-total">
+      <span class="total-label"> Totale </span>
+      <span class="total-amount" id="totalAmount"> - </span>
+    </div>
+
+    <div class="form-section">
+      <div class="form-title"> Dati Cliente </div>
+      <div class="form-field">
+        <label> Nome e Cognome * </label>
+        <input type="text" id="custName" placeholder="Diego Valle">
+      </div>
+      <div class="form-field">
+        <label> Email * </label>
+        <input type="text" id="custEmail" placeholder="diego.valle@gmail.it">
+      </div>
+      <div class="form-field">
+        <label> Indirizzo di Spedizione </label>
+        <textarea id="custAddr" placeholder="Via Roma 1, 20100 Milano, Italia"></textarea>
+      </div>
+      <div class="form-field">
+        <label> Note Ordine </label>
+        <textarea id="custNote" placeholder="Eventuali note…"></textarea>
+      </div>
+    </div>
+
+    <button class="btn-pdf" id="pdfBtn" onclick="generatePDF()"> Stampa Ordine PDF </button>
+    <div class="security-note"> Il PDF sarà generato localmente nel tuo browser. <br> Nessun dato viene inviato a server esterni. </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let config   = null; // impostazioni negozio (lette da localStorage)
+  let cart     = []; // array di prodotti nel carrello
+  let currency = '€'; // simbolo valuta, default euro
+
+  //INIT
+
+  function init() {
+
+    var saved = localStorage.getItem('shopConfig'); // Legge config negozio da local storage
+
+    if (saved) {
+      config   = JSON.parse(saved); // converte stringa JSON in oggetto JS
+      currency = config.shopCurrency || '€'; // usa valuta salvata oppure euro
+
+      // Applica colori del tema alle CSS custom properties
+        const root = document.documentElement.style; // prende lo stile base
+        if (config.colors) {
+          root.setProperty('--accent',  config.colors.accent); // colore principale
+          root.setProperty('--accent2', config.colors.accent2); // colore secondario
+          root.setProperty('--bg',      config.colors.bg); // sfondo
+          root.setProperty('--text',    config.colors.text); // testo
+        }
+
+      document.getElementById('navLogo').innerHTML = config.shopName + '<span>.</span>'; // imposta logo dinamico
+    }
+
+    // Legge carrello
+    var savedCart = localStorage.getItem('cart'); // recupera carrello salvato
+    if (savedCart) {
+      cart = JSON.parse(savedCart); // converte JSON in array
+    } else {
+      cart = []; // se non esiste inizializza vuoto
+    }
+
+    render(); // aggiorna interfaccia
+  }
+
+  //RENDER
+
+  function render() {
+    var container = document.getElementById('cartItems'); // contenitore HTML carrello
+
+    if (cart.length === 0) {
+      //innerHTML: scrive HTML direttamente nell'elemento
+      container.innerHTML = `
+        <div class="empty-cart">
+          <span class="icon"> 🛒 </span>
+          <h3> Il carrello è vuoto </h3>
+          <a href="index.html"> ← Vai al catalogo </a>
+        </div>
+      `;
+
+      renderSummary(0);
+      return;
+    }
+
+    var html = '';
+
+    for (var i = 0; i < cart.length; i++) {
+      var item = cart[i]; //prodotto corrente
+      var price = parseFloat(item.prezzo) || 0; //prezzo in float
+      var subtotal = price * item.qty; // totale per prodotto
+      var img;
+
+      if (item.immagine) {
+        img = `<img src="${esc(item.immagine)}" alt="${esc(item.modello)}" onerror="this.replaceWith('🛍️')">`;
+      } else {
+        img = '-';
+      }
+
+      html += `
+        <div class="cart-item">
+          <div class="item-img">${img}</div>
+          <div class="item-info">
+            <div class="item-brand">${esc(item.marca)}</div>
+            <div class="item-model">${esc(item.modello)}</div>
+            <div class="item-unit-price">${currency}${price.toFixed(2)} / unità</div>
+          </div>
+          <div class="item-controls">
+            <div class="qty-ctrl">
+              <button class="qty-b" onclick="updateQty(${i}, -1)">-</button>
+              <div class="qty-n">${item.qty}</div>
+              <button class="qty-b" onclick="updateQty(${i}, 1)">+</button>
+            </div>
+            <div class="item-price">${currency}${subtotal.toFixed(2)}</div>
+            <button class="del-btn" onclick="removeItem(${i})">✕</button>
+          </div>
+        </div>
+      `;
+    }
+
+    container.innerHTML = html;
+
+    var total = 0;
+    for (var j = 0; j < cart.length; j++) {
+      total += (parseFloat(cart[j].prezzo) || 0) * cart[j].qty;
+    }
+
+    renderSummary(total);
+  }
+
+  //RENDERSUMMARY
+
+  function renderSummary(total) {
+    var lines = document.getElementById('summaryLines');
+    var html  = '';
+
+    for (var i = 0; i < cart.length; i++) {
+      var item = cart[i];
+      var sub  = (parseFloat(item.prezzo) || 0) * item.qty;
+      html += `
+        <div class="summary-line">
+          <span class="summary-label">${esc(item.marca)} ${esc(item.modello)} x${item.qty}</span>
+          <span class="summary-val">${currency}${sub.toFixed(2)}</span>
+        </div>
+      `;
+    }
+
+    lines.innerHTML = html;
+    
+    //IVA e Spedizione (IVA già inclusa nel prezzo, mostrata a scopo informativo)
+    lines.innerHTML += `
+      <div class="summary-line">
+        <span class="summary-label">di cui IVA (22%)</span>
+        <span class="summary-val">${currency}${(total - total / 1.22).toFixed(2)}</span>
+      </div>
+      <div class="summary-line">
+        <span class="summary-label">Spedizione</span>
+        <span class="summary-val" style="color:var(--accent)">Gratuita</span>
+      </div>
+    `;
+
+    document.getElementById('totalAmount').textContent = currency + total.toFixed(2);
+    document.getElementById('pdfBtn').disabled = (total === 0);
+  }
+
+  //UPDATEQTY
+
+  function updateQty(i, delta) {
+    cart[i].qty = cart[i].qty + delta; // modifica quantità
+    if (cart[i].qty < 1) {
+      cart[i].qty = 1; // evita quantità minore di 1
+    }
+    localStorage.setItem('cart', JSON.stringify(cart)); // salva
+    render(); // aggiorna UI
+  }
+
+  //REMOVEITEM
+
+  function removeItem(i) {
+    cart.splice(i, 1); // rimuove elemento da array
+    localStorage.setItem('cart', JSON.stringify(cart)); // salva
+    render(); // aggiorna
+    showToast('Articolo rimosso'); // messaggio
+  }
+
+  //CLEAR CART
+
+  function clearCart() {
+    if (!confirm('Svuotare il carrello?')) {
+      return; // annulla se utente dice no
+    }
+    cart = [];
+    localStorage.removeItem('cart'); // elimina da storage
+    render();
+  }
+
+  //SHOWTOAST
+
+  function showToast(msg) {
+    var toast = document.getElementById('toast');
+    toast.textContent = msg; // inserisce testo
+    toast.classList.add('show'); // mostra
+    setTimeout(hideToast, 2500); // nasconde dopo 2.5s
+  }
+
+  //HIDETOAST
+
+  function hideToast() {
+    document.getElementById('toast').classList.remove('show'); // nasconde toast
+  }
+  
+  //ESC (sicurezza)
+
+  function esc(s) {
+    var str = String(s || '');
+    str = str.replace(/&/g, '&amp;');
+    str = str.replace(/</g, '&lt;');
+    str = str.replace(/>/g, '&gt;');
+    str = str.replace(/"/g, '&quot;');
+    str = str.replace(/'/g, '&#39;');
+    return str;
+  }
+
+  //GENERATEPDF
+
+  function generatePDF() {
+    var name  = document.getElementById('custName').value.trim(); //nome utente
+    var email = document.getElementById('custEmail').value.trim(); //email
+
+    if (!name || !email) {
+      showToast('Inserisci nome e email prima di stampare');
+      return;
+    }
+
+    var jsPDF = window.jspdf.jsPDF; //libreria
+    var doc = new jsPDF({ unit: 'mm', format: 'a4' }); //documento 
+    var W = 210;
+    var margin = 20;
+    var y = 0;
+    var shopName = 'MyShop';
+    var shopCat = '';
+
+    if (config) {
+      shopName = config.shopName;
+      shopCat = config.shopCategory;
+    }
+
+    var orderNum = 'ORD-' + Date.now().toString(36).toUpperCase();
+    var dateStr  = new Date().toLocaleString('it-IT');
+
+    // — Header —
+    doc.setFillColor(30, 30, 45);
+    doc.rect(0, 0, W, 42, 'F');
+    doc.setTextColor(124, 106, 247);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.text(shopName, margin, 18);
+    doc.setTextColor(160, 160, 180);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.text(shopCat, margin, 25);
+    doc.setTextColor(200, 200, 220);
+    doc.text(orderNum, W - margin, 21, { align: 'right' });
+    doc.text(dateStr,  W - margin, 28, { align: 'right' });
+
+    y = 58;
+
+    // — Dati cliente —
+    doc.setFillColor(22, 22, 34);
+    doc.roundedRect(margin, y - 6, W - margin * 2, 30, 3, 3, 'F');
+    doc.setTextColor(124, 106, 247);
+    doc.setFontSize(8);
+    doc.text('DATI CLIENTE', margin + 6, y + 1);
+    doc.setTextColor(200, 200, 220);
+    doc.setFontSize(10);
+    doc.text(name,  margin + 6, y + 9);
+    doc.setFontSize(9);
+    doc.text(email, margin + 6, y + 16);
+
+    y += 42;
+
+    // — Intestazione tabella —
+    doc.setFillColor(18, 18, 28);
+    doc.rect(margin, y, W - margin * 2, 9, 'F');
+    doc.setTextColor(124, 106, 247);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.text('PRODOTTO',     margin + 3, y + 6);
+    doc.text('QTÀ',          108,         y + 6);
+    doc.text('PREZZO UNIT.', 133,         y + 6);
+    doc.text('SUBTOTALE',    163,         y + 6);
+    y += 9;
+
+    // — Righe prodotti
+    var grandTotal = 0;
+
+    for (var i = 0; i < cart.length; i++) {
+      var item  = cart[i];
+      var price = parseFloat(item.prezzo) || 0;
+      var sub   = price * item.qty;
+      grandTotal += sub;
+
+      if (i % 2 === 0) {
+        doc.setFillColor(16, 16, 26);
+      } else {
+        doc.setFillColor(20, 20, 32);
+      }
+
+      doc.rect(margin, y, W - margin * 2, 14, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(220, 220, 235);
+      doc.setFontSize(9);
+      doc.text(item.marca + ' ' + item.modello, margin + 3, y + 6);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(200, 200, 220);
+      doc.text(String(item.qty),          108, y + 6);
+      doc.text(currency + price.toFixed(2), 133, y + 6);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(247, 198, 106);
+      doc.text(currency + sub.toFixed(2),   163, y + 6);
+      y += 14;
+    }
+
+    y += 8;
+
+    // — Totale —
+    doc.setFillColor(28, 28, 42);
+    doc.roundedRect(W - margin - 80, y, 80, 28, 3, 3, 'F');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(140, 140, 170);
+    doc.text('Imponibile:', W - margin - 76, y + 9);
+    doc.text('IVA (22%):',  W - margin - 76, y + 17);
+    doc.setTextColor(200, 200, 220);
+    doc.text(currency + (grandTotal / 1.22).toFixed(2), W - margin - 5, y + 9,  { align: 'right' });
+    doc.text(currency + (grandTotal * 0.22).toFixed(2), W - margin - 5, y + 17, { align: 'right' });
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(13);
+    doc.setTextColor(247, 198, 106);
+    doc.text(currency + grandTotal.toFixed(2), W - margin - 5, y + 26, { align: 'right' });
+
+    // — Footer —
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(90, 90, 120);
+    doc.text(shopName + ' — ' + dateStr, margin,      288);
+    doc.text('Ordine N° ' + orderNum,       W - margin, 288, { align: 'right' });
+
+    doc.save('ordine-' + orderNum + '.pdf');
+    showToast(' PDF scaricato');
+  }
+
+  init();
+
+</script>
+</body>
+</html>

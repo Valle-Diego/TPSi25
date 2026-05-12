@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dettaglio Prodotto</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-product">
+
+<nav>
+  <a href="index.html" class="nav-logo" id="navLogo">Shop<span>.</span></a>
+  <div class="nav-actions">
+    <a href="index.html" class="nav-btn">← Catalogo</a>
+    <a href="cart.html" class="nav-btn cart-btn">
+      🛒 Carrello <span class="cart-count" id="cartCount">0</span>
+    </a>
+  </div>
+</nav>
+
+<div class="breadcrumb" id="breadcrumb">
+  <a href="index.html">Home</a> / <span id="breadProduct">Prodotto</span>
+</div>
+
+<div class="product-layout" id="productLayout">
+  <div style="text-align:center; padding:100px; color:var(--muted); grid-column:1/-1;">
+    Caricamento…
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let qty        = 1; // quantità selezionata
+  let product    = null; // prodotto corrente
+  let productIdx = 0; // indice nel CSV
+  let currency   = '€'; // simbolo valuta, default euro
+  let config     = null; // impostazioni negozio
+
+  // INIT
+
+  function init() {
+
+    var saved = localStorage.getItem('shopConfig'); // legge config negozio
+
+    if (!saved) {
+      window.location.href = 'ini.html'; // reindirizza se non configurato
+      return;
+    }
+
+    config   = JSON.parse(saved); // converte stringa JSON in oggetto JS
+    currency = config.shopCurrency || '€'; // usa valuta salvata oppure euro
+
+    // Applica colori del tema alle CSS custom properties
+    if (config.colors) {
+      const root = document.documentElement.style; // prende lo stile base
+      root.setProperty('--accent',  config.colors.accent); // colore principale
+      root.setProperty('--accent2', config.colors.accent2); // colore secondario
+      root.setProperty('--bg',      config.colors.bg); // sfondo
+      root.setProperty('--text',    config.colors.text); // testo
+    }
+
+    document.getElementById('navLogo').innerHTML = config.shopName + '<span>.</span>'; // imposta logo
+
+    productIdx = parseInt(localStorage.getItem('selectedProduct') || '0'); // legge indice prodotto
+    var products = config.csv ? config.csv.rows : [];
+
+    if (!products[productIdx]) {
+      document.getElementById('productLayout').innerHTML =
+        '<div style="text-align:center;padding:80px;grid-column:1/-1;color:var(--muted)">Prodotto non trovato. <a href="index.html" style="color:var(--accent)">Torna al catalogo</a></div>';
+      return;
+    }
+
+    product = products[productIdx];
+    document.title = product.marca + ' ' + product.modello + ' — ' + config.shopName;
+    document.getElementById('breadProduct').textContent = product.marca + ' ' + product.modello;
+
+    renderProduct(); // disegna pagina prodotto
+    updateCartCount(); // aggiorna contatore carrello
+  }
+
+  // RENDERPRODUCT
+
+  function renderProduct() {
+
+    var price   = parseFloat(product.prezzo) || 0;
+    var imgHtml = product.immagine
+      ? '<img src="' + esc(product.immagine) + '" alt="' + esc(product.marca) + ' ' + esc(product.modello) + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+      : '';
+    var placeholder = '<div class="img-placeholder-lg" ' + (product.immagine ? 'style="display:none"' : '') + '>🛍️</div>';
+
+    document.getElementById('productLayout').innerHTML = `
+      <!-- IMMAGINE -->
+      <div class="img-section">
+        <div class="main-img-wrap">
+          ${imgHtml}${placeholder}
+          <div class="img-overlay">${esc(product.marca)}</div>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="info-section">
+        <div class="product-meta">
+          <span class="brand-tag">${esc(product.marca)}</span>
+          <span class="cat-tag">${esc(config.shopCategory || 'Prodotto')}</span>
+        </div>
+
+        <div class="product-title">
+          <span>${esc(product.marca)}</span><br>${esc(product.modello)}
+        </div>
+
+        <div class="price-block">
+          <div class="main-price"><span class="main-currency">${currency}</span>${price.toFixed(2)}</div>
+          <div class="price-note">IVA inclusa</div>
+        </div>
+
+        <div class="description-block">
+          <h3>Descrizione</h3>
+          <p>${esc(product.descrizione)}</p>
+        </div>
+
+        <div class="specs-grid">
+          <div class="spec-item">
+            <div class="spec-label">Marca</div>
+            <div class="spec-value">${esc(product.marca)}</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Modello</div>
+            <div class="spec-value">${esc(product.modello)}</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Prezzo Unitario</div>
+            <div class="spec-value">${currency}${price.toFixed(2)}</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Categoria</div>
+            <div class="spec-value">${esc(config.shopCategory || '—')}</div>
+          </div>
+        </div>
+
+        <div class="qty-row">
+          <div class="qty-ctrl">
+            <button class="qty-b" onclick="changeQty(-1)">−</button>
+            <div class="qty-n" id="qtyVal">1</div>
+            <button class="qty-b" onclick="changeQty(1)">+</button>
+          </div>
+          <button class="btn-add" id="addBtn" onclick="addToCart()">
+            🛒 Aggiungi al carrello
+          </button>
+        </div>
+
+        <div class="total-preview">
+          <span class="label">Totale per questa selezione</span>
+          <span class="amount" id="totalPreview">${currency}${price.toFixed(2)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // CHANGEQTY
+
+  function changeQty(delta) {
+    qty = Math.max(1, qty + delta); // minimo 1
+    document.getElementById('qtyVal').textContent = qty;
+    var price = parseFloat(product.prezzo) || 0;
+    document.getElementById('totalPreview').textContent = currency + (price * qty).toFixed(2); // aggiorna totale
+  }
+
+  // ADDTOCART
+
+  function addToCart() {
+
+    var cart     = JSON.parse(localStorage.getItem('cart') || '[]'); // legge carrello
+    var existing = cart.find(function(i) { return i.idx === productIdx; });
+
+    if (existing) {
+      existing.qty += qty; // incrementa quantità se già presente
+    } else {
+      cart.push({
+        idx:     productIdx,
+        qty:     qty,
+        marca:   product.marca,
+        modello: product.modello,
+        prezzo:  product.prezzo,
+        immagine: product.immagine
+      });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart)); // salva carrello
+
+    updateCartCount();
+
+    // Feedback visivo pulsante
+    var btn = document.getElementById('addBtn');
+    btn.innerHTML = '✓ Aggiunto!';
+    btn.classList.add('added');
+
+    setTimeout(function() {
+      btn.innerHTML = '🛒 Aggiungi al carrello';
+      btn.classList.remove('added');
+    }, 2000);
+
+    showToast('<strong>' + product.marca + ' ' + product.modello + '</strong> ×' + qty + ' aggiunto!');
+  }
+
+  // UPDATECARTCOUNT
+
+  function updateCartCount() {
+    var cart  = JSON.parse(localStorage.getItem('cart') || '[]');
+    var total = cart.reduce(function(s, i) { return s + i.qty; }, 0); // somma quantità
+    document.getElementById('cartCount').textContent = total;
+  }
+
+  // SHOWTOAST
+
+  function showToast(msg) {
+    var toast = document.getElementById('toast');
+    toast.innerHTML = '🛒 ' + msg; // inserisce messaggio
+    toast.classList.add('show'); // mostra
+    setTimeout(hideToast, 3000); // nasconde dopo 3s
+  }
+
+  // HIDETOAST
+
+  function hideToast() {
+    document.getElementById('toast').classList.remove('show'); // nasconde toast
+  }
+
+  // ESC (sicurezza)
+
+  function esc(s) {
+    var str = String(s || '');
+    str = str.replace(/&/g, '&amp;');
+    str = str.replace(/</g, '&lt;');
+    str = str.replace(/>/g, '&gt;');
+    str = str.replace(/"/g, '&quot;');
+    str = str.replace(/'/g, '&#39;');
+    return str;
+  }
+
+  init();
+
+</script>
+</body>
+</html>
