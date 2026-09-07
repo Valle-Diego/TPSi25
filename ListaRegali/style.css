@@ -1,0 +1,324 @@
+/*
+style.css — Lista Regali
+------------------------
+Stile per l'app di condivisione lista regali.
+Font (Fraunces, Inter) caricati da Google Fonts nell'head di index.html.
+Palette: verde scuro su sfondo quasi nero, accento verde acceso.
+*/
+
+/* ---- variabili colore ---- */
+:root{
+  --pine:#A9D8B6;
+  --pine-light:#7FBF95;
+  --paper:#0F1E19;
+  --paper-dim:#17281F;
+  --gold:#4CAF6D;
+  --brick:#D9A15C;
+  --ink:#E9F2EC;
+  --ink-soft:#8FA79A;
+  --line: rgba(233,242,236,0.14);
+}
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{
+  max-width:640px;
+  margin:0 auto;
+  padding:48px 24px 96px;
+}
+@media (max-width:480px){
+  .wrap{ padding:32px 18px 72px; }
+}
+
+/* ---- tag header ---- */
+.tag{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  margin-bottom:40px;
+}
+.tag svg{ display:block; margin-bottom:10px; }
+.tag h1{
+  font-family:'Fraunces',serif;
+  font-optical-sizing:auto;
+  font-weight:500;
+  font-size:2.1rem;
+  line-height:1.15;
+  margin:0 0 6px;
+  color:var(--pine);
+  letter-spacing:-0.01em;
+}
+.tag p{
+  margin:0;
+  color:var(--ink-soft);
+  font-size:0.95rem;
+}
+
+/* ---- gate ---- */
+#gate{ max-width:420px; margin:0 auto; }
+.gate-card{
+  background:var(--paper-dim);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:28px 24px;
+}
+.gate-card h2{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  font-size:1.3rem;
+  margin:0 0 6px;
+  color:var(--pine);
+}
+.gate-card > p{
+  margin:0 0 22px;
+  color:var(--ink-soft);
+  font-size:0.92rem;
+}
+.role-btn{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:5px;
+  padding:15px 16px;
+  margin-bottom:10px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:0.98rem;
+  color:var(--ink);
+  transition:border-color .15s ease, background .15s ease;
+}
+.role-btn:hover{ border-color:var(--gold); background:var(--paper); }
+.role-btn strong{ display:block; font-weight:600; margin-bottom:2px; }
+.role-btn span{ color:var(--ink-soft); font-size:0.85rem; }
+
+.name-form{ display:none; margin-top:14px; }
+.name-form.show{ display:block; }
+.name-form input{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:5px;
+  font-family:inherit;
+  font-size:0.95rem;
+  background:var(--paper);
+  color:var(--ink);
+  margin-bottom:10px;
+}
+.name-form input:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+.form-error{ color:var(--brick); font-size:0.82rem; margin:-4px 0 10px; display:none; }
+.form-error.show{ display:block; }
+
+/* ---- buttons ---- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  border:none;
+  border-radius:5px;
+  padding:11px 18px;
+  font-family:inherit;
+  font-size:0.92rem;
+  font-weight:500;
+  cursor:pointer;
+  transition:opacity .15s ease;
+}
+.btn:hover{ opacity:0.88; }
+.btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.btn-primary{ background:var(--gold); color:#0B160F; }
+.btn-gold{ background:var(--gold); color:#0B160F; }
+.btn-outline{ background:transparent; color:var(--pine); border:1px solid var(--pine); }
+.btn-brick{ background:var(--brick); color:#0B160F; }
+.btn-ghost{ background:transparent; color:var(--ink-soft); padding:8px 10px; font-size:0.85rem; }
+.btn:disabled{ opacity:0.5; cursor:default; }
+
+/* ---- app shell ---- */
+#app{ display:none; }
+#app.show{ display:block; }
+
+.toprow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:6px;
+  font-size:0.85rem;
+  color:var(--ink-soft);
+}
+.toprow button{
+  background:none; border:none; color:var(--ink-soft);
+  text-decoration:underline; cursor:pointer; font-family:inherit; font-size:0.85rem; padding:0;
+}
+
+/* ---- form aggiungi regalo (creatore) ---- */
+.add-form{
+  background:var(--paper-dim);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:20px;
+  margin:28px 0 34px;
+}
+.add-form h3{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  font-size:1.05rem;
+  margin:0 0 14px;
+  color:var(--pine);
+}
+.add-form input, .add-form textarea{
+  width:100%;
+  padding:11px 13px;
+  border:1px solid var(--line);
+  border-radius:5px;
+  font-family:inherit;
+  font-size:0.92rem;
+  background:var(--paper);
+  color:var(--ink);
+  margin-bottom:10px;
+  resize:vertical;
+}
+.add-form input:focus, .add-form textarea:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+
+.list-section h3.section-label{
+  font-size:0.78rem;
+  text-transform:none;
+  letter-spacing:0.02em;
+  color:var(--ink-soft);
+  font-weight:500;
+  margin:0 0 4px;
+}
+
+/* ---- lista regali (righe) ---- */
+ul.gifts{ list-style:none; margin:0; padding:0; }
+ul.gifts li{
+  padding:18px 0;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+}
+ul.gifts li:first-child{ border-top:1px solid var(--line); }
+
+.gift-main{ flex:1; min-width:0; }
+.gift-name{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  font-size:1.08rem;
+  color:var(--ink);
+  margin:0 0 3px;
+}
+.gift-note{ font-size:0.88rem; color:var(--ink-soft); margin:0 0 6px; line-height:1.45; }
+.gift-link{ font-size:0.85rem; color:var(--pine); text-decoration:none; border-bottom:1px solid var(--pine); }
+.gift-link:hover{ color:var(--gold); border-color:var(--gold); }
+
+.gift-side{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; min-width:110px; }
+.status{
+  font-size:0.78rem;
+  padding:4px 9px;
+  border-radius:20px;
+  white-space:nowrap;
+}
+.status.available{ background:rgba(76,175,109,0.14); color:var(--pine-light); }
+.status.taken{ background:rgba(217,161,92,0.14); color:var(--brick); }
+
+.empty{
+  text-align:center;
+  padding:44px 20px;
+  color:var(--ink-soft);
+  border:1px dashed var(--line);
+  border-radius:6px;
+  font-size:0.92rem;
+}
+
+.del-btn{
+  background:none; border:none; color:var(--ink-soft);
+  cursor:pointer; font-size:0.78rem; text-decoration:underline; padding:0;
+}
+.del-btn:hover{ color:var(--brick); }
+
+.foot-note{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  font-size:0.82rem;
+  color:var(--ink-soft);
+  line-height:1.6;
+}
+
+.loading{ text-align:center; padding:40px; color:var(--ink-soft); font-size:0.9rem; }
+
+/* ---- music / discogs ---- */
+.music-section{ margin:34px 0; }
+.music-section > .section-label{
+  font-size:0.78rem; color:var(--ink-soft); font-weight:500; margin:0 0 10px;
+}
+.discogs-form{
+  background:var(--paper-dim);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:18px;
+}
+.discogs-form input{
+  width:100%;
+  padding:11px 13px;
+  border:1px solid var(--line);
+  border-radius:5px;
+  font-family:inherit;
+  font-size:0.9rem;
+  background:var(--paper);
+  color:var(--ink);
+  margin-bottom:10px;
+}
+.discogs-form input:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+.discogs-hint{ font-size:0.78rem; color:var(--ink-soft); margin:10px 0 0; }
+.discogs-status{ font-size:0.82rem; color:var(--pine-light); margin:12px 0 0; }
+.discogs-status.err{ color:var(--brick); }
+.csv-row{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; font-size:0.85rem; color:var(--ink-soft); margin-bottom:10px;
+}
+.csv-row input[type="file"]{
+  font-size:0.8rem; color:var(--ink-soft); max-width:200px;
+}
+
+.music-list{ max-height:280px; overflow-y:auto; margin-top:16px; }
+.music-list ul.gifts li{ padding:12px 0; }
+.music-list .gift-name{ font-size:0.95rem; }
+.music-sub{ font-size:0.82rem; color:var(--ink-soft); }
+
+ul.gifts.owned li{ opacity:0.75; }
+.owned-tag{ font-size:0.76rem; color:var(--ink-soft); white-space:nowrap; }
+
+/* ---- preference & price ---- */
+.stars-row{ display:flex; align-items:center; gap:10px; margin:2px 0 12px; }
+.stars-label{ font-size:0.82rem; color:var(--ink-soft); }
+.stars{ display:flex; gap:3px; }
+.stars .star{
+  background:none; border:none; cursor:pointer; padding:0;
+  font-size:1.2rem; line-height:1; color:var(--line);
+}
+.stars .star.filled{ color:var(--gold); }
+
+.gift-meta{ display:flex; align-items:center; gap:10px; margin-top:6px; }
+.price-tag{ font-size:0.85rem; color:var(--pine-light); font-weight:600; }
+.pref-display{ display:flex; gap:1px; }
+.pref-display span{ font-size:0.85rem; color:var(--line); }
+.pref-display span.filled{ color:var(--gold); }
+
+.sort-row{
+  display:flex; justify-content:flex-end; align-items:center; gap:8px;
+  margin:0 0 16px; font-size:0.82rem; color:var(--ink-soft);
+}
+.sort-row select{
+  background:var(--paper-dim); color:var(--ink); border:1px solid var(--line);
+  border-radius:5px; padding:6px 10px; font-family:inherit; font-size:0.82rem;
+}
