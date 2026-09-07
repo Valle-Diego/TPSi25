@@ -323,31 +323,10 @@ ul.gifts.owned li{ opacity:0.75; }
   border-radius:5px; padding:6px 10px; font-family:inherit; font-size:0.82rem;
 }
 
-/* ---- musica condivisa / link / prezzo ---- */
-.music-list .gift-main{
-  min-width:0;
+.price-edit{
+  width:80px; text-align:right;
+  background:var(--paper); color:var(--ink);
+  border:1px solid var(--line); border-radius:5px;
+  padding:7px 9px; font-family:inherit; font-size:0.85rem;
 }
-.music-list .gift-meta{
-  min-height:18px;
-}
-.music-link{
-  display:inline-block;
-  margin-top:5px;
-}
-.music-list .gift-side{
-  flex-shrink:0;
-}
-.music-list .gift-side .btn{
-  white-space:nowrap;
-}
-@media (max-width:560px){
-  ul.gifts li{
-    gap:10px;
-  }
-  .music-list ul.gifts li{
-    align-items:flex-start;
-  }
-  .music-list .gift-side{
-    min-width:95px;
-  }
-}
+.price-edit:focus{ outline:2px solid var(--gold); outline-offset:1px; }
