@@ -19,6 +19,7 @@
   let collection = [];
   let currentPref = 0;
   let friendSortValue = 'default';
+  let editingGiftId = null;
 
   const $ = (id) => document.getElementById(id);
 
@@ -26,12 +27,12 @@
 
   /* ---- 1b. Configurazione Firebase ---- */
   const firebaseConfig = {
-    apiKey: "AIzaSyAdkljDauUT1-Mi6Zc0Jcjxz-QvqFKWsqA",
-    authDomain: "listaregali-b262a.firebaseapp.com",
-    projectId: "listaregali-b262a",
-    storageBucket: "listaregali-b262a.firebasestorage.app",
-    messagingSenderId: "973126429624",
-    appId: "1:973126429624:web:fb52835238934f051f3d4d"
+    apiKey: "INCOLLA_QUI_LA_TUA_API_KEY",
+    authDomain: "INCOLLA_QUI.firebaseapp.com",
+    projectId: "INCOLLA_QUI_IL_PROJECT_ID",
+    storageBucket: "INCOLLA_QUI.appspot.com",
+    messagingSenderId: "INCOLLA_QUI",
+    appId: "INCOLLA_QUI"
   };
   const FIRESTORE_COLLECTION = 'gift-list';
 
@@ -244,7 +245,9 @@
       ul.innerHTML = '<div class="empty">Non hai ancora aggiunto regali. Scrivine uno qui sopra per iniziare la tua lista.</div>';
       return;
     }
-    ul.innerHTML = gifts.map(g => `
+    ul.innerHTML = gifts.map((g, idx) => {
+      if(g.id === editingGiftId) return editGiftRowHtml(g);
+      return `
       <li>
         <div class="gift-main">
           <p class="gift-name">${escapeHtml(g.name)}</p>
@@ -253,17 +256,113 @@
           <div class="gift-meta">${renderPriceTag(g.price)}${renderPrefDisplay(g.pref)}</div>
         </div>
         <div class="gift-side">
+          <div class="order-btns">
+            <button class="arrow-btn" data-up="${g.id}" ${idx === 0 ? 'disabled' : ''}>▲</button>
+            <button class="arrow-btn" data-down="${g.id}" ${idx === gifts.length - 1 ? 'disabled' : ''}>▼</button>
+          </div>
+          <button class="del-btn" data-edit="${g.id}">modifica</button>
           <button class="del-btn" data-id="${g.id}">rimuovi</button>
         </div>
-      </li>
-    `).join('');
-    ul.querySelectorAll('.del-btn').forEach(btn => {
+      </li>`;
+    }).join('');
+
+    ul.querySelectorAll('.del-btn[data-id]').forEach(btn => {
       btn.addEventListener('click', async () => {
         gifts = gifts.filter(g => g.id !== btn.dataset.id);
         await saveGifts();
         renderCreator();
       });
     });
+    ul.querySelectorAll('[data-edit]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        editingGiftId = btn.dataset.edit;
+        renderCreator();
+      });
+    });
+    ul.querySelectorAll('[data-up]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        moveGift(btn.dataset.up, -1);
+        await saveGifts();
+        renderCreator();
+      });
+    });
+    ul.querySelectorAll('[data-down]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        moveGift(btn.dataset.down, 1);
+        await saveGifts();
+        renderCreator();
+      });
+    });
+
+    if(editingGiftId){
+      const editEl = $('editStars-' + editingGiftId);
+      if(editEl){
+        editEl.querySelectorAll('.star').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const val = Number(btn.dataset.val);
+            const current = Number(editEl.dataset.value);
+            setStarWidget(editEl, val === current ? 0 : val);
+          });
+        });
+      }
+      $('editSave-' + editingGiftId).addEventListener('click', async () => {
+        const g = gifts.find(x => x.id === editingGiftId);
+        if(!g) return;
+        const name = $('editName-' + g.id).value.trim();
+        if(!name) return;
+        g.name = name;
+        g.note = $('editNote-' + g.id).value.trim();
+        g.link = $('editLink-' + g.id).value.trim();
+        const priceRaw = $('editPrice-' + g.id).value.trim();
+        g.price = priceRaw === '' ? null : Math.max(0, parseFloat(priceRaw));
+        g.pref = Number($('editStars-' + g.id).dataset.value);
+        editingGiftId = null;
+        await saveGifts();
+        renderCreator();
+      });
+      $('editCancel-' + editingGiftId).addEventListener('click', () => {
+        editingGiftId = null;
+        renderCreator();
+      });
+    }
+  }
+
+  function starsHtml(idAttr, value){
+    let out = `<div class="stars" id="${idAttr}" data-value="${value}">`;
+    for(let i = 1; i <= 5; i++){
+      out += `<button type="button" class="star${i <= value ? ' filled' : ''}" data-val="${i}">★</button>`;
+    }
+    out += '</div>';
+    return out;
+  }
+
+  function editGiftRowHtml(g){
+    return `
+      <li class="edit-row">
+        <div class="gift-main">
+          <input type="text" id="editName-${g.id}" value="${escapeHtml(g.name)}" maxlength="80">
+          <textarea id="editNote-${g.id}" rows="2" maxlength="200">${escapeHtml(g.note || '')}</textarea>
+          <input type="text" id="editLink-${g.id}" value="${escapeHtml(g.link || '')}" maxlength="300" placeholder="Link (facoltativo)">
+          <input type="number" id="editPrice-${g.id}" value="${g.price ?? ''}" min="0" step="0.01" placeholder="Prezzo € (facoltativo)">
+          <div class="stars-row">
+            <span class="stars-label">Preferenza</span>
+            ${starsHtml('editStars-' + g.id, g.pref || 0)}
+          </div>
+          <div class="edit-actions">
+            <button class="btn btn-gold" id="editSave-${g.id}">Salva</button>
+            <button class="btn btn-ghost" id="editCancel-${g.id}">Annulla</button>
+          </div>
+        </div>
+      </li>`;
+  }
+
+  function moveGift(id, dir){
+    const idx = gifts.findIndex(g => g.id === id);
+    if(idx === -1) return;
+    const newIdx = idx + dir;
+    if(newIdx < 0 || newIdx >= gifts.length) return;
+    const [item] = gifts.splice(idx, 1);
+    gifts.splice(newIdx, 0, item);
   }
 
   function albumLabel(item){
