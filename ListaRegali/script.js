@@ -27,13 +27,14 @@
 
   /* ---- 1b. Configurazione Firebase ---- */
   const firebaseConfig = {
-    apiKey: "INCOLLA_QUI_LA_TUA_API_KEY",
-    authDomain: "INCOLLA_QUI.firebaseapp.com",
-    projectId: "INCOLLA_QUI_IL_PROJECT_ID",
-    storageBucket: "INCOLLA_QUI.appspot.com",
-    messagingSenderId: "INCOLLA_QUI",
-    appId: "INCOLLA_QUI"
+    apiKey: "AIzaSyAdkljDauUT1-Mi6Zc0Jcjxz-QvqFKWsqA",
+    authDomain: "listaregali-b262a.firebaseapp.com",
+    projectId: "listaregali-b262a",
+    storageBucket: "listaregali-b262a.firebasestorage.app",
+    messagingSenderId: "973126429624",
+    appId: "1:973126429624:web:fb52835238934f051f3d4d"
   };
+
   const FIRESTORE_COLLECTION = 'gift-list';
 
   let db = null;
