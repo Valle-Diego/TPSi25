@@ -1,62 +1,79 @@
-/**
- * script.js — Lista Regali
- * ------------------------
- * Logica dell'app: due ruoli (creatore / amico) condividono la stessa lista
- * tramite window.storage (dati "shared" visibili a tutti; dati "personali"
- * visibili solo nel browser di chi li ha inseriti, come ruolo, nome e
- * credenziali Discogs).
- *
- * Indice:
- *   1. Configurazione e stato
- *   2. Helper di storage (persistenza)
- *   3. Import musica: Discogs API + parsing CSV
- *   4. Rendering: regali (creatore / amico)
- *   5. Rendering: musica (creatore / amico)
- *   6. Gate iniziale (scelta ruolo) e navigazione app
- *   7. Listener eventi (form, bottoni, import)
- *   8. Avvio app
- */
 (function(){
-
-  /* ---- 1. Configurazione e stato ---- */
 
   const CREATOR_PASSWORD = 'Pinolo2026!';
 
-  // Chiavi di storage: "shared" = condivisa tra creatore e amici,
-  // le altre sono personali (restano nel browser di chi le imposta).
-  const GIFTS_KEY = 'gift-list:gifts';               // shared — lista regali manuali
-  const CLAIMS_KEY = 'gift-list:claims';             // shared — chi ha preso cosa
-  const ROLE_KEY = 'gift-list:role';                 // personale — ruolo scelto
-  const NAME_KEY = 'gift-list:friend-name';          // personale — nome amico
-  const WANTLIST_KEY = 'gift-list:music-wantlist';   // shared — dischi desiderati
-  const COLLECTION_KEY = 'gift-list:music-collection'; // shared — dischi già posseduti
-  const DISCOGS_USER_KEY = 'gift-list:discogs-user';   // personale — solo nel browser del creatore
-  const DISCOGS_TOKEN_KEY = 'gift-list:discogs-token'; // personale — mai salvato in shared storage
+  const GIFTS_KEY = 'gift-list:gifts';
+  const CLAIMS_KEY = 'gift-list:claims';
+  const ROLE_KEY = 'gift-list:role';
+  const NAME_KEY = 'gift-list:friend-name';
+  const WANTLIST_KEY = 'gift-list:music-wantlist';
+  const COLLECTION_KEY = 'gift-list:music-collection';
+  const DISCOGS_USER_KEY = 'gift-list:discogs-user';
+  const DISCOGS_TOKEN_KEY = 'gift-list:discogs-token';
 
-  let role = null;              // 'creator' | 'friend' | null
-  let friendName = '';          // nome inserito dall'amico
-  let gifts = [];                // regali aggiunti manualmente dal creatore
-  let claims = {};               // { [itemId]: { takenBy, takenAt } }
-  let wantlist = [];             // dischi desiderati (da Discogs o CSV)
-  let collection = [];           // dischi già posseduti (da Discogs o CSV)
-  let currentPref = 0;           // valore stelle selezionato nel form "aggiungi regalo"
-  let friendSortValue = 'default'; // criterio di ordinamento scelto dall'amico
+  let role = null;
+  let friendName = '';
+  let gifts = [];
+  let claims = {};
+  let wantlist = [];
+  let collection = [];
+  let currentPref = 0;
+  let friendSortValue = 'default';
 
   const $ = (id) => document.getElementById(id);
 
   function uid(){ return 'g' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 
+  /* ---- 1b. Configurazione Firebase ---- */
+  const firebaseConfig = {
+    apiKey: "INCOLLA_QUI_LA_TUA_API_KEY",
+    authDomain: "INCOLLA_QUI.firebaseapp.com",
+    projectId: "INCOLLA_QUI_IL_PROJECT_ID",
+    storageBucket: "INCOLLA_QUI.appspot.com",
+    messagingSenderId: "INCOLLA_QUI",
+    appId: "INCOLLA_QUI"
+  };
+  const FIRESTORE_COLLECTION = 'gift-list';
+
+  let db = null;
+  try{
+    if(firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('INCOLLA')){
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+    }
+  }catch(e){
+    console.error('Firebase non inizializzato:', e);
+    db = null;
+  }
+
   /* ---- 2. Helper di storage ---- */
 
   async function safeGet(key, shared){
     try{
-      const r = await window.storage.get(key, shared);
-      return r ? r.value : null;
-    }catch(e){ return null; }
+      if(shared){
+        if(!db) return null;
+        const snap = await db.collection(FIRESTORE_COLLECTION).doc(key).get();
+        return snap.exists ? snap.data().value : null;
+      }
+      return localStorage.getItem(key);
+    }catch(e){
+      console.error('storage get failed', key, e);
+      return null;
+    }
   }
   async function safeSet(key, value, shared){
-    try{ return await window.storage.set(key, value, shared); }
-    catch(e){ console.error('storage set failed', key, e); return null; }
+    try{
+      if(shared){
+        if(!db) return null;
+        await db.collection(FIRESTORE_COLLECTION).doc(key).set({ value, updatedAt: Date.now() });
+        return true;
+      }
+      localStorage.setItem(key, value);
+      return true;
+    }catch(e){
+      console.error('storage set failed', key, e);
+      return null;
+    }
   }
 
   async function loadRole(){
@@ -442,6 +459,7 @@
   function showApp(){
     $('gate').style.display = 'none';
     $('app').classList.add('show');
+    $('firebaseWarning').style.display = db ? 'none' : 'block';
     if(role === 'creator'){
       $('creatorPanel').style.display = 'block';
       $('friendPanel').style.display = 'none';

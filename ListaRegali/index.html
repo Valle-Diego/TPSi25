@@ -9,6 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 
+<!-- Firebase: database condiviso, sostituisce lo storage disponibile solo dentro Claude -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+
 </head>
 <body>
 
@@ -51,6 +55,10 @@
       <span id="roleLabel"></span>
       <button id="switchRole">cambia ruolo</button>
     </div>
+
+    <p class="discogs-status err" id="firebaseWarning" style="display:none;">
+      Firebase non configurato — vedi il tutorial di attivazione.
+    </p>
 
     <div id="creatorPanel" style="display:none;">
       <div class="add-form">
