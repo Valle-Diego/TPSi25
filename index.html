@@ -7,28 +7,44 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="stile.css">
   <title>Hub dei Lavori — Valle</title>
+  <style>
+    .year-section { margin: 0 0 48px; }
+    .year-heading { margin: 0 0 20px; }
+    .year-kicker { display:block; color:var(--green); font:700 .72rem 'Space Mono',monospace; letter-spacing:.13em; text-transform:uppercase; margin-bottom:9px; }
+    .year-heading h2 { margin:0 0 8px; font:800 clamp(1.7rem,4vw,2.5rem) 'Syne',sans-serif; }
+    .year-heading p { margin:0; color:var(--ink-soft); }
+    .archive-details { border:1px solid var(--line); border-radius:16px; background:var(--paper-dim); overflow:hidden; }
+    .archive-details > summary { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:22px 24px; cursor:pointer; list-style:none; }
+    .archive-details > summary::-webkit-details-marker { display:none; }
+    .archive-details > summary strong,.archive-details > summary small { display:block; }
+    .archive-details > summary strong { color:var(--ink); font:700 1.25rem 'Syne',sans-serif; }
+    .archive-details > summary small { margin-top:5px; color:var(--ink-soft); }
+    .archive-toggle { flex:none; color:var(--green); font:700 .75rem 'Space Mono',monospace; text-transform:uppercase; }
+    .archive-details[open] .archive-toggle { font-size:0; }
+    .archive-details[open] .archive-toggle::after { content:'Chiudi archivio'; font-size:.75rem; }
+    .archive-details .table-wrapper { margin:0 16px 16px; }
+    @media(max-width:640px){.archive-details>summary{padding:18px 16px;align-items:flex-start}.archive-toggle{font-size:.65rem}.archive-details .table-wrapper{margin:0 0 10px}}
+  </style>
 </head>
 <body>
 
   <header>
-    <div class="header-label">itis cannizzaro · anno 2025–26</div>
+    <div class="header-label">itis cannizzaro · archivio scolastico</div>
     <h1>Hub dei Lavori<br><span>Diego Valle</span></h1>
     <p class="header-sub">// raccolta progetti e consegne · javascript · html · css</p>
     <div class="header-divider"></div>
   </header>
 
-  <main>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Progetto</th>
-            <th>Data</th>
-            <th>Descrizione</th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
+    <main>
+    <section class="year-section current-year">
+      <div class="year-heading"><span class="year-kicker">Anno scolastico 2026–27</span><h2>Lavori nuovi</h2><p>Le esercitazioni e i progetti di quest’anno, raccolti qui man mano che vengono realizzati.</p></div>
+      <div class="table-wrapper"><table><thead><tr><th>Progetto</th><th>Data</th><th>Descrizione</th><th>Link</th></tr></thead><tbody>
+        <tr><td data-label="Progetto">Collection JSON</td><td data-label="Data">15/10/2026</td><td data-label="Descrizione">Realizzare una pagina HTML che mostri in forma grafica i dati di una collection salvata in un file JSON.</td><td data-label="Link"><a class="open-link" href="2.4.Esercizio15_10_2026/index.html">Apri</a></td></tr>
+      </tbody></table></div>
+    </section>
+    <section class="year-section archive-section">
+      <details class="archive-details"><summary><span><span class="year-kicker">Anno scolastico 2025–26</span><strong>Archivio dei lavori precedenti</strong><small>Progetti e consegne già realizzati · 17 lavori</small></span><span class="archive-toggle">Apri archivio</span></summary>
+        <div class="table-wrapper"><table><thead><tr><th>Progetto</th><th>Data</th><th>Descrizione</th><th>Link</th></tr></thead><tbody>
           <tr>
             <td data-label="Progetto">Anagrafica 1.0</td>
             <td data-label="Data">30/09/2025</td>
@@ -131,16 +147,10 @@
             <td data-label="Descrizione">SI organizzi una piattaforma "client", responsive e universale che prelevi i dati da un file .csv</td>
             <td data-label="Link"><a class="open-link" href="https://valle-diego.github.io/TPSi25/ecommerce/index.html">Apri</a></td>
           </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="secret-section">
-      <button class="secret-btn" onclick="openModal()">
-        <span class="lock-icon">🔒</span>
-        Private Area 
-      </button>
-    </div>
+        </tbody></table></div>
+      </details>
+    </section>
+    <div class="secret-section"><button class="secret-btn" onclick="openModal()"><span class="lock-icon">🔒</span> Private Area</button></div>
   </main>
 
   <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
@@ -157,10 +167,11 @@
   </div>
 
   <footer>
-    <p>// Diego Valle · ITIS Stanislao Cannizzaro · 2025-26</p>
+    <p>// Diego Valle · ITIS Stanislao Cannizzaro · 2026-27</p>
   </footer>
 
   <script src="script.js"></script>
 
 </body>
 </html>
+
