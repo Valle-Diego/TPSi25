@@ -9,5 +9,60 @@
       }
     ],
     "eta": 18
+  },
+  {
+    "nome": "Giulia",
+    "cognome": "Bianchi",
+    "sport": [
+      {
+        "tipo1": "Pallavolo",
+        "tipo2": "Nuoto"
+      }
+    ],
+    "eta": 17
+  },
+  {
+    "nome": "Marco",
+    "cognome": "Ferrari",
+    "sport": [
+      {
+        "tipo1": "Basket",
+        "tipo2": "Ciclismo"
+      }
+    ],
+    "eta": 19
+  },
+  {
+    "nome": "Sofia",
+    "cognome": "Romano",
+    "sport": [
+      {
+        "tipo1": "Danza",
+        "tipo2": "Tennis"
+      }
+    ],
+    "eta": 18
+  },
+  {
+    "nome": "Luca",
+    "cognome": "Esposito",
+    "sport": [
+      {
+        "tipo1": "Calcio",
+        "tipo2": "Atletica"
+      }
+    ],
+    "eta": 20
+  },
+  {
+    "nome": "Elena",
+    "cognome": "Conti",
+    "sport": [
+      {
+        "tipo1": "Ginnastica",
+        "tipo2": "Nuoto"
+      }
+    ],
+    "eta": 16
   }
 ]
