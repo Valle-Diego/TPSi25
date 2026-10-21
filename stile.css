@@ -104,6 +104,58 @@ main {
   padding: 0 40px 80px;
 }
 
+/* ── ANNI SCOLASTICI E ARCHIVIO ── */
+.year-section { margin: 0 0 48px; }
+.year-heading { margin: 0 0 20px; }
+.year-kicker {
+  display: block;
+  color: var(--green);
+  font: 700 0.72rem var(--mono);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  margin-bottom: 9px;
+}
+.year-heading h2 {
+  margin: 0 0 8px;
+  font: 800 clamp(1.7rem, 4vw, 2.5rem) var(--sans);
+}
+.year-heading p { margin: 0; color: var(--text-dim); }
+.archive-details {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.archive-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+  cursor: pointer;
+  list-style: none;
+}
+.archive-details > summary::-webkit-details-marker { display: none; }
+.archive-details > summary strong,
+.archive-details > summary small { display: block; }
+.archive-details > summary strong {
+  color: var(--text);
+  font: 700 1.25rem var(--sans);
+}
+.archive-details > summary small { margin-top: 5px; color: var(--text-dim); }
+.archive-toggle {
+  flex: none;
+  color: var(--green);
+  font: 700 0.75rem var(--mono);
+  text-transform: uppercase;
+}
+.archive-details[open] .archive-toggle { font-size: 0; }
+.archive-details[open] .archive-toggle::after {
+  content: 'Chiudi archivio';
+  font-size: 0.75rem;
+}
+.archive-details .table-wrapper { margin: 0 16px 16px; }
+
 /* ── TABLE ── */
 .table-wrapper {
   overflow-x: auto;
@@ -403,6 +455,10 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
   header, main { padding-left: 20px; padding-right: 20px; }
+
+  .archive-details > summary { padding: 18px 16px; align-items: flex-start; }
+  .archive-toggle { font-size: 0.65rem; }
+  .archive-details .table-wrapper { margin: 0 0 10px; }
 
   .table-wrapper { border-radius: 0; border-left: none; border-right: none; }
 
