@@ -1,0 +1,14 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem;
+  color: #202124;
+  background: #f5f7fa;
+}
+
+h1, h2 { color: #174a72; }
+.tabella-contenitore { overflow-x: auto; margin-bottom: 2rem; }
+table { border-collapse: collapse; width: 100%; background: white; }
+th, td { border: 1px solid #cbd5df; padding: 0.55rem; text-align: left; }
+th { background: #e4eef6; }
+tr:nth-child(even) { background: #f7fafc; }
+#stato { color: #555; }

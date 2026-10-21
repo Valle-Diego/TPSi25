@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dati COVID-19 in Italia</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Andamento COVID-19 in Italia</h1>
+  <p id="stato">Caricamento dei dati…</p>
+
+  <h2>Chiavi presenti nel JSON</h2>
+  <div class="tabella-contenitore">
+    <table>
+      <thead><tr><th>Chiavi</th></tr></thead>
+      <tbody id="tabella-chiavi"></tbody>
+    </table>
+  </div>
+
+  <h2>Ultimi 20 rilevamenti</h2>
+  <div class="tabella-contenitore">
+    <table>
+      <thead id="intestazione-dati"></thead>
+      <tbody id="tabella-dati"></tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
