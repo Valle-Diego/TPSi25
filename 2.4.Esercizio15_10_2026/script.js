@@ -101,14 +101,25 @@ function showError(message) {
   cards.append(box);
 }
 
-async function loadDefault() {
-  try {
-    const response = await fetch('./collection.json', { cache: 'no-store' });
-    if (!response.ok) throw new Error('File collection.json non trovato.');
-    render(await response.json());
-  } catch (error) {
-    showError(`${error.message} Se hai aperto la pagina come file locale, usa “Apri un file JSON” oppure avviala con un server locale.`);
-  }
+function loadDefault() {
+  const request = new XMLHttpRequest();
+  request.open('GET', './collection.json', true);
+  request.onload = () => {
+    if (request.status < 200 || request.status >= 300) {
+      showError(`Richiesta non riuscita (HTTP ${request.status}). Controlla che collection.json esista.`);
+      return;
+    }
+
+    try {
+      render(JSON.parse(request.responseText));
+    } catch (error) {
+      showError(`Risposta JSON non valida: ${error.message}`);
+    }
+  };
+  request.onerror = () => {
+    showError('Errore di rete. Se hai aperto la pagina come file locale, avviala con un server locale.');
+  };
+  request.send();
 }
 
 document.querySelector('#reload').addEventListener('click', loadDefault);

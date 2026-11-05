@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convertitore valute BCE</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 680px; margin: 40px auto; padding: 0 18px; color: #182230; }
+    h1 { color: #174b75; }
+    form { display: grid; gap: 14px; padding: 20px; border: 1px solid #ccd5df; border-radius: 10px; }
+    label { display: grid; gap: 6px; }
+    input, select, button { font: inherit; padding: 10px; }
+    button { background: #174b75; color: white; border: 0; border-radius: 6px; cursor: pointer; }
+    #risultato, #messaggio { margin-top: 20px; }
+    #risultato { padding: 16px; background: #eef6fb; border-radius: 8px; }
+    [hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <h1>Convertitore valute</h1>
+  <p>Inserisci una quantità in valuta estera: il cambio di riferimento è l'euro (EUR).</p>
+
+  <form id="modulo">
+    <label for="quantita">Quantità
+      <input id="quantita" type="number" min="0.01" step="any" required>
+    </label>
+    <label for="divisa">Divisa di partenza
+      <select id="divisa" required>
+        <option value="">Seleziona una divisa</option>
+      </select>
+    </label>
+    <button type="submit">Converti in EUR</button>
+  </form>
+
+  <p id="messaggio" role="status">Caricamento dei cambi BCE…</p>
+  <section id="risultato" aria-live="polite" hidden></section>
+
+  <script>
+    var cambi = {};
+    var dataCambio = "";
+    var modulo = document.getElementById("modulo");
+    var elencoDivise = document.getElementById("divisa");
+    var messaggio = document.getElementById("messaggio");
+    var risultato = document.getElementById("risultato");
+
+    function caricaCambi() {
+      var richiesta = new XMLHttpRequest();
+      richiesta.open("GET", "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml", true);
+      richiesta.onload = function () {
+        if (richiesta.status !== 200) {
+          messaggio.textContent = "Non è stato possibile caricare i cambi. Riprova più tardi.";
+          return;
+        }
+
+        var documento = new DOMParser().parseFromString(richiesta.responseText, "text/xml");
+        if (documento.getElementsByTagName("parsererror").length > 0) {
+          messaggio.textContent = "Il file XML ricevuto non è leggibile.";
+          return;
+        }
+
+        var nodiCubo = documento.getElementsByTagName("Cube");
+        for (var i = 0; i < nodiCubo.length; i++) {
+          var codice = nodiCubo[i].getAttribute("currency");
+          var valore = nodiCubo[i].getAttribute("rate");
+          if (codice && valore) {
+            cambi[codice] = Number(valore);
+            var opzione = document.createElement("option");
+            opzione.value = codice;
+            opzione.textContent = codice;
+            elencoDivise.appendChild(opzione);
+          }
+          if (nodiCubo[i].getAttribute("time")) {
+            dataCambio = nodiCubo[i].getAttribute("time");
+          }
+        }
+        messaggio.textContent = dataCambio ? "Cambi di riferimento del " + dataCambio + "." : "Cambi BCE caricati.";
+      };
+      richiesta.onerror = function () {
+        messaggio.textContent = "Errore di collegamento: controlla la connessione e riprova.";
+      };
+      richiesta.send();
+    }
+
+    modulo.addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      var quantita = Number(document.getElementById("quantita").value);
+      var codice = elencoDivise.value;
+      if (!codice || !cambi[codice] || quantita <= 0) {
+        risultato.hidden = false;
+        risultato.textContent = "Inserisci una quantità positiva e seleziona una divisa.";
+        return;
+      }
+
+      var inEuro = quantita / cambi[codice];
+      risultato.hidden = false;
+      risultato.textContent = quantita.toLocaleString("it-IT", { maximumFractionDigits: 4 }) + " " + codice +
+        " = " + inEuro.toLocaleString("it-IT", { style: "currency", currency: "EUR" }) +
+        (dataCambio ? " (cambio del " + dataCambio + ")" : "");
+    });
+
+    caricaCambi();
+  </script>
+</body>
+</html>
