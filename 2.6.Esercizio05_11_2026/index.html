@@ -45,7 +45,8 @@
 
     function caricaCambi() {
       var richiesta = new XMLHttpRequest();
-      richiesta.open("GET", "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml", true);
+      richiesta.open("GET", "https://proxy.cors.dev/https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml", true);
+      richiesta.timeout = 15000;
       richiesta.onload = function () {
         if (richiesta.status !== 200) {
           messaggio.textContent = "Non è stato possibile caricare i cambi. Riprova più tardi.";
@@ -77,6 +78,9 @@
       };
       richiesta.onerror = function () {
         messaggio.textContent = "Errore di collegamento: controlla la connessione e riprova.";
+      };
+      richiesta.ontimeout = function () {
+        messaggio.textContent = "La richiesta dei cambi è scaduta. Riprova più tardi.";
       };
       richiesta.send();
     }
