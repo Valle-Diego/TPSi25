@@ -1,0 +1,33 @@
+body {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 0 16px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: #174b75;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+input,
+select,
+button {
+  padding: 9px;
+  font: inherit;
+}
+
+button {
+  color: white;
+  background: #174b75;
+  border: 0;
+  cursor: pointer;
+}
+
+#risultato {
+  font-weight: bold;
+}
