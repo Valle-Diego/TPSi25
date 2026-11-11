@@ -18,18 +18,23 @@
 </head>
 <body>
   <h1>Convertitore valute</h1>
-  <p>Inserisci una quantità in valuta estera: il cambio di riferimento è l'euro (EUR).</p>
+  <p>Scegli le due valute e inserisci la quantità da convertire. I cambi BCE sono espressi rispetto all'euro.</p>
 
   <form id="modulo">
     <label for="quantita">Quantità
       <input id="quantita" type="number" min="0.01" step="any" required>
     </label>
-    <label for="divisa">Divisa di partenza
-      <select id="divisa" required>
+    <label for="divisaPartenza">Divisa di partenza
+      <select id="divisaPartenza" required>
         <option value="">Seleziona una divisa</option>
       </select>
     </label>
-    <button type="submit">Converti in EUR</button>
+    <label for="divisaDestinazione">Divisa di destinazione
+      <select id="divisaDestinazione" required>
+        <option value="">Seleziona una divisa</option>
+      </select>
+    </label>
+    <button type="submit">Converti</button>
   </form>
 
   <p id="messaggio" role="status">Caricamento dei cambi BCE…</p>
@@ -39,7 +44,8 @@
     var cambi = {};
     var dataCambio = "";
     var modulo = document.getElementById("modulo");
-    var elencoDivise = document.getElementById("divisa");
+    var elencoPartenza = document.getElementById("divisaPartenza");
+    var elencoDestinazione = document.getElementById("divisaDestinazione");
     var messaggio = document.getElementById("messaggio");
     var risultato = document.getElementById("risultato");
 
@@ -60,15 +66,16 @@
         }
 
         var nodiCubo = documento.getElementsByTagName("Cube");
+        cambi.EUR = 1;
+        aggiungiDivisa(elencoPartenza, "EUR");
+        aggiungiDivisa(elencoDestinazione, "EUR");
         for (var i = 0; i < nodiCubo.length; i++) {
           var codice = nodiCubo[i].getAttribute("currency");
           var valore = nodiCubo[i].getAttribute("rate");
           if (codice && valore) {
             cambi[codice] = Number(valore);
-            var opzione = document.createElement("option");
-            opzione.value = codice;
-            opzione.textContent = codice;
-            elencoDivise.appendChild(opzione);
+            aggiungiDivisa(elencoPartenza, codice);
+            aggiungiDivisa(elencoDestinazione, codice);
           }
           if (nodiCubo[i].getAttribute("time")) {
             dataCambio = nodiCubo[i].getAttribute("time");
@@ -85,20 +92,28 @@
       richiesta.send();
     }
 
+    function aggiungiDivisa(elenco, codice) {
+      var opzione = document.createElement("option");
+      opzione.value = codice;
+      opzione.textContent = codice;
+      elenco.appendChild(opzione);
+    }
+
     modulo.addEventListener("submit", function (evento) {
       evento.preventDefault();
       var quantita = Number(document.getElementById("quantita").value);
-      var codice = elencoDivise.value;
-      if (!codice || !cambi[codice] || quantita <= 0) {
+      var codicePartenza = elencoPartenza.value;
+      var codiceDestinazione = elencoDestinazione.value;
+      if (!codicePartenza || !codiceDestinazione || !cambi[codicePartenza] || !cambi[codiceDestinazione] || quantita <= 0) {
         risultato.hidden = false;
-        risultato.textContent = "Inserisci una quantità positiva e seleziona una divisa.";
+        risultato.textContent = "Inserisci una quantità positiva e seleziona entrambe le divise.";
         return;
       }
 
-      var inEuro = quantita / cambi[codice];
+      var convertita = quantita / cambi[codicePartenza] * cambi[codiceDestinazione];
       risultato.hidden = false;
-      risultato.textContent = quantita.toLocaleString("it-IT", { maximumFractionDigits: 4 }) + " " + codice +
-        " = " + inEuro.toLocaleString("it-IT", { style: "currency", currency: "EUR" }) +
+      risultato.textContent = quantita.toLocaleString("it-IT", { maximumFractionDigits: 4 }) + " " + codicePartenza +
+        " = " + convertita.toLocaleString("it-IT", { maximumFractionDigits: 4 }) + " " + codiceDestinazione +
         (dataCambio ? " (cambio del " + dataCambio + ")" : "");
     });
 
